@@ -1,5 +1,5 @@
 # unnamed calc website
-A free, ad-free, and interactive website that teaches calculus.
+A free, ad-free, and interactive website that teaches calculus. Visit at <https://chaddypratt.org/calculus>!
 
 # Features
 * **Lots of calculus!** More than 100 sections across 10 calculus units that cover limits, derivatives, integrals, infinite series, and more!
@@ -12,5 +12,4 @@ A free, ad-free, and interactive website that teaches calculus.
 * **Hide and show units and sections**: To make navigation easier, you can hide specific units and sections. If you hide a section, it will stay hidden even after you refresh the page!
 * **Sidebar menu**: The sidebar menu allows for quick navigation to any unit.
 * **Keyboard shortcuts**: Quickly navigate your way through this huge website using your keyboard.
-
-Visit this website at <https://chaddypratt.org/calculus>!
+* 
