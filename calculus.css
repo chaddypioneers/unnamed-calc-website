@@ -131,6 +131,14 @@ button:hover {
   color: #959595;
 }
 
+.magenta {
+  color: rgb(202, 0, 172);
+}
+
+.magenta-dark-mode {
+  color: magenta;
+}
+
 .bc-only-color {
   color: teal;
 }

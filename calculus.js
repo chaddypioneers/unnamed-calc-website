@@ -137,9 +137,9 @@ var lastPSeriesSum = {
 }
 
 function pSeriesSum(n) {
-  var t = new Date();
-  var p = round(parseFloat(get('pSeriesPValueSlider').value) * 2, 2);
+  var p = round(parseFloat(get('pSeriesPValueSlider').value) * 3 - 0.5, 2);
   if (p === lastPSeriesSum['p'] && n === lastPSeriesSum['n']) {
+    // Don't bother calculating it again if it's already been calculated
     return lastPSeriesSum['sum'];
   }
   var negativeP = -p;
@@ -154,6 +154,37 @@ function pSeriesSum(n) {
   return sum;
 }
 
+const eulersConstant = 0.577215664901532;
+function harmonicSum(n) {
+  if (n < 100) {
+    var sum = 0;
+    for (var i = 1; i <= n; i++) {
+      sum += 1 / i;
+    }
+    return sum;
+  }
+  // Approximation of harmonic partial sum
+  return Math.log(n) + eulersConstant + 1 / (2 * n) - 1 / (12 * n ** 2);
+}
+
+function altHarmonicSum(n) {
+  if (n < 1e4) {
+    var sum = 0;
+    for (var i = 1; i <= n; i++) {
+      sum += (-1) ** (i + 1) / i;
+    }
+    return sum;
+  }
+  // Approximation of alternating harmonic partial sum
+  var newN = n - n % 2;
+  var sum = Math.log(2) - 1 / (2 * newN);
+  if (n % 2 === 1) {
+    sum += 1 / n;
+  }
+  return sum;
+}
+
+// Custom text for show/hide buttons. Defaults to "Show" / "Hide" if not specified
 const customTextButtons = {
   'progress': {
     'showText': 'Show Current Progress',
@@ -214,6 +245,10 @@ const customTextButtons = {
   'diffDemoGraph': {
     'showText': 'Show graph of f(x) with tangent line',
     'hideText': 'Hide Graph'
+  },
+  'diffExampleOtherPtsP': {
+    'showText': 'Show Slider',
+    'hideText': 'Hide Slider'
   },
   'powerRuleProof': {
     'showText': 'Show me a proof of the power rule.',
@@ -451,6 +486,15 @@ const sliderSettings = {
     'func': x => x ** 2,
     'sliderRange': [1, 3]
   },
+  'diffExampleOtherPts': {
+    'func': x => x ** 2,
+    'sliderRange': [-4, 4]
+  },
+  'diffExampleOtherPts1st': {
+    'func': x => x, // placeholder
+    'sliderRange': [-3, 3],
+    'forceUpdate': 'diffExampleOtherPts'
+  },
   'diffExample2': {
     'func': x => 2 * x,
     'sliderRange': [-5, 5]
@@ -684,7 +728,7 @@ const sliderSettings = {
     'outputPlaces': 6
   },
   'nthTermHarmonic2': {
-    'func': n => n * Math.log(10) + 0.577215664901532,
+    'func': n => n * Math.log(10) + eulersConstant,
     'sliderRange': [7, 1e9],
     'geometric': true,
     'inputPlaces': 0,
@@ -692,7 +736,7 @@ const sliderSettings = {
   },
   'pSeriesPValue': {
     'func': x => x, // the function is unnecessary so this is used as a placeholder
-    'sliderRange': [0, 2],
+    'sliderRange': [-0.5, 2.5],
     'inputPlaces': 2,
     'outputPlaces': 6,
     'forceUpdate': 'pSeries'
@@ -953,6 +997,7 @@ const sequenceSettings = {
   },
   'nthTermHarmonic': {
     'rule': n => 1 / n,
+    'partialSum': harmonicSum,
     'sliderRange': [1, 1e7],
     'geometric': true,
     'places': 6,
@@ -960,6 +1005,7 @@ const sequenceSettings = {
   },
   'integralTest1': {
     'rule': n => 1 / n,
+    'partialSum': harmonicSum,
     'sliderRange': [1, 1e7],
     'geometric': true,
     'places': 6,
@@ -974,13 +1020,14 @@ const sequenceSettings = {
   },
   'eulersConstant': {
     'rule': n => 1 / n,
+    'partialSum': harmonicSum,
     'sliderRange': [1, 1e7],
     'geometric': true,
     'places': 6,
     'displayAsFraction': true
   },
   'pSeries': {
-    'rule': n => 1 / (n ** (round(parseFloat(get('pSeriesPValueSlider').value) * 2, 2))),
+    'rule': n => 1 / (n ** (round(parseFloat(get('pSeriesPValueSlider').value) * 3 - 0.5, 2))),
     'partialSum': pSeriesSum,
     'sliderRange': [1, 1e6],
     'geometric': true,
@@ -989,7 +1036,7 @@ const sequenceSettings = {
   },
   'comparisonTest': {
     'rule': n => 1 / n,
-    'partialSum': slowPartialSum(n => 1 / n),
+    'partialSum': harmonicSum,
     'ruleB': n => 1 / 2 ** Math.ceil(Math.log2(n)),
     'partialSumB': n => 1 + 0.5 * Math.floor(Math.log2(n)) + 0.5 * (n - 2 ** Math.floor(Math.log2(n))) / 2 ** Math.floor(Math.log2(n)),
     'sliderRange': [1, 1e7],
@@ -1033,7 +1080,7 @@ const sequenceSettings = {
   },
   'altSeries1': {
     'rule': n => (-1) ** (n+1) / n,
-    'partialSum': slowPartialSum(n => (-1) ** (n+1) / n),
+    'partialSum': altHarmonicSum,
     'sliderRange': [1, 5e6],
     'geometric': true,
     'places': 6,
@@ -1094,7 +1141,7 @@ const sequenceSettings = {
     'rule': n => (-1) ** (n + 1) / n,
     'partialSum': slowPartialSum(n => (-1) ** (n + 1) / n),
     'ruleB': n => 1 / n,
-    'partialSumB': slowPartialSum(n => 1 / n),
+    'partialSumB': harmonicSum,
     'sliderRange': [1, 5e6],
     'geometric': true,
     'places': 6,
@@ -1122,7 +1169,7 @@ const sequenceSettings = {
   },
   'altError1': {
     'rule': n => (-1) ** (n+1) / n,
-    'partialSum': slowPartialSum(n => (-1) ** (n+1) / n),
+    'partialSum': altHarmonicSum,
     'sliderRange': [1, 1e5],
     'geometric': true,
     'places': 6,
@@ -1254,7 +1301,12 @@ const graphSettings = {
     'func': x => x ** 2,
     'pointX': 2,
     'xBounds': [-6, 6],
-    'yBounds': [-2, 10]
+    'yBounds': [-1, 11]
+  },
+  'diffExampleOtherPts': {
+    'func': x => x ** 2,
+    'xBounds': [-6, 6],
+    'yBounds': [-1, 11]
   },
   'diffExample2': {
     'func': x => x ** 2,
@@ -1508,6 +1560,7 @@ const taylorFuncs = {
   'geometric': x => 1 / (1 - x),
 }
 
+// Initialize canvas and ctx variables for each graph
 for (var id in graphSettings) {
   var canvas = get(id + 'Canvas');
   if (canvas !== null) {
@@ -1538,6 +1591,7 @@ function getClassElements(classNames) {
   return classElements;
 }
 
+// Returns whether the given elements exist
 function elementsExist(ids) {
   // ids can be an array or a single element id
   if (!Array.isArray(ids)) {
@@ -1806,6 +1860,7 @@ const sciNotDecimals = 5;
 const sciNotThresholdHigh = 1e14;
 const sciNotThresholdLow = 1e-10
 
+// Returns whether to use scientific notation for a given number
 function useScientificNotation(number) {
   if (isComplex(number)) {
     return false;
@@ -2851,11 +2906,17 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     }
   }
   // Secant line graphs
-  else if (['diffExample', 'limitDefGraph', 'limitDefGraph2', 'diffAbility1', 'diffAbility2', 'diffAbility3', 'diffAbility4', 'diffAbility5'].includes(id)) {
-    var pointX = config['pointX'];
+  else if (['diffExample', 'diffExampleOtherPts', 'limitDefGraph', 'limitDefGraph2', 'diffAbility1', 'diffAbility2', 'diffAbility3', 'diffAbility4', 'diffAbility5'].includes(id)) {
+    if (id === 'diffExampleOtherPts') {
+      var pointX = parseFloat(get(id + '1stSlider').value) * 6 - 3;
+      setText(id + '1stPt', `(${formatNum(pointX, inputPlaces)}, ${formatNum(func(pointX), outputPlaces)})`);
+    }
+    else {
+      var pointX = config['pointX'];
+    }
     var pointY = func(pointX);
 
-    setText(id + '2ndPt', `(${x}, ${f_x})`);
+    setText(id + '2ndPt', `(${formatNum(x, inputPlaces)}, ${formatNum(f_x, outputPlaces)})`);
     setText(id + 'Chg', formatNum(x - pointX, outputPlaces));
     setText(id + 'Slope', formatNum((graphFunc(x) - pointY) / (x - pointX), outputPlaces));
     setText(id + 'Rise', formatNum(graphFunc(x) - pointY, outputPlaces));
@@ -3301,22 +3362,60 @@ for (var sliderName of partialSumSliders) {
   prevSliderValues[sliderName] = null;
 }
 
-// Search bar
+// Search bar functionality
 var sectionTitles = {};
+
+// Additional keywords for sections that the search feature looks at
+// For example, searching for "Trig Sub" makes the Trigonometric Substitution section appear as a result
+const searchKeywords = {
+  'ivt': ['IVT'],
+  'diffInvTrig': ['Inverse Trigonometric Functions'],
+  'diffSecond': ['2nd Derivatives', 'Third Derivatives', '3rd Derivatives'],
+  'mvt': ['MVT'],
+  'evt': ['Extremum', 'EVT'],
+  'diffStrat': ['Derivative Strategies', 'Derivative Strategy', 'Differentiation Strategy'],
+  'relExtrema': ['Relative Extremums', 'Relative Minima', 'Relative Minimums', 'Relative Maxima', 'Relative Maximums', 'Local Extrema', 'Local Extremums', 'Local Minima', 'Local Minimums', 'Local Maxima', 'Local Maximums'],
+  'absExtrema': ['Absolute Extremums', 'Absolute Minima', 'Absolute Minimums', 'Absolute Maxima', 'Absolute Maximums', 'Global Extrema', 'Global Extremums', 'Global Minima', 'Global Minimums', 'Global Maxima', 'Global Maximums'],
+  'concavity': ['Concave Up', 'Concave Down'],
+  'connectingDiff': ['Derivative Graphs'],
+  'diffHopital': ["L'Hopital's Rule", "L'Hospital's Rule"],
+  'indefSubst': ['Integration by Substitution'],
+  'defSubst': ['Integration by Substitution'],
+  'sinCosInt': ['Trig Integrals'],
+  'otherTrigInt': ['Trig Integrals'],
+  'trigSub': ['Trig Substitution'],
+  'intAvg': ['MVT'],
+  'nthTermTest': ['nth-Term Test'],
+  'taylorProblems': ['Maclaurin Polynomials'],
+  'taylorSeries': ['Maclaurin Series'],
+  'testSummary': ['Convergence Test Summary']
+};
+
+// Determine title of every section
 for (var element of document.getElementsByClassName('section-header')) {
   var sectionTitle = element.innerText.trim();
   sectionTitle = sectionTitle.replace(/ *(Show|Hide)$/, ''); // Remove "Show" or "Hide" from the end
   sectionTitle = sectionTitle.replace(/\\\(/g, '').replace(/\\\)/g, '').replace(/\\/g, ''); // Remove mathjax delimiters
-  sectionTitles[element.id] = sectionTitle;
+  sectionTitles[element.id.replace(/Header$/, '')] = sectionTitle;
 }
 
-function searchForSection(title) {
+function searchForSection(query) {
+  query = query.toLowerCase().replace(/’/g, "'").replace(/-/g, ' ');
   var searchResults = [];
   for (var id in sectionTitles) {
-    var formattedID = sectionTitles[id].toLowerCase()
-    // Typing straight apostrophes should still work
-    if (formattedID.includes(title.toLowerCase()) || formattedID.replace('’', "'").includes(title.toLowerCase())) {
-      searchResults.push(id);
+    var titlesToCheck = [sectionTitles[id]];
+    // Check for keywords
+    if (id in searchKeywords) {
+      titlesToCheck = titlesToCheck.concat(searchKeywords[id]);
+    }
+
+    for (var sectionTitle of titlesToCheck) {
+      // Typing straight apostrophes should still work
+      sectionTitle = sectionTitle.toLowerCase().replace(/’/g, "'").replace(/-/g, ' ');
+      if (sectionTitle.includes(query)) {
+        searchResults.push(id);
+        break;
+      }
     }
   }
   return searchResults;
@@ -3335,6 +3434,15 @@ function searchJumpGenerator(id) {
 
 function searchInput(showAll=false) {
   var searchQuery = get('searchInput').value;
+
+  if (searchQuery === '') {
+    return;
+  }
+  else if (searchQuery.toLowerCase() === 'calculus gaming') {
+    get('searchMessage').innerText = 'calculus gaming indeed!';
+    return;
+  }
+
   var searchResults = searchForSection(searchQuery);
   get('searchResults').innerHTML = '';
   if (searchResults.length === 0) {
@@ -3344,13 +3452,9 @@ function searchInput(showAll=false) {
 
   get('searchMessage').innerText = '';
 
-  if (searchQuery === '') {
-    return;
-  }
-
   var resultsToShow = showAll ? searchResults.length : maxSearchResults;
-  for (var headerID of searchResults.slice(0, resultsToShow)) {
-    var id = headerID.replace(/Header$/, '');
+  for (var id of searchResults.slice(0, resultsToShow)) {
+    var headerID = id + 'Header';
     var li = document.createElement('li');
     var link = document.createElement('a');
     // Find which unit the section belongs to
@@ -3359,7 +3463,7 @@ function searchInput(showAll=false) {
         var unitNum = unitElementIDs.indexOf(unitName) + 1;
       }
     }
-    link.innerHTML = `<strong>Unit ${unitNum}</strong>: ${sectionTitles[headerID]}`;
+    link.innerHTML = `<strong>Unit ${unitNum}</strong>: ${sectionTitles[id]}`;
     link.href = `#${headerID}`;
     link.onclick = searchJumpGenerator(id);
     li.appendChild(link);
@@ -3886,6 +3990,9 @@ function keyToUnit(key) {
   else if (isFinite(key)) {
     var unit = parseInt(key);
   }
+  else if (key === '-') {
+    var unit = 11;
+  }
   else {
     return null;
   }
@@ -4127,8 +4234,8 @@ function resetStorage() {
 }
 
 var darkModeEnabled = false;
-const darkModeColors = ['red', 'blue', 'green', 'purple', 'teal', 'gray', 'black', 'bc-only-color', 'bonus-color', 'interactive-color', 'lesson-complete', 'lesson-incomplete', 'external-link', 'problem', 'sidebar-button', 'footer', 'footer-link', 'warning'];
-const mathjaxColors = ['red', 'blue', 'green', 'purple', 'teal'];
+const darkModeColors = ['red', 'blue', 'green', 'purple', 'teal', 'gray', 'black', 'magenta', 'bc-only-color', 'bonus-color', 'interactive-color', 'lesson-complete', 'lesson-incomplete', 'external-link', 'problem', 'sidebar-button', 'footer', 'footer-link', 'warning'];
+const mathjaxColors = ['red', 'blue', 'green', 'purple', 'teal', 'magenta'];
 
 function toggleDarkModeTextColors(mathjaxUpdate=false) {
   if (mathjaxUpdate) {

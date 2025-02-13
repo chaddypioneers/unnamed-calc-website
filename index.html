@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" href="calc/favicon.png">
   <link rel="apple-touch-icon" type="image/png" href="calc/favicon.png">
   <link rel="apple-touch-icon-precomposed" type="image/png" href="calc/favicon.png">
-  <link rel="stylesheet" href="calculus.css?20241231">
+  <link rel="stylesheet" href="calculus.css?20250213">
 </head>
 <body id="body">
   <div id="backgroundImage"></div>
@@ -34,13 +34,16 @@
       <div class="popup-text">
         <h2 class="ntm">Keyboard Shortcuts</h2>
         <p>
-          <strong>Note:</strong> These shortcuts only work on the U.S. QWERTY keyboard layout. You might need to scroll to view all keyboard shortcuts.
+          <strong>Note:</strong> These shortcuts are only guaranteed to work on the U.S. QWERTY keyboard layout. You might need to scroll to view all shortcuts.
         </p>
         <p>
           <span class="key">`</span> (key to the left of <span class="key">1</span>): Jump to top of website
         </p>
         <p>
           <span class="key">1</span><span class="monospace">-</span><span class="key">0</span>: Jump to unit 1-10 (unit depends on key pressed)
+        </p>
+        <p>
+          <span class="key">-</span>: Jump to unit 11
         </p>
         <p>
           <span class="key">Shift</span><span class="monospace">+</span><span class="key">1</span><span class="monospace">-</span><span class="key">Shift</span><span class="monospace">+</span><span class="key">0</span>: Hide all sections within unit 1-10 (unit depends on key pressed)
@@ -251,8 +254,62 @@
     <p>
       <strong>Important: You might have to refresh the tab to view the latest updates to this website.</strong>
     </p>
-    <h3>2024-12-31: “And He Claims to Have a Calc Website” Update <button id="update20241231Button" onclick="showHide('update20241231')">Hide</button></h3>
-    <div id="update20241231">
+    <h3>2025-02-13: “Integration Techniques” Update <button id="update20250213Button" onclick="showHide('update20250213')">Hide</button></h3>
+    <div id="update20250213">
+      <p>
+        The focus of this update is integration, with many new integration techniques being added!
+      </p>
+      <p>
+        My plan for the next update is to add more content to Unit 9. I’m especially motivated because one of my college friends is taking a Calc 2 class, and they’re currently working on parametric and polar content, and not all of it is on my website yet!
+      </p>
+      <h4 class="nm">New Content</h4>
+      <ul >
+        <li>New Unit 6 sections:
+          <ul class="link-ul">
+            <li><a href="#constIntHeader" onclick="jumpTo('constInt')">Indefinite Integrals: Constant of Integration</a></li>
+            <li><a href="#arctanIntHeader" onclick="jumpTo('arctanInt')">Integrating Rational Functions: Natural Logarithm and Arctangent</a></li>
+          </ul>
+        </li>
+        <li>New Unit 11 sections:
+          <ul class="link-ul">
+            <li><a href="#complexTrigHeader" onclick="jumpTo('complexTrig')">Complex Forms of \(\sin(x)\) and \(\cos(x)\)</a></li>
+            <li><a href="#tabularIntHeader" onclick="jumpTo('tabularInt')">Tabular Integration</a></li>
+            <li><a href="#partialFraction2Header" onclick="jumpTo('partialFraction2')">More Partial Fraction Decomposition</a></li>
+            <li><a href="#recursiveIntHeader" onclick="jumpTo('recursiveInt')">Recursive Formulas for Integrals</a></li>
+            <li><a href="#hyperSubHeader" onclick="jumpTo('hyperSub')">Hyperbolic Substitution</a></li>
+            <li><a href="#inverseIntHeader" onclick="jumpTo('inverseInt')">Integrating Inverse Functions</a></li>
+            <li><a href="#eulerIntHeader" onclick="jumpTo('eulerInt')">Integration Using Euler’s Formula</a></li>
+          </ul>
+        </li>
+      </ul>
+      <h4 class="nm">Section Improvements</h4>
+      <ul>
+        <li><strong>Unit 2: Derivatives: An Example</strong>: added interactive section where you can find the derivatives of \(f(x) = x^2\) at different points using secant lines</li>
+        <li><strong>Unit 3: Differentiating \(a^x\) and \(\log_a(x)\)</strong>: derivative of \(\log_a(x)\) is now hidden behind a button so you can get a chance to figure it out yourself first</li>
+        <li><strong>Unit 3: Inverse Trig Derivatives</strong>: clarified that \(\sin(\arcsin(x)) = x\) because \(\sin(x)\) and \(\arcsin(x)\) are inverses</li>
+        <li><strong>Unit 3: Inverse Functions</strong>: added inverse derivative formula using inverse function notation</li>
+        <li><strong>Unit 4: Derivatives: Position, Velocity, and Acceleration</strong>: added definitions of velocity, speed, and acceleration</li>
+        <li><strong>Unit 6: Indefinite Integrals: Properties and Reverse Power Rule</strong>: added the integral of \(f(x) = 1\), and clarified that there isn’t a straightforward product or quotient rule for integrals</li>
+        <li><strong>Unit 6: Indefinite Integrals of Common Functions</strong>: mentioned that \(\int \frac{1}{x}\dd{x}\) is sometimes written as \(\int \frac{\dd{x}}{x}\)</li>
+        <li><strong>Unit 6: Indefinite Integrals: \(u\)-substitution</strong>: added example that involves writing \(\dd{x}\) in terms of \(\dd{u}\)</li>
+        <li><strong>Unit 6: Integration by Parts</strong>: added the shorter integration by parts formula, \(\int u\dd{v} = uv - \int v \dd{u}\), along with another example to demonstrate this notation</li>
+        <li><strong>Unit 6: Linear Partial Fraction Decomposition</strong>: added shortcut strategy for partial fraction decomposition</li>
+        <li><strong>Unit 10: \(p\)-series</strong>: added buttons in the interactive tool to set \(p = 0\), \(p = 1\), and \(p = 2\), and the slider now goes from \(p = -0.5\) to \(p = 2.5\) instead of \(p = 0\) to \(p = 2\)</li>
+        <li><strong>Unit 10: Convergence and Divergence Test Summary</strong>: added Root Test (full section on the Root Test is coming soon!)</li>
+      </ul>
+      <h4 class="nm">Minor Changes</h4>
+      <ul>
+        <li><strong>Unit 6: Indefinite Integrals of Common Functions</strong>: fixed minor mistake when explaining the antiderivative of \(\frac{1}{x}\): \(\ln(0)\) is undefined, so the derivative of \(\ln(|x|)\) is only defined when \(x \ne 0\)</li>
+        <li><strong>Unit 6</strong>: \(u\)-substitution sections renamed to “Definite/Indefinite Integrals: \(u\)-substitution / Integration by Substitution”</li>
+        <li><strong>Unit 6</strong>: “Indefinite Integrals: Long Division and Completing the Square” section renamed to “Integrating Rational Functions: Long Division and Completing the Square”</li>
+        <li><strong>Unit 6</strong>: “Indefinite Integrals: Partial Fraction Decomposition” section renamed to “Integrating Rational Functions: Linear Partial Fraction Decomposition”</li>
+        <li><strong>Unit 6</strong>: added the word “Evaluate” before many integral problems</li>
+        <li><strong>New keyboard shortcut</strong>: <span class="key">-</span> now jumps to Unit 11</li>
+        <li><strong>Search functionality improved</strong>: Previously, your search term had to appear exactly in the section title for a section to appear. Now, many sections have new keywords that will cause them to appear when those keywords are searched for! For example, previously, searching for “Trig Sub” would not cause the section for Trigonometric Substitution to appear, but now it does.</li>
+      </ul>
+    </div>
+    <h3>2024-12-31: “And He Claims to Have a Calc Website” Update <button id="update20241231Button" onclick="showHide('update20241231')">Show</button></h3>
+    <div id="update20241231" class="hidden-by-default">
       <p>
         It’s been a while since the last update... Quite a lot has happened in my life since, and I just never bothered to update the website. I have graduated high school, and I took a difficult calculus class in college that was really fun because of my classmates. <span class="sn">(Maybe you’ll see me add some content from that class one day!)</span> Anyways, in the last 10 months, I’ve made quite a bit of improvements to this website, so here they are!
       </p>
@@ -3459,10 +3516,10 @@
             <input id="diffExampleSlider" class="slider" type="range" max="1" step="any" value="0" oninput="updateSliders()">
           </p>
           <p>
-            1st Point: <span class="output-value">(2, 4)</span>
+            1st Point: <span class="red output-value">(2, 4)</span>
           </p>
           <p>
-            2nd Point: <span id="diffExample2ndPt" class="output-value"></span>
+            2nd Point: <span id="diffExample2ndPt" class="blue output-value"></span>
           </p>
           <p>
             Change in \(x\) (“run”) = <span id="diffExampleChg" class="output-value"></span>
@@ -3483,7 +3540,42 @@
           The slope of \(f(x) = x^2\) at \(x = 2\) is 4. This is shown with the <span class="green">green tangent line</span>, which has a slope of 4.
         </p>
         <p>
-          Let’s try finding the slope of this function at some other points. For simplicity, I’m not going to go through all the steps again, I’m just going to show the results in this table:
+          Let’s try finding the slope of this function at some other points. Use the buttons to control the \(x\)-coordinate of the <span class="red">first point</span> (i.e. the point we are trying to find the slope at), and use the slider to control the \(x\)-coordinate of the <span class="blue">second point</span>.
+        </p>
+        <div>
+          <hr>
+          <canvas id="diffExampleOtherPtsCanvas" class="canvas-graph"></canvas>
+          <p>
+            Try to figure out the slope of the function at each of these \(x\)-values:
+          </p>
+          <p>
+            <button class="large-button" onclick="setSliderValue('diffExampleOtherPts1st', -1)">\(x = -1\)</button>
+            <button class="large-button" onclick="setSliderValue('diffExampleOtherPts1st', 0)">\(x = 0\)</button>
+            <button class="large-button" onclick="setSliderValue('diffExampleOtherPts1st', 3)">\(x = 3\)</button>
+            <button onclick="showHide('diffExampleOtherPtsP')" id="diffExampleOtherPtsPButton" class="large-button">Show Slider</button>
+          </p>
+          <p class="hidden-by-default" id="diffExampleOtherPtsP">
+            <input id="diffExampleOtherPts1stSlider" class="slider" type="range" max="1" step="any" value="0" oninput="updateSliders()">
+          </p>
+          <p>
+            1st Point: <span id="diffExampleOtherPts1stPt" class="red output-value"></span>
+          </p>
+          <p>
+            <input id="diffExampleOtherPtsSlider" class="slider" type="range" max="1" step="any" value="0" oninput="updateSliders()">
+          </p>
+          <p>
+            2nd Point: <span id="diffExampleOtherPts2ndPt" class="blue output-value"></span>
+          </p>
+          <p>
+            Change in \(x\) (“run”) = <span id="diffExampleOtherPtsChg" class="output-value"></span>
+          </p>
+          <p>
+            Slope of <span class="purple">secant line</span> = <span id="diffExampleOtherPtsSlope" class="output-value"></span>
+          </p>
+          <hr>
+        </div>
+        <p>
+          Here is a table showing the slopes of \(f(x) = x^2\) at different \(x\)-values:
         </p>
         <table>
           <tr>
@@ -4216,7 +4308,7 @@
         <p class="ntm sn">
           The binomial theorem comes in handy for expanding \((x+h)^3\).
         </p>
-        <p>
+        <p class="nbm">
           We find that the derivative of \(x^3\) is \(3x^2\). Let’s try finding the derivative of \(x^4\) now. Maybe some pattern will appear with these derivatives, who knows?
         </p>
         <div class="mj">
@@ -5500,7 +5592,10 @@
       </h3>
       <div class="hidden-by-default" id="diffChain2">
         <p>
-          Now that we’ve learned the chain rule, we’ve unlocked the ability to differentiate \(a^x\) for any positive base \(a\). Can you figure out how? Remember, we already know how to differentiate \(e^x\). Can you think of a way to use the chain rule to differentiate \(a^x\) for other bases of \(a\)?
+          Now that we’ve learned the chain rule, we’ve unlocked the ability to differentiate \(a^x\) for any positive base \(a\). For example, we can now differentiate expressions like \(2^x\), \(10^x\), and \(\pi^x\). Can you figure out how?
+        </p>
+        <p>
+          Remember, we already know how to differentiate \(e^x\). Can you think of a way to use the chain rule to differentiate \(a^x\) for other bases of \(a\)?
         </p>
         <p>
           The trick is to rewrite \(a^x\) in the form of \(e^\text{something}\). How do we do that? Try it yourself: as an example, try to rewrite \(2^x\) as \(e\) raised to the power of something. 
@@ -5575,26 +5670,39 @@
           <hr>
         </div>
         <p>
-          Now let’s move on to the derivative of \(\log_a(x)\), where \(a\) is a positive base not equal to 1. This one is a lot simpler: we just have to use the change-of-base formula \(\log_a(b) = \frac{\log_c(b)}{\log_c(a)}\), where \(c\) is any valid logarithm base.
+          Using what we know, we can also differentiate \(\log_a(x)\), where \(a\) is a positive base not equal to 1. Examples are \(\log_2(x)\), \(\log_{10}(x)\), and \(\log_{1/2}(x)\). Can you figure out how?
         </p>
-        <p>
-          Using the change-of-base formula, we can rewrite \(\log_a(x)\) as \(\frac{\ln(x)}{\ln(a)} = \frac{1}{\ln(a)}\cdot\ln(x)\). The derivative of this is the derivative of \(\ln(x)\) multiplied by \(\frac{1}{\ln(a)}\), since \(\frac{1}{\ln(a)}\) is a constant when we’re dealing with a specific value of \(a\). We know the derivative of \(\ln(x)\) is \(\frac{1}{x}\), so the derivative of \(\frac{1}{\ln(a)}\cdot\ln(x)\) is \(\frac{1}{\ln(a)} \cdot \frac{1}{x} = \frac{1}{x \ln(a)}\).
-        </p>
-        <p>
-          In conclusion, the derivative of \(\log_a(x)\) is \(\frac{1}{x \ln(a)}\). For example, the derivative of \(\log_{10}(x)\) is \(\frac{1}{x \ln(10)}\), or approximately \(\frac{1}{2.303x}\). You can experiment with the value of \(a\) here:
-        </p>
-        <div>
-          <hr>
-          <button class="large-button" onclick="setSliderValue('diffChain2Ln', 2)">\(a = 2\)</button>
-          <button class="large-button" onclick="setSliderValue('diffChain2Ln', Math.E)">\(a = e\)</button>
-          <button class="large-button" onclick="setSliderValue('diffChain2Ln', 10)">\(a = 10\)</button>
-          <p><input id="diffChain2LnSlider" class="slider" type="range" max="1" step="any" value="0" oninput="updateSliders()"></p>
+        <button id="logADiffHintButton" class="large-button" onclick="showHide('logADiffHint')">Give me a hint!</button>
+        <div class="button-spacing"></div>
+        <div id="logADiffHint" class="hidden-by-default">
           <p>
-            \(a =\) <span id="diffChain2LnVal1" class="output-value"></span>
+            We already know how to differentiate \(\ln(x)\). How can we rewrite \(\log_a(x)\) in terms of the natural logarithm?
+          </p>
+        </div>
+        <button id="logADiffRevealButton" class="large-button" onclick="showHide('logADiffReveal')">Show me the answer!</button>
+        <div id="logADiffReveal" class="hidden-by-default">
+          <p>
+            We have to use the change-of-base formula \(\log_a(b) = \frac{\log_c(b)}{\log_c(a)}\), where \(c\) is any valid logarithm base.
           </p>
           <p>
-            \(\dv{}{x}\log_a{x} \approx\) <span id="diffChain2LnResult" class="output-value"></span>
+            Using the change-of-base formula, we can rewrite \(\log_a(x)\) as \(\frac{\ln(x)}{\ln(a)} = \frac{1}{\ln(a)}\cdot\ln(x)\). The derivative of this is the derivative of \(\ln(x)\) multiplied by \(\frac{1}{\ln(a)}\), since \(\frac{1}{\ln(a)}\) is a constant when we’re dealing with a specific value of \(a\). We know the derivative of \(\ln(x)\) is \(\frac{1}{x}\), so the derivative of \(\frac{1}{\ln(a)}\cdot\ln(x)\) is \(\frac{1}{\ln(a)} \cdot \frac{1}{x} = \frac{1}{x \ln(a)}\).
           </p>
+          <p>
+            In conclusion, the derivative of \(\log_a(x)\) is \(\frac{1}{x \ln(a)}\). For example, the derivative of \(\log_{10}(x)\) is \(\frac{1}{x \ln(10)}\), or approximately \(\frac{1}{2.303x}\). You can experiment with the value of \(a\) here:
+          </p>
+          <div>
+            <hr>
+            <button class="large-button" onclick="setSliderValue('diffChain2Ln', 2)">\(a = 2\)</button>
+            <button class="large-button" onclick="setSliderValue('diffChain2Ln', Math.E)">\(a = e\)</button>
+            <button class="large-button" onclick="setSliderValue('diffChain2Ln', 10)">\(a = 10\)</button>
+            <p><input id="diffChain2LnSlider" class="slider" type="range" max="1" step="any" value="0" oninput="updateSliders()"></p>
+            <p>
+              \(a =\) <span id="diffChain2LnVal1" class="output-value"></span>
+            </p>
+            <p>
+              \(\dv{}{x}\log_a{x} \approx\) <span id="diffChain2LnResult" class="output-value"></span>
+            </p>
+          </div>
         </div>
       </div>
       <h3 class="section-header" id="diffStratHeader">
@@ -5816,8 +5924,14 @@
         <p>
           We’re going to start with inverse sine (also known as arcsine). The trick to differentiating this is to turn an explicit equation into an implicit one.
         </p>
-        <p class="nbm sn">
+        <p class="sn">
           (Note: \(\arcsin(x)\) is an alternative notation for \(\sin^{-1}(x)\). The \(\text{arc-}\) prefix represents the inverse of any trig function: \(\arccos(x) = \cos^{-1}(x)\) and \(\arctan(x) = \tan^{-1}(x)\).)
+        </p>
+        <p>
+          Remember that by the definition of inverse functions, \(\sin(\arcsin(x)) = x\). <span class="sn">(This is because arcsine takes in a ratio of side lengths of a triangle and outputs an angle, and the sine function turns that back into that same ratio of side lengths.)</span>
+        </p>
+        <p class="nbm">
+          Let’s see what happens when we start with the equation \(y = \arcsin(x)\).
         </p>
         <div class="mj">
           \[ y = \arcsin(x) \]
@@ -5833,8 +5947,11 @@
           \[ \cos(y) \cdot \dv{y}{x} = 1 \]
           \[ \dv{y}{x} = \frac{1}{\cos(y)} \]
         </div>
-        <p class="nm">
-          The second step is an application of the chain rule. Now let’s rewrite \(\frac{1}{\cos(y)}\) in terms of \(x\). We can do this using the Pythagorean trig identity.
+        <p class="ntm sn">
+          (The second step is an application of the chain rule.)
+        </p>
+        <p class="nbm">
+          Remember however that we are trying to find the derivative of \(\arcsin(x)\), which should also be in terms of \(x\). Therefore, we need to rewrite \(\frac{1}{\cos(y)}\) in terms of \(x\). We can do this using the Pythagorean trig identity \(\sin^2(y) + \cos^2(y) = 1\).
         </p>
         <div class="mj">
           \[ \sin^2(y) + \cos^2(y) = 1 \]
@@ -6058,6 +6175,12 @@
           We’ve found a rule to differentiate a function if we know the derivative of its inverse! We can also use this formula to differentiate the inverse of a function we know.
         </p>
         <p class="nbm">
+          Here is this formula using inverse function notation, where \(f^{-1}(x)\) is the inverse of \(f(x)\):
+        </p>
+        <p>
+          \[ \dv{x}f^{-1}(x) = \frac{1}{f'(f^{-1}(x))} \]
+        </p>
+        <p class="nm">
           Here’s an example: the inverse of \(e^x\) is \(\ln(x)\). Let’s say we forgot what the derivative of \(\ln(x)\) was. Luckily, we can still figure it out if we know the derivative of its inverse, \(e^x\)! Just use the formula with \(f(x) = \ln(x)\) and \(g(x) = e^x\):
         </p>
         <div class="mj">
@@ -6147,7 +6270,7 @@
           Here, we can use the quotient rule to find the derivative of the right side.
         </p>
         <div class="mj">
-          \[ \dv{^2y}{x^2} = -\frac{\dv{}{x}(x) \cdot y - x \cdot \dv{}{x}y}{y^2} \]
+          \[ \dv{^2y}{x^2} = -\frac{\dv{}{x}(x) \cdot y - x \cdot \dv{}{x}(y)}{y^2} \]
           \[ \dv{^2y}{x^2} = -\frac{y - x \cdot \dv{y}{x}}{y^2} \]
         </div>
         <p class="nm">
@@ -6618,17 +6741,60 @@
           It is summer and you are going on a road trip to your favorite vacation destination! As you sit in the car, the driver gets on the freeway, and you feel a burst of acceleration for a few seconds.
         </p>
         <p>
-          This is a classic example of a real-world situation that can be modeled with calculus! Notice that there are two main variables that are continuously changing in this story: the total distance you’ve traveled and the car’s speed. This calls for differential calculus!
+          This is a classic example of a real-world situation that can be modeled with calculus! Notice that there are some related variables that are continuously changing in this story: the car’s position, the car’s speed, the car’s acceleration, etc. This calls for differential calculus!
         </p>
+        <p>
+          Before we start our first problem, let’s get some definitions out of the way.
+        </p>
+        <ul>
+          <li>
+            <strong>Velocity</strong> describes the speed and direction of an object. 
+            <ul>
+              <li>
+                There are two types of velocity we can calculate:
+                <ul>
+                  <li>
+                    <strong>Average velocity</strong>: the velocity of an object over a specified period of time, measured as an average. This can be calculated with the formula \(\frac{\Delta x}{\Delta t}\), where \(\Delta x\) is the change in position and \(\Delta t\) is the elapsed time.
+                  </li>
+                  <li>
+                    <strong>Instantaneous velocity</strong>: the velocity of an object at a single point in time. This can be calculated with the formula \(\dv{x}{t}\), which is the derivative of position with respect to time.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                In one-dimensional space, velocity can be positive or negative. Positive velocity typically means the object is moving to the right, and negative velocity means the object is moving to the left.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Speed</strong> describes how fast an object is moving (ignoring direction).
+            <ul>
+              <li>Speed is the absolute value of an object’s velocity, and cannot be negative.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Acceleration</strong> describes the rate of change of an object’s velocity.
+            <ul>
+              <li>Just like velocity, it is possible to calculate average and instantaneous acceleration. Instantaneous acceleration is the derivative of velocity with respect to time, or the second derivative of position with respect to time.</li>
+              <li>In one-dimensional space, an object is speeding up if its acceleration has the same sign as its velocity. An object is slowing down if its acceleration and velocity have different signs. For example:
+                <ul>
+                  <li>An object with positive velocity and positive acceleration is speeding up.</li>
+                  <li>An object with negative velocity and positive acceleration is slowing down. <strong>Be careful: positive acceleration does not necessarily mean an object is speeding up!</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <span class="sn">For those of you interested in the details, velocity and acceleration are vectors (quantities with magnitude and direction), while speed is a scalar (which just has magnitude).</span>
         <p class="problem">
-          <strong>Problem</strong>: Let’s say the distance the car has traveled (its position) can be modeled by \(f(t) = t^2 + 10t\) for \(0 \le t \le 10\), where \(f(t)\) represents distance in meters and \(t\) represents time elapsed in seconds. What can we learn about the car’s movement?
+          <strong>Problem</strong>: Let’s say the car is driving on a one-dimensional road. The car’s position can be modeled by \(f(t) = t^2 + 10t\) for \(0 \le t \le 10\), where \(f(t)\) represents position in meters and \(t\) represents time elapsed in seconds. What can we learn about the car’s movement?
         </p>
         <img class="graph" src="calc/car_distance.png">
         <p class="ntm sn">
           This graph represents the car’s position over time.
         </p>
         <p>
-          Now let’s use calculus to break this down. If we take the derivative of position with respect to time, it tells us how fast our position is changing, which is our velocity! Our velocity is our speed and direction described in one number. Positive velocity means we’re moving forwards and negative velocity means we’re moving backwards, and the absolute value of our velocity tells us our speed. 
+          Now let’s use calculus to break this down. If we take the derivative of position with respect to time, it tells us how fast our position is changing, which is our velocity! In one dimension, our velocity is our speed and direction described in one number. Positive velocity means we’re moving forwards and negative velocity means we’re moving backwards, and the absolute value of our velocity tells us our speed.
         </p>
         <p>
           Using the power rule and sum rule, the derivative of \(f(t)\) is \(f'(t) = 2t + 10\). This means the velocity of our car at any given time is \(2t + 10\) meters per second, where \(t\) is the number of seconds that have elapsed.
@@ -10427,6 +10593,7 @@ console.log(total);
           \[ \int \frac{1}{x^3}\dd{x} = \int x^{\class{red}{-3}}\dd{x} = \frac{x^{\class{red}{-3}+1}}{\class{red}{-3}+1} + C= \frac{x^{-2}}{-2} + C = -\frac{1}{2x^2} + C \]
           \[ \int \sqrt[4]{x}\dd{x} = \int x^{\class{red}{1/4}}\dd{x} = \frac{x^{\class{red}{1/4}+1}}{\class{red}{1/4}+1} + C= \frac{x^{5/4}}{5/4} + C = \frac{4}{5}{x^{5/4}} + C \]
           \[ \int x^{\class{red}{\pi}}\dd{x} = \frac{x^{\class{red}{\pi}+1}}{\class{red}{\pi}+1} + C \]
+          \[ \int 1 \dd{x} = \int x^\class{red}{0}\dd{x} = \frac{x^{\class{red}{0}+1}}{\class{red}{0}+1} + C = x + C\]
         </div>
         <p class="ntm">
           You can verify these antiderivatives by differentiating them: you will get the original function back if you differentiate an antiderivative. For example, the derivative of \(-\frac{1}{2x^2} + C\) is indeed \(\frac{1}{x^3}\).
@@ -10484,6 +10651,16 @@ console.log(total);
             \end{flalign}
           \]
         </div>
+        <p class="nm">
+          Note that there isn’t a product rule or quotient rule for integrals. In other words, there is no easy formula for these integrals:
+        </p>
+        <div class="mj">
+          \[ \int f(x)g(x) \dd{x}\]
+          \[ \int \frac{f(x)}{g(x)} \dd{x}\]
+        </div>
+        <p class="ntm">
+          To integrate functions like these, we will need to use some more advanced techniques that I will go over later in this unit.
+        </p>
       </div>
       <h3 class="section-header" id="indefInt2Header">
         Indefinite Integrals of Common Functions <button id="indefInt2Button" onclick="showHide('indefInt2')">Show</button>
@@ -10533,12 +10710,15 @@ console.log(total);
             \[
               \ln(|x|) + C = 
               \begin{cases}
-              \ln(x) + C & x \ge 0\\
+              \ln(x) + C & x \gt 0\\
               \ln(-x) + C & x &lt; 0
               \end{cases}
             \]
           </div>
-          <p class="nm">
+          <p class="ntm sn">
+            (This function is undefined for \(x = 0\).)
+          </p>
+          <p class="nbm">
             If we take the derivative of both cases, we get:
           </p>
           <div class="mj">
@@ -10546,19 +10726,22 @@ console.log(total);
               \begin{flalign}
               \dv{}{x}[\ln(|x|) + C] &= 
               \begin{cases}
-              \frac{1}{x} & x \ge 0\\
+              \frac{1}{x} & x \gt 0\\
               -1 \cdot \frac{1}{-x} & x &lt; 0
               \end{cases}\\
               &=\begin{cases}
-              \frac{1}{x} & x \ge 0\\
+              \frac{1}{x} & x \gt 0\\
               \frac{1}{x} & x &lt; 0
               \end{cases}\\
-              &= \frac{1}{x}
+              &= \frac{1}{x}, \, x \ne 0
               \end{flalign}
             \]
           </div>
           <p class="ntm">
             As you can see, the derivative of \(\ln(|x|) + C\) is always \(\frac{1}{x}\), no matter if \(x\) is negative or positive. So \(\ln(|x|) + C\) is the best expression to represent the indefinite integral of \(\frac{1}{x}\).
+          </p>
+          <p class="sn">
+            (Note: The indefinite integral of \(\frac{1}{x}\) can either be written as \(\int \frac{1}{x} \dd{x}\) or \(\int \frac{\dd{x}}{x}\).)
           </p>
         </div>
         <hr>
@@ -10628,7 +10811,7 @@ console.log(total);
               <strong>Summary of this section (the most important integrals to know):</strong>
             </p>
             <div class="mj">
-              \[ \int \frac{1}{x}\dd{x} = \ln(|x|) + C \]
+              \[ \int \frac{1}{x}\dd{x} = \int\frac{\dd{x}}{x} = \ln(|x|) + C \]
               \[ \int e^x\dd{x} = e^x + C \]
               \[ \int a^x\dd{x} = \frac{a^x}{\ln(a)} + C \]
               \[ \int \cos(x)\dd{x} = \sin(x) + C \]
@@ -10739,7 +10922,7 @@ console.log(total);
         </div>
       </div>
       <h3 class="section-header" id="indefSubstHeader">
-        Indefinite Integrals: \(u\)-substitution <button id="indefSubstButton" onclick="showHide('indefSubst')">Show</button>
+        Indefinite Integrals: \(u\)-substitution / Integration by Substitution <button id="indefSubstButton" onclick="showHide('indefSubst')">Show</button>
       </h3>
       <div class="hidden-by-default" id="indefSubst">
         <p>
@@ -10812,8 +10995,10 @@ console.log(total);
           Luckily, using integral properties, we can manipulate the integral expression like this to have a 2 appear inside the integral:
         </p>
         <div class="mj">
-          \[ \left(\frac{1}{2} \cdot 2\right) \int \sin(2x)\dd{x} \]
-          \[ \frac{1}{2} \int 2\sin(2x)\dd{x} \]
+          \[ \begin{flalign}
+          \int\sin(2x)\dd{x} &= \left(\frac{1}{2} \cdot 2\right) \int \sin(2x)\dd{x} \\
+          &= \frac{1}{2} \int 2\sin(2x)\dd{x}
+          \end{flalign} \]
         </div>
         <p class="nm">
           Now we can use \(u\)-substitution as we normally would.
@@ -10874,9 +11059,6 @@ console.log(total);
         <p class="ntm">
           Notice how when using \(u\)-substitution, we can essentially treat \(\dd{x}\) and \(\dd{u}\) like variables and we can algebraically manipulate them the same way we would with normal variables. This might seem strange, but it is allowed during \(u\)-substitution.
         </p>
-        <p>
-          And finally, for our last example:
-        </p>
         <p class="problem">
           <strong>Problem</strong>: \(\displaystyle \int \frac{\ln(x)}{x} \dd{x} \)
         </p>
@@ -10895,15 +11077,77 @@ console.log(total);
           \[ \class{blue}{\dd{u} = \frac{1}{x}\dd{x}} \]
           \[ 
             \begin{flalign}
-            \int \class{red}{\ln(x)} \cdot \class{blue}{\frac{1}{x} \dd{x}} &= \int \class{red}{u}\,\class{blue}{\dd{u}}\\
+            \int \class{red}{\ln(x)} \cdot \class{blue}{\frac{1}{x} \dd{x}} &= \int \class{red}{u}\class{blue}{\dd{u}}\\
             &= \frac{u^2}{2} + C\\
             &= \frac{[\ln(x)]^2}{2} + C
             \end{flalign}
           \]
         </div>
+        <p class="ntm">
+          And finally, for our last example:
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: \(\displaystyle \int x\sqrt{x+5} \dd{x} \)
+        </p>
+        <p class="nbm">
+          This example requires us to do something different. The obvious substitution here is \(u = x+5\), so let’s try doing that:
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = x+5} \]
+          \[ \dv{u}{x} = 1 \]
+          \[ \class{blue}{\dd{u} = \dd{x}} \]
+          \[ \int x \sqrt{\class{red}{x+5}} \class{blue}{\dd{x}} = \int x \sqrt{\class{red}{u}}\class{blue}{\dd{u}} \]
+        </div>
+        <p class="nm">
+          Here we face a problem: we still have an \(x\) remaining in the integral, which is bad because we need to integrate with respect to \(u\). However, remember that we defined \(u = x+5\). If we subtract 5 from both sides of the equation \(u = x + 5\), we get that \(x = u-5\). Performing this substitution allows us to complete the integral!
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int x \sqrt{x+5} \dd{x} &= \int x \sqrt{u} \dd{u} \\
+          &= \int (u-5) \sqrt{u} \dd{u}\\
+          &= \int (u\sqrt{u} - 5\sqrt{u}) \dd{u}\\
+          &= \int (u^{3/2} - 5u^{1/2}) \dd{u}\\
+          &= \frac{2}{3}u^{5/2} - \frac{10}{3}u^{3/2} + C\\
+          &= \frac{2}{3}(x+5)^{5/2} - \frac{10}{3}(x+5)^{3/2} + C\\
+          \end{flalign}\]
+        </div>
+        <p>
+          There is also another way to do this integral: instead of having \(u = x+5\), we can have \(u = \sqrt{x+5}\). However, we’re not going to immediately find \(\dd{u}\) in terms of \(\dd{x}\).
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = \sqrt{x+5}} \]
+          \[ \int x \class{red}{\sqrt{x+5}} \dd{x} = \int x \class{red}{u} \dd{x} \]
+        </div>
+        <p>
+          We want to integrate with respect to \(u\), so we need to find \(x\) in terms of \(u\). But not only that, we need to write \(\dd{x}\) in terms of \(\dd{u}\).
+        </p>
+        <p>
+          Using the fact that \(u = \sqrt{x+5}\), we can find that \(u^2 = x+5\) and therefore \(x = u^2 - 5\).
+        </p>
+        <p>
+          To find \(\dd{x}\) in terms of \(\dd{u}\), we’re going to do something we haven’t done before: differentiate the equation \(x = u^2 - 5\) with respect to \(u\) instead of \(x\). This gives us:
+        </p>
+        <div class="mj">
+          \[ x = u^2 - 5 \]
+          \[ \dv{x}{u} = 2u \]
+          \[ \class{blue}{\dd{x} = 2u \dd{u}} \]
+        </div>
+        <p>
+          So we can replace \(x\) with \(u^2-5\) in our integral and also replace \(\dd{x}\) with \(2u\dd{u}\).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int x \sqrt{x+5} \dd{x} &= \int xu \class{blue}{\dd{x}}\\
+          &= \int (u^2-5)u (\class{blue}{2u}) \class{blue}{\dd{u}}\\
+          &= \int (2u^4 - 10u^2) \dd{u}\\
+          &= \frac{2}{5}u^5 - \frac{10}{3}u^3 + C\\
+          &= \frac{2}{5}(\sqrt{x+5})^5 - \frac{10}{3}(\sqrt{x+5})^3 + C\\
+          &= \frac{2}{5}(x+5)^{5/2} - \frac{10}{3}(x+5)^{3/2} + C\\
+          \end{flalign} \]
+        </div>
       </div>
       <h3 class="section-header" id="defSubstHeader">
-        Definite Integrals: \(u\)-substitution <button id="defSubstButton" onclick="showHide('defSubst')">Show</button>
+        Definite Integrals: \(u\)-substitution / Integration by Substitution <button id="defSubstButton" onclick="showHide('defSubst')">Show</button>
       </h3>
       <div class="hidden-by-default" id="defSubst">
         <p>
@@ -10930,7 +11174,7 @@ console.log(total);
         <p class="nm">
           Now that we have the indefinite integral, we can use it to find the definite integral.
         </p>
-        <div>
+        <div class="mj">
           \[
             \begin{flalign}
             \int_1^2 2(2x+1)^4 \dd{x} &= \left[\frac{(2x+1)^5}{5}\right]\bigg|_1^2\\
@@ -10969,15 +11213,222 @@ console.log(total);
           \]
         </div>
       </div>
+      <h3 class="section-header" id="constIntHeader">
+        Indefinite Integrals: Constant of Integration <button id="constIntButton" onclick="showHide('constInt')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="constInt">
+        <p>
+          Before we integrate more functions, there’s something very important we need to keep in mind with indefinite integrals. To demonstrate, here’s a fairly simple integral:
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{1}{2x}\dd{x}\).
+        </p>
+        <p class="nbm">
+          There are two ways to solve this integral using the techniques we know. First, we could simply factor out \(\frac{1}{2}\) from the integral:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\frac{1}{2x}\dd{x} &= \int\frac{1}{2}\cdot\frac{1}{x}\dd{x} \\
+          &= \frac{1}{2}\int\frac{1}{x}\dd{x}\\
+          &= \frac{1}{2}\ln|x| + C
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          Alternatively, we could use \(u\)-substitution with \(u = 2x\):
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = 2x} \]
+          \[ \class{blue}{\dd{u} = 2 \dd{x}}\]
+          \[ \begin{flalign}
+          \int\frac{1}{2x}\dd{x} &= \int\frac{1}{2}\cdot\frac{2}{2x}\dd{x} \\
+          &= \frac{1}{2}\int\frac{\class{blue}{2}}{\class{red}{2x}}\class{blue}{\dd{x}} \\
+          &= \frac{1}{2}\int\frac{\class{blue}{\dd{u}}}{\class{red}{u}}\\
+          &= \frac{1}{2}\ln|u| + C\\
+          &= \frac{1}{2}\ln|2x| + C
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          We got a different answer this time! Does this mean that one of these answers is wrong?
+        </p>
+        <p class="nbm">
+          Remember that we can check if an indefinite integral is correct by differentiating it to see if we get back the original function. So let’s do that for both of our answers:
+        </p>
+        <div class="mj">
+          \[ \dv{x}\left(\frac{1}{2}\ln|x|+C\right) = \frac{1}{2}\cdot\frac{1}{x} = \frac{1}{2x}\]
+          \[ \dv{x}\left(\frac{1}{2}\ln|2x|+C\right) = \frac{1}{2}\left(2\cdot\frac{1}{2x}\right) = \frac{1}{2x}\]
+        </div>
+        <p class="ntm">
+          The derivative of both of these expressions are the same! So what’s going on?
+        </p>
+        <p class="nbm">
+          To find out what’s going on, let’s use logarithm properties to simplify the second expression:
+        </p>
+        <div class="mj">
+          \[ \frac{1}{2}\ln|2x| + C = \frac{1}{2}[\ln(2) + \ln|x|] + C = \frac{1}{2}\ln|x| + \frac{1}{2}\ln(2) + C\]
+        </div>
+        <p class="ntm">
+          Notice that \(\frac{1}{2}\ln(2)\) is just a constant, so we can say that \(\frac{1}{2}\ln(2) + C \) is an arbitrary constant. Therefore, we can simplify \(\frac{1}{2}\ln|x| + \frac{1}{2}\ln(2) + C\) to \(\frac{1}{2}\ln|x| + C\), which is the first expression!
+        </p>
+        <p>
+          What happened here is that the expressions \(\frac{1}{2}\ln|x|\) and \(\frac{1}{2}\ln|2x|\) differ by just a constant (in this case \(\frac{1}{2}\ln(2)\)), so both \(\frac{1}{2}\ln|x| + C\) and \(\frac{1}{2}\ln|2x| + C\) are valid ways to express the antiderivative of \(\frac{1}{2x}\).
+        </p>
+        <img class="graph" src="calc/differ_by_constant.png">
+        <p class="ntm sn">
+          The two expressions \(\class{red}{\frac{1}{2}\ln|x|}\) and \(\class{blue}{\frac{1}{2}\ln|2x|}\) differ by a constant, so they are both valid ways to express \(\int\frac{1}{2x}\dd{x}\).
+        </p>
+        <p>
+          Remember that the constant of integration \(C\) expresses all possible constants in one symbol, so it is possible to come up with multiple ways to express the same antiderivative that differ by a constant!
+        </p>
+      </div>
+      <h3 class="section-header" id="arctanIntHeader">
+        Integrating Rational Functions: Natural Logarithm and Arctangent <button id="arctanIntButton" onclick="showHide('arctanInt')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="arctanInt">
+        <p>
+          From now on, I’m going to show you how to integrate lots of different rational functions. But first, let’s get the basics down with a few examples using \(u\)-substitution that aren’t too difficult.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{1}{4x+5}\dd{x}\).
+        </p>
+        <p class="nbm">
+          We want to get this integral to the form \(\int\frac{1}{u}\dd{u}\), since we know how to integrate that. We can do that by setting \(u\) to the denominator.
+        </p>
+        <div class="mj">
+          \[ \int \frac{1}{4x+5}\dd{x} \]
+          \[ \class{red}{u = 4x+5} \]
+          \[ \class{blue}{\dd{u} = 4\dd{x}} \]
+          \[ \begin{flalign}
+          \int \frac{1}{4x+5}\dd{x} &= \frac{1}{4}\int\frac{\class{blue}{4}}{\class{red}{4x+5}}\class{blue}{\dd{x}} \\
+          &= \frac{1}{4}\int\frac{\class{blue}{\dd{u}}}{\class{red}{u}}\\
+          &= \frac{1}{4}\ln|u|+C\\
+          &= \frac{1}{4}\ln|4x+5|+C
+          \end{flalign} \]
+        </div>
+        <p class="ntm">
+          We can generalize this process to any integral of the form \(\int\frac{B}{ax+b}\dd{x}\), where \(B\), \(a\), and \(b\) are constants.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{B}{ax+b}\dd{x}\).
+        </p>
+        <div class="mj">
+          \[ \int \frac{B}{ax+b}\dd{x} \]
+          \[ \class{red}{u = ax+b} \]
+          \[ \class{blue}{\dd{u} = a\dd{x}} \]
+          \[ \begin{flalign}
+          \int \frac{B}{ax+b}\dd{x} &= \frac{B}{a}\int\frac{B(a/B)}{ax+b}\class{blue}{\dd{x}} \\
+          &= \frac{B}{a}\int\frac{\class{blue}{a}}{\class{red}{ax+b}}\class{blue}{\dd{x}} \\
+          &= \frac{B}{a}\int\frac{\class{blue}{\dd{u}}}{\class{red}{u}}\\
+          &= \frac{B}{a}\ln|u|+C\\
+          &= \frac{B}{a}\ln|ax+b|+C
+          \end{flalign} \]
+        </div>
+        <p class="ntm">
+          Here’s a problem involving a linear function divided by a quadratic function.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{x}{x^2+10}\dd{x}\).
+        </p>
+        <p class="nbm">
+          Notice that the derivative of the denominator is \(2x\), which is twice the numerator. We can easily manipulate the numerator to equal \(2x\) so we can perform the substitution \(u = x^2 + 10\).
+        </p>
+        <div class="mj">
+          \[ \int \frac{x}{x^2+10}\dd{x} \]
+          \[ \class{red}{u = x^2+10} \]
+          \[ \class{blue}{\dd{u} = 2x\dd{x}} \]
+          \[ \begin{flalign}
+          \int \frac{x}{x^2+10}\dd{x} &= \frac{1}{2}\int\frac{\class{blue}{2x}}{\class{red}{x^2+10}}\class{blue}{\dd{x}} \\
+          &= \frac{1}{2}\int\frac{\class{blue}{\dd{u}}}{\class{red}{u}}\\
+          &= \frac{1}{2}\int\ln|u|+C\\
+          &= \frac{1}{2}\ln|x^2+10|+C\\
+          &= \frac{1}{2}\ln(x^2+10)+C
+          \end{flalign} \]
+        </div>
+        <p class="ntm sn">
+          We can get rid of the absolute value bars in our answer because \(x^2+10\) is always positive.
+        </p>
+        <p>
+          This strategy will work whenever we have an integral of the form \(\int\frac{Ax}{ax^2+c}\dd{x}\). But what if we just have a constant in the numerator instead?
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{1}{x^2+10}\dd{x}\).
+        </p>
+        <p>
+          This time the numerator isn’t a constant multiple of the derivative of the denominator, so we can’t get this integral into the form \(\int\frac{1}{u}\dd{u}\). Instead, we need to use the fact that \(\int\frac{1}{u^2+1}\dd{u} = \arctan(u) + C\), since the derivative of \(\arctan(u)\) is \(\frac{1}{u^2+1}\).
+        </p>
+        <p class="nbm">
+          However, we have \(x^2 + 10\) in the denominator, not \(x^2 + 1\). We can fix this by dividing both the numerator and denominator by 10.
+        </p>
+        <div class="mj">
+          \[ \int \frac{1}{x^2+10}\dd{x} = \int \frac{1/10}{x^2/10+1}\dd{x} \\\]
+        </div>
+        <p class="nm">
+          Remember that we want to get our integral into the form \(\int\frac{1}{u^2+1}\dd{u}\). To do that, let’s rewrite \(\frac{x^2}{10}\) as \((\frac{x}{\sqrt{10}})^2\), because then we can use the substitution \(u = \frac{x}{\sqrt{10}}\).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{1}{x^2+10}\dd{x} &= \int \frac{1/10}{x^2/10+1}\dd{x} \\
+          &= \int \frac{1/10}{(x/\sqrt{10})^2+1}\dd{x}
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          Here, we want to use the substitution \(u = \frac{x}{\sqrt{10}}\), but that requires us to have \(\frac{1}{\sqrt{10}}\) in the numerator (since \(\dd{u} = \frac{1}{\sqrt{10}}\dd{x}\)).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{1}{x^2+10}\dd{x} &= \int \frac{1/10}{(x/\sqrt{10})^2+1}\dd{x} \\
+          &= \frac{1}{\sqrt{10}}\int \frac{1/\sqrt{10}}{(x/\sqrt{10})^2+1}\dd{x} \\
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          We can finally perform the substitution now!
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = \frac{x}{\sqrt{10}}} \]
+          \[ \class{blue}{\dd{u} = \frac{1}{\sqrt{10}}\dd{x}} \]
+          \[ \begin{flalign}
+          \int \frac{1}{x^2+10}\dd{x} &= \frac{1}{\sqrt{10}}\int \frac{\class{blue}{1/\sqrt{10}}}{(\class{red}{x/\sqrt{10}})^2+1}\class{blue}{\dd{x}} \\
+          &= \frac{1}{\sqrt{10}}\int \frac{\class{blue}{\dd{u}}}{\class{red}{u}^2+1}\\
+          &= \frac{1}{\sqrt{10}}\arctan(u) + C\\
+          &= \frac{1}{\sqrt{10}}\arctan\left(\frac{x}{\sqrt{10}}\right) + C
+          \end{flalign} \]
+        </div>
+        <p>
+          This strategy will work for integrals of the form \(\int\frac{B}{ax^2 + c}\dd{x}\), where \(a\) and \(c\) are positive.
+        </p>
+        <p>
+          Finally, one last problem:
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{x+1}{x^2+10}\dd{x}\).
+        </p>
+        <p class="nbm">
+          For this integral, we can split it up into two:
+        </p>
+        <div class="mj">
+          \[ \int \frac{x+1}{x^2+10}\dd{x} = \int \frac{x}{x^2+10}\dd{x} + \int \frac{1}{x^2+10}\dd{x} \]
+        </div>
+        <p class="nm">
+          We already did these two integrals previously, so let’s substitute the answers we found:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{x+1}{x^2+10}\dd{x} &= \int \frac{x}{x^2+10}\dd{x} + \int \frac{1}{x^2+10}\dd{x} \\
+          &= \frac{1}{2}\ln(x^2+10) + \frac{1}{\sqrt{10}}\arctan\left(\frac{x}{\sqrt{10}}\right) + C
+          \end{flalign} \]
+        </div>
+        <p>
+          Now we know how to integrate functions of the form \(\int\frac{Ax+B}{ax^2 + c}\dd{x}\), where \(a\) and \(c\) are positive! In these cases, we split the integral up into two integrals, then solve them individually.
+        </p>
+      </div>
       <h3 class="section-header" id="otherIntHeader">
-        Indefinite Integrals: Long Division and Completing the Square <button id="otherIntButton" onclick="showHide('otherInt')">Show</button>
+        Integrating Rational Functions: Long Division and Completing the Square <button id="otherIntButton" onclick="showHide('otherInt')">Show</button>
       </h3>
       <div class="hidden-by-default" id="otherInt">
         <p>
-          There are some more strategies we can use to find indefinite integrals when the other methods don’t work. The first is by using polynomial long division to simplify an expression.
+          There are some more strategies we can use to find indefinite integrals of rational functions when the other methods don’t work. The first strategy is to use polynomial long division to simplify an expression. This will work if the degree of the numerator is greater than or equal to the degree of the denominator.
         </p>
         <p class="problem">
-          <strong>Problem:</strong> \( \displaystyle\int \frac{4x^2 + 4x - 1}{2x - 1}\dd{x} \)
+          <strong>Problem:</strong> Evaluate \( \displaystyle\int \frac{4x^2 + 4x - 1}{2x - 1}\dd{x} \).
         </p>
         <p class="nbm">
           We need to simplify \(\frac{4x^2 + 4x - 1}{2x - 1}\) down to something we can integrate more easily. However, \(4x^2 + 4x - 1\) is not factorable, so we need to use polynomial long division:
@@ -11028,6 +11479,9 @@ console.log(total);
             \end{flalign}
           \]
         </div>
+        <p class="ntm sn">
+          (Alternatively, you can use the formula in the last section: \(\int\frac{B}{ax+b}\dd{x} = \frac{B}{a}\ln|ax+b| + C\).)
+        </p>
         <p class="nm">
           The other strategy I’ll be going over is to use the derivatives of \(\arcsin(x) = \sin^{-1}(x)\) and \(\arctan(x) = \tan^{-1}(x)\) along with the “completing the square” technique from algebra. As a reminder, here are their derivatives:
         </p>
@@ -11039,7 +11493,7 @@ console.log(total);
           Here’s our first indefinite integral that can be solved this way:
         </p>
         <p class="problem">
-          <strong>Problem:</strong> \( \displaystyle\int \frac{1}{x^2 + 4x + 20}\dd{x}\)
+          <strong>Problem:</strong> Evaluate \( \displaystyle\int \frac{1}{x^2 + 4x + 20}\dd{x}\).
         </p>
         <p class="sn">
           (Note: Sometimes you will see integrals like this where the numerator is 1 written as \(\int \frac{\dd{x}}{x^2 + 4x + 20}\) instead.)
@@ -11224,7 +11678,7 @@ console.log(total);
           Now this formula is very interesting because we essentially have a formula to integrate a product of a function and the derivative of another function. Using this formula is known as <strong>integration by parts</strong>. This formula might not seem that useful at first because there’s still an integral on the right side, but let’s experiment and see what we can do with it.
         </p>
         <p class="problem">
-          <strong>Problem:</strong> \(\displaystyle\int xe^x \dd{x}\)
+          <strong>Problem:</strong> Evaluate \(\displaystyle\int xe^x \dd{x}\).
         </p>
         <p class="nbm">
           Here we have two functions multiplied by each other, so we can use integration by parts. Remember that in the integration by parts formula we start off with a function (\(f(x)\)) multiplied by the derivative of another function (\(g'(x)\)). Here, we can set \(f(x) = x\) and \(g'(x) = e^x\) so that \(f(x)g'(x) = xe^x\). This is our starting point for integration by parts.
@@ -11260,7 +11714,7 @@ console.log(total);
           Sometimes we can use integration by parts in unexpected places.
         </p>
         <p class="problem">
-          <strong>Problem:</strong> \(\displaystyle\int \ln(x) \dd{x}\)
+          <strong>Problem:</strong> Evaluate \(\displaystyle\int \ln(x) \dd{x}\).
         </p>
         <p class="nbm">
           Here, we don’t have two functions multiplied together, but what we can do here is set \(g'(x) = 1\), since any function is itself multiplied by 1.
@@ -11281,8 +11735,8 @@ console.log(total);
         <p class="ntm">
           And sometimes we even have to use integration by parts multiple times!
         </p>
-        <p class="problem">
-          <strong>Problem:</strong> \(\displaystyle\int x^2\sin(x) \dd{x}\)
+        <p class="nbm problem">
+          <strong>Problem:</strong> Evaluate \(\displaystyle\int x^2\sin(x) \dd{x}\).
         </p>
         <div class="mj">
           \[ \class{red}{f(x) = x^2} \]
@@ -11322,7 +11776,7 @@ console.log(total);
           Finally, here’s one last example where we need to do something slightly different.
         </p>
         <p class="problem">
-          <strong>Problem:</strong> \(\displaystyle\int e^x\cos(x) \dd{x}\)
+          <strong>Problem:</strong> Evaluate \(\displaystyle\int e^x\cos(x) \dd{x}\).
         </p>
         <p class="nbm">
           Notice that neither \(e^x\) nor \(\cos(x)\) gets simpler when you differentiate it. In this case, we can choose either of them to be \(f(x)\) and the other to be \(g'(x)\). Once again, for this integral, we need to use integration by parts twice.
@@ -11349,9 +11803,36 @@ console.log(total);
           \[ 2\int e^x\cos(x) \dd{x} = e^x \sin(x) + e^x\cos(x) + C\]
           \[ \int e^x\cos(x) \dd{x} = \frac{e^x \sin(x) + e^x\cos(x)}{2} + C\]
         </div>
+        <p class="nm">
+          There is a shorter form of the integration by parts formula, and it looks like this:
+        </p>
+        <div class="mj">
+          \[ \int u\dd{v} = uv - \int v\dd{u} \]
+        </div>
+        <p class="ntm">
+          Here, \(u\) replaces \(f(x)\), \(v\) replaces \(g(x)\), \(\dd{u}\) replaces \(f'(x) \dd{x}\), and \(\dd{v}\) replaces \(g'(x)\dd{x}\).
+        </p>
+        <p class="nbm">
+          Here is an example using this notation:
+        </p>
+        <p class="problem nbm">
+          <strong>Problem:</strong> Evaluate \(\displaystyle\int xe^{-x} \dd{x}\).
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = x} \]
+          \[ \class{blue}{\dd{v} = e^{-x}\dd{x}} \]
+          \[ \class{green}{\dd{u} = \dd{x}} \]
+          \[ \class{purple}{v = -e^{-x}} \]
+          \[ \int \class{red}{u}\class{blue}{\dd{v}} = \class{red}{u}\class{purple}{v} - \int \class{purple}{v}\class{green}{\dd{u}} \]
+          \[ \begin{flalign}
+          \int \class{red}{x}\class{blue}{e^{-x}\dd{x}} &= \class{red}{x}(\class{purple}{-e^{-x}}) - \int \class{purple}{-e^{-x}} \class{green}{\dd{x}}\\
+          &= -xe^{-x} + \int e^{-x} \dd{x}\\
+          &= -xe^{-x} - e^{-x} + C\\
+          \end{flalign}\]
+        </div>
       </div>
       <h3 class="section-header bc-only-color" id="partialFractionHeader">
-        Indefinite Integrals: Partial Fraction Decomposition <button id="partialFractionButton" onclick="showHide('partialFraction')">Show</button>
+        Integrating Rational Functions: Linear Partial Fraction Decomposition <button id="partialFractionButton" onclick="showHide('partialFraction')">Show</button>
       </h3>
       <div class="hidden-by-default" id="partialFraction">
         <p class="bold bc-only-color">
@@ -11401,8 +11882,14 @@ console.log(total);
         <div class="mj">
           \[ 24x + 3 = A(2x - 1) + B(4x + 3) \]
         </div>
-        <p class="nm">
-          Once we get the equation looking like this, we need to isolate the \(x\) terms on the right side and the constants.
+        <p class="ntm">
+          From here, there are two strategies we can use to find \(A\) and \(B\).
+        </p>
+        <p class="bold large-text">
+          Strategy 1: Solving a system of equations
+        </p>
+        <p class="nbm">
+          We can isolate the \(x\) terms on the right side and the constants.
         </p>
         <div class="mj">
           \[ 24x + 3 = 2Ax - A + 4Bx + 3B \]
@@ -11421,7 +11908,38 @@ console.log(total);
           \[ 2A + 4(3) = 24 \quad \text{(substitute into 1st eq.)}\]
           \[ A = 6 \]
         </div>
+        <p class="ntm">
+          Therefore, \(A = 6\) and \(B = 3\).
+        </p>
+        <p class="bold large-text">
+          Strategy 2: Using a shortcut
+        </p>
+        <p class="nbm">
+          Let’s look at the equation we had before:
+        </p>
+        <div class="mj">
+          \[ 24x + 3 = A(2x - 1) + B(4x + 3) \]
+        </div>
         <p class="nm">
+          This equation is true for any value of \(x\) we plug in. Notice that if we set \(x = \frac{1}{2}\), then the \(2x-1\) term will equal zero. This means that the variable \(A\) will disappear from the equation, allowing us to easily solve for \(B\).
+        </p>
+        <div class="mj">
+          \[ 24\left(\frac{1}{2}\right) + 3 = A\left[2\left(\frac{1}{2}\right) - 1\right] + B\left[4\left(\frac{1}{2}\right) + 3\right] \]
+          \[ 15 = 0A + 5B \]
+          \[ B = 3 \]
+        </div>
+        <p class="nm">
+          We can use the same strategy to solve for \(A\), but this time we want the \(4x+3\) term to be zero. To do that, we can use the value \(x = -\frac{3}{4}\).
+        </p>
+        <div class="mj">
+          \[ 24\left(-\frac{3}{4}\right) + 3 = A\left[2\left(-\frac{3}{4}\right) - 1\right] + B\left[4\left(-\frac{3}{4}\right) + 3\right] \]
+          \[ -15 = -\frac{5}{2}A + 0B \]
+          \[ A = 6 \]
+        </div>
+        <p class="ntm">
+          We get the same values for \(A\) and \(B\) with this strategy: \(A = 6\) and \(B = 3\).
+        </p>
+        <p class="nbm">
           Now that we know what \(A\) and \(B\) are, we can complete the partial fraction decomposition and solve the integral as usual!
         </p>
         <div class="mj">
@@ -11519,7 +12037,7 @@ console.log(total);
           What we just found is one type of <strong>improper integral</strong>. This type of improper integral involves one or more bounds that are not finite. In this case, our integral is written like this:
         </p>
         <div class="mj">
-          \[ \int_0^{\infty}e^{-x}\dd{x} \]
+          \[ \int_0^{\infty}e^{-x}\dd{x} = 1\]
         </div>
         <p class="ntm sn">
           Notice how the upper bound is \(\infty\). This means we’re evaluating an improper integral.
@@ -12382,28 +12900,30 @@ console.log(total);
         <p>
           Here’s a table that shows the three different trig substitutions we can use depending on the form of the square root term:
         </p>
-        <table>
-          <tr>
-            <th>Form</th>
-            <th>Substitution</th>
-            <th>Identity</th>
-          </tr>
-          <tr>
-            <td>\(\sqrt{\class{red}{a}^2 - \class{blue}{b}^2x^2}\)</td>
-            <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\sin(\theta)\)</td>
-            <td>\(1 - \sin^2(\theta) = \cos^2(\theta)\)</td>
-          </tr>
-          <tr>
-            <td>\(\sqrt{\class{blue}{b}^2x^2 - \class{red}{a}^2}\)</td>
-            <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\sec(\theta)\)</td>
-            <td>\(\sec^2(\theta) - 1 = \tan^2(\theta)\)</td>
-          </tr>
-          <tr>
-            <td>\(\sqrt{\class{red}{a}^2 + \class{blue}{b}^2x^2}\)</td>
-            <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\tan(\theta)\)</td>
-            <td>\(1 + \tan^2(\theta) = \sec^2(\theta)\)</td>
-          </tr>
-        </table>
+        <div class="table-div">
+          <table>
+            <tr>
+              <th>Form</th>
+              <th>Substitution</th>
+              <th>Identity</th>
+            </tr>
+            <tr>
+              <td>\(\sqrt{\class{red}{a}^2 - \class{blue}{b}^2x^2}\)</td>
+              <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\sin(\theta)\)</td>
+              <td>\(1 - \sin^2(\theta) = \cos^2(\theta)\)</td>
+            </tr>
+            <tr>
+              <td>\(\sqrt{\class{blue}{b}^2x^2 - \class{red}{a}^2}\)</td>
+              <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\sec(\theta)\)</td>
+              <td>\(\sec^2(\theta) - 1 = \tan^2(\theta)\)</td>
+            </tr>
+            <tr>
+              <td>\(\sqrt{\class{red}{a}^2 + \class{blue}{b}^2x^2}\)</td>
+              <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\tan(\theta)\)</td>
+              <td>\(1 + \tan^2(\theta) = \sec^2(\theta)\)</td>
+            </tr>
+          </table>
+        </div>
         <p>
           Now let’s use trig substitution to actually find an integral!
         </p>
@@ -12625,7 +13145,7 @@ console.log(total);
             \[ \int \sin(x) \dd{x} = -\cos(x) + C \]
             \[ \int \cos(x) \dd{x} = \sin(x) + C \]
             \[ \int e^x \dd{x} = e^x + C \]
-            \[ \int \frac{1}{x} \dd{x} = \ln(|x|) + C \]
+            \[ \int \frac{1}{x} \dd{x} = \int \frac{\dd{x}}{x} = \ln(|x|) + C \]
           </div>
           <li>
             <strong>\(u\)-substitution</strong> is a way to find indefinite integrals of more complicated functions. It is a way to reverse the chain rule for derivatives.
@@ -12656,7 +13176,14 @@ console.log(total);
             <em>(Calc BC only)</em> <strong>Improper integrals</strong> are a special type of integral where either one of the bounds are infinite or the expression inside the integral is undefined at one of the bounds. These integrals can be evaluated by rewriting them as limits.
           </li>
         </ul>
+        <hr>
       </div>
+      <h3>
+        Looking for more integration techniques?
+      </h3>
+      <p>
+        More integration techniques are featured in <a href="#bonusCalcHeader" onclick="jumpTo('bonusCalc')">Unit 11: Bonus Calculus!</a>
+      </p>
     </div>
   </div>
   <hr class="heavy-hr">
@@ -16852,8 +17379,12 @@ console.log(total);
             \]
           </div>
           <p class="nm">
-            Now we can move on to the indefinite integrals of \(\sin^2(\theta)\) and \(\cos^2(\theta)\).
+            Now we can move on to the indefinite integrals of \(\sin^2(\theta)\) and \(\cos^2(\theta)\). The key to finding these integrals is to use these two identities:
           </p>
+          <div class="mj">
+            \[ \sin^2(\theta) = \frac{1 - \cos(2\theta)}{2} \]
+            \[ \cos^2(\theta) = \frac{1 + \cos(2\theta)}{2} \]
+          </div>
           <div class="mj">
             \[ 
               \begin{flalign}
@@ -18344,6 +18875,11 @@ console.log(total);
           <p class="bold medium-text">
             For what values of \(p\) is the \(p\)-series convergent? Try it below!
           </p>
+          <p>
+            <button class="large-button" onclick="setSliderValue('pSeriesPValue', 0)">\(p = 0\)</button>
+            <button class="large-button" onclick="setSliderValue('pSeriesPValue', 1)">\(p = 1\)</button>
+            <button class="large-button" onclick="setSliderValue('pSeriesPValue', 2)">\(p = 2\)</button>
+          </p>
           <input id="pSeriesPValueSlider" class="slider" type="range" max="1" step="any" value="0" oninput="updateSliders()">
           <p>
             \(p = \) <span id="pSeriesPValueVal1" class="output-value"></span>
@@ -18575,7 +19111,7 @@ console.log(total);
           The limit comparison test says that if \(\displaystyle\lim_{n \to \infty}\frac{a_n}{b_n}\) <strong>is positive and finite, then either both series converge or both series diverge</strong>. In other words, if the ratio between the \(n\)th term of Series A and the \(n\)th term of Series B approaches a positive number as \(n\) approaches infinity, then the two series will either both converge or both diverge. 
         </p>
         <p>
-          The key to using the limit comparison test is to find a second series whose terms become very similar to those of the first series as \(n\) approaches infinity. In this case, \(\displaystyle\sum_{n=1}^\infty \frac{1}{3^n}\) has a very similar end behavior to \(\displaystyle\sum_{n=1}^\infty \frac{1}{3^n - 1}\).
+          The key to using the limit comparison test is to find a second series whose terms become very similar to those of the first series as \(n\) approaches infinity. In this case, \(\displaystyle\sum_{n=1}^\infty \frac{1}{3^n}\) has a very similar end behavior to \(\displaystyle\sum_{n=1}^\infty \frac{1}{3^n - 1}\). In other words, for large \(n\), \(\frac{1}{3^n}\) is approximately equal to \(\frac{1}{3^n - 1}\).
         </p>
         <p class="nbm">
           Now let’s try using the limit comparison test! The \(n\)th term of Series A is \(\class{red}{\frac{1}{3^n}}\) and the \(n\)th term of Series B is \(\class{blue}{\frac{1}{3^n-1}}\). So we need to find this limit:
@@ -19092,7 +19628,7 @@ console.log(total);
             <ul>
               <li>Used to test for convergence or divergence</li>
               <li>
-                For a geometric series \(\displaystyle\sum_{n=k}^\infty ar^{n}\):
+                For a geometric series \(\displaystyle\sum_{n=k}^\infty ar^{n}\), where \(a \ne 0\):
                 <ul>
                   <li>\(r\) = common ratio</li>
                   <li>If \(|r| \lt 1\), then convergent</li>
@@ -19176,6 +19712,22 @@ console.log(total);
                 <ul>
                   <li>If \(\displaystyle\lim_{n \to \infty}{\left|\frac{a_{n+1}}{a_n}\right|} \lt 1\), then convergent</li>
                   <li>If \(\displaystyle\lim_{n \to \infty}{\left|\frac{a_{n+1}}{a_n}\right|} \gt 1\), then divergent</li>
+                  <li>If \(\displaystyle\lim_{n \to \infty}{\left|\frac{a_{n+1}}{a_n}\right|} = 1\), then inconclusive</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Root test</strong>
+            <ul>
+              <li class="sn">(A full section on this test is coming soon!)</li>
+              <li>Used to test for convergence or divergence</li>
+              <li>
+                For any series \(\displaystyle\sum_{n=k}^\infty a_n\):
+                <ul>
+                  <li>If \(\displaystyle\lim_{n \to \infty}{\sqrt[n]{|a_n|}} \lt 1\), then convergent</li>
+                  <li>If \(\displaystyle\lim_{n \to \infty}{\sqrt[n]{|a_n|}} \gt 1\), then divergent</li>
+                  <li>If \(\displaystyle\lim_{n \to \infty}{\sqrt[n]{|a_n|}} = 1\), then inconclusive</li>
                 </ul>
               </li>
             </ul>
@@ -22510,8 +23062,59 @@ console.log(total);
         <button class="large-button" onclick="toggleAllSections('bonusCalc', 'hide')">Hide All Sections</button>
       </div>
       <p class="bold bonus-color">
-        This unit is for content that doesn’t fit in any of the other units.
+        This unit is for content that doesn’t fit in any of the other units or is here to avoid cluttering the main units.
       </p>
+      <h3>Complex Numbers</h3>
+      <h3 class="section-header" id="complexTrigHeader">
+        <span class="bonus-color">Complex Forms of \(\sin(x)\) and \(\cos(x)\)</span> <button id="complexTrigButton" onclick="showHide('complexTrig')">Show</button>
+      </h3>
+      <div id="complexTrig" class="hidden-by-default">
+        <p>
+          Euler’s formula, \(e^{ix} = \cos(x) + i\sin(x)\), relates complex exponents to sine and cosine.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Can we use Euler’s formula to find formulas for sine and cosine in terms of complex exponents?
+        </p>
+        <p class="nbm">
+          Using Euler’s formula, we can also find what \(e^{-ix}\) equals:
+        </p>
+        <div class="mj">
+          \[ e^{ix} = \cos(x) + i\sin(x) \]
+          \[ \begin{flalign}
+          e^{-ix} &= \cos(-x) + i\sin(-x)\\
+          &= \cos(x) - i\sin(x)
+          \end{flalign} \]
+        </div>
+        <p class="ntm sn">
+          Remember that \(\cos(x)\) is an even function (i.e. \(\cos(-x) = \cos(x)\)) and \(\sin(x)\) is an odd function (i.e. \(\sin(-x) = -\sin(x)\)).
+        </p>
+        <p class="nm">
+          Interesting things happen when we add these two equations together, or subtract the second from the first:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          e^{ix} + e^{-ix}
+          &= \cos(x) + i\sin(x) + \cos(x) - i\sin(x)\\
+          &= 2\cos(x)
+          \end{flalign} \]
+          \[ \begin{flalign}
+          e^{ix} - e^{-ix}
+          &= \cos(x) + i\sin(x) - [\cos(x) - i\sin(x)]\\
+          &= 2i\sin(x)
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          Using these two equations, we can find alternative expressions for \(\cos(x)\) and \(\sin(x)\).
+        </p>
+        <div class="mj">
+          \[ \cos(x) = \frac{e^{ix} + e^{-ix}}{2} \]
+          \[ \sin(x) = \frac{e^{ix} - e^{-ix}}{2i} \]
+        </div>
+        <p class="ntm">
+          Interestingly, these forms for \(\sin(x)\) and \(\cos(x)\) resemble the definitions of the hyperbolic functions \(\sinh(x)\) and \(\cosh(x)\) (which I go over later in this unit).
+        </p>
+      </div>
+      <h3>Hyperbolic Functions</h3>
       <h3 class="section-header" id="hyperIntroHeader">
         <span class="bonus-color">Intro to Hyperbolic Functions</span> <button id="hyperIntroButton" onclick="showHide('hyperIntro')">Show</button>
       </h3>
@@ -23150,6 +23753,961 @@ console.log(total);
           <hr>
         </div>
       </div>
+      <h3>More Integration Techniques</h3>
+      <h3 class="section-header bonus-color" id="tabularIntHeader">
+        Integrals: Tabular Integration <button id="tabularIntButton" onclick="showHide('tabularInt')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="tabularInt">
+        <p>
+          In the <a href="#intPartsHeader" onclick="jumpTo('intParts')">Integration by Parts</a> section, we found the integral of \(x^2\sin(x)\), and that required us to use integration by parts twice. Let’s try a similar example, but with a higher exponent:
+        </p>
+        <p class="problem nbm">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int x^5\cos(x) \dd{x}\).
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = x^5} \]
+          \[ \class{blue}{\dd{v} = \cos(x)\dd{x}} \]
+          \[ \class{green}{\dd{u} = 5x^4\dd{x}} \]
+          \[ \class{purple}{v = \sin(x)} \]
+          \[ \begin{flalign}
+          \int x^5\cos(x) \dd{x} &= x^5\sin(x) - \int 5x^4\sin(x)\dd{x}\\
+          &= x^5\sin(x) - 5\int x^4\sin(x)\dd{x}\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          To evaluate this integral, we need to integrate \(x^4\sin(x)\):
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = x^4} \]
+          \[ \class{blue}{\dd{v} = \sin(x)\dd{x}} \]
+          \[ \class{green}{\dd{u} = 4x^3\dd{x}} \]
+          \[ \class{purple}{v = -\cos(x)} \]
+          \[ \begin{flalign}
+          \int x^4\sin(x) \dd{x} &= -x^4\cos(x) - \int -4x^3\cos(x)\dd{x}\\
+          &= -x^4\cos(x) + 4 \int x^3\cos(x)\dd{x}
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          To evaluate this integral, we need to integrate \(x^3\cos(x)\):
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = x^3} \]
+          \[ \class{blue}{\dd{v} = \cos(x)\dd{x}} \]
+          \[ \class{green}{\dd{u} = 3x^2\dd{x}} \]
+          \[ \class{purple}{v = \sin(x)} \]
+          \[ \begin{flalign}
+          \int x^3\cos(x) \dd{x} &= x^3\sin(x) - \int 3x^2\cos(x)\dd{x}\\
+          &= x^3\sin(x) -3\int x^2\cos(x)\dd{x}
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          And to evaluate this integral, we need to integrate \(x^2\cos(x)\)... this is going to take a really long time. Is there a faster way to solve integrals like these, where we need to use integration by parts many times?
+        </p>
+        <p>
+          It turns out there is, and it’s known as <strong>tabular integration</strong>. Here’s how it works:
+        </p>
+        <p>
+          Let’s look back at our original integral, \(\int x^5\cos(x)\dd{x}\). The first thing to do is to create a table:
+        </p>
+        <table>
+          <tr>
+            <th>\(n\)</th>
+            <th>\(n\)th Derivative of \(u\)</th>
+            <th>\(n\)th Integral of \(\dd{v}\)</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p>
+          Now imagine we’re integrating \(\int x^5\cos(x)\dd{x}\) by parts. In the first row (where \(n = 0\)), we put what our choices for \(u\) and \(\dd{v}\) would be. In this case, if we were to integrate by parts, we would choose \(u = x^5\) and \(\dd{v} = \cos(x) \dd{x}\). <span class="sn">(Note: we don’t need to put the \(\dd{x}\) in the table.)</span>
+        </p>
+        <table>
+          <tr>
+            <th>\(n\)</th>
+            <th>\(n\)th Derivative of \(u\)</th>
+            <th>\(n\)th Integral of \(\dd{v}\)</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>\(x^5\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+        </table>
+        <p>
+          Now we will add rows to this table. Each time we add a row, we differentiate our choice for \(u\) and integrate our choice for \(\dd{v}\). For example, here’s what the next row would look like:
+        </p>
+        <table>
+          <tr>
+            <th>\(n\)</th>
+            <th>\(n\)th Derivative of \(u\)</th>
+            <th>\(n\)th Integral of \(\dd{v}\)</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>\(x^5\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>\(5x^4\)</td>
+            <td>\(\sin(x)\)</td>
+          </tr>
+        </table>
+        <p class="sn">
+          \(5x^4\) is the derivative of \(x^5\) and \(\sin(x) + C\) is the indefinite integral of \(\cos(x)\) (we can ignore the \(+C\) when writing values in this table).
+        </p>
+        <p>
+          We keep adding rows to the table until \(u\) reaches 0. Here’s what that looks like:
+        </p>
+        <table>
+          <tr>
+            <th>\(n\)</th>
+            <th>\(n\)th Derivative of \(u\)</th>
+            <th>\(n\)th Integral of \(\dd{v}\)</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>\(x^5\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>\(5x^4\)</td>
+            <td>\(\sin(x)\)</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>\(20x^3\)</td>
+            <td>\(-\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>\(60x^2\)</td>
+            <td>\(-\sin(x)\)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>\(120x\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>\(120\)</td>
+            <td>\(\sin(x)\)</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>\(0\)</td>
+            <td>\(-\cos(x)\)</td>
+          </tr>
+        </table>
+        <p class="sn">
+          Each entry in the “\(n\)th Derivative of \(u\)” column is the derivative of the last entry, and each entry in the “\(n\)th Integral of \(\dd{v}\)” column is an antiderivative of the last entry.
+        </p>
+        <p>
+          Finally, we add one more column to the table which contains signs. For \(n = 0\), the sign is positive. For every row after that, we alternate the sign. For example, the row corresponding to \(n = 1\) has a negative sign, the \(n=2\) row is positive, etc. Here’s what the completed table looks like:
+        </p>
+        <table>
+          <tr>
+            <th>\(n\)</th>
+            <th>Sign</th>
+            <th>\(n\)th Derivative of \(u\)</th>
+            <th>\(n\)th Integral of \(\dd{v}\)</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>\(\class{green}{+}\)</td>
+            <td>\(x^5\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>\(\class{red}{-}\)</td>
+            <td>\(5x^4\)</td>
+            <td>\(\sin(x)\)</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>\(\class{green}{+}\)</td>
+            <td>\(20x^3\)</td>
+            <td>\(-\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>\(\class{red}{-}\)</td>
+            <td>\(60x^2\)</td>
+            <td>\(-\sin(x)\)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>\(\class{green}{+}\)</td>
+            <td>\(120x\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>\(\class{red}{-}\)</td>
+            <td>\(120\)</td>
+            <td>\(\sin(x)\)</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>\(\class{green}{+}\)</td>
+            <td>\(0\)</td>
+            <td>\(-\cos(x)\)</td>
+          </tr>
+        </table>
+        <p>
+          This table now has all the information we need to get our answer for the indefinite integral of \(x^5\cos(x)\). First, we take the sign listed on the first row (the row corresponding to \(n = 0\)), the derivative of \(u\) listed on the first row, and the integral of \(\dd{v}\) listed on the second row, and multiply these three together. In this case, that would be \(+x^5\sin(x)\).
+        </p>
+        <p>
+          Then, we take the sign listed on the second row, the derivative of \(u\) listed on the second row, and the integral of \(\dd{v}\) listed on the third row. That would be \(-[-5x^4\cos(x)]\) in this example. We take this expression and add it to our previous result of \(x^5\sin(x)\).
+        </p>
+        <p>
+          We keep adding these terms until we reach the end of the table. Here is what our final result looks like:
+        </p>
+        <table>
+          <tr>
+            <th>\(n\)</th>
+            <th>Sign</th>
+            <th>\(n\)th Derivative of \(u\)</th>
+            <th>\(n\)th Integral of \(\dd{v}\)</th>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>\(\class{red}{+}\)</td>
+            <td>\(\class{red}{x^5}\)</td>
+            <td>\(\cos(x)\)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>\(\class{blue}{-}\)</td>
+            <td>\(\class{blue}{5x^4}\)</td>
+            <td>\(\class{red}{\sin(x)}\)</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>\(\class{green}{+}\)</td>
+            <td>\(\class{green}{20x^3}\)</td>
+            <td>\(\class{blue}{-\cos(x)}\)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>\(\class{purple}{-}\)</td>
+            <td>\(\class{purple}{60x^2}\)</td>
+            <td>\(\class{green}{-\sin(x)}\)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>\(\class{teal}{+}\)</td>
+            <td>\(\class{teal}{120x}\)</td>
+            <td>\(\class{purple}{\cos(x)}\)</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>\(\class{magenta}{-}\)</td>
+            <td>\(\class{magenta}{120}\)</td>
+            <td>\(\class{teal}{\sin(x)}\)</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>\(+\)</td>
+            <td>\(0\)</td>
+            <td>\(\class{magenta}{-\cos(x)}\)</td>
+          </tr>
+        </table>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int x^5\cos(x) \dd{x} &= \class{red}{+ x^5\sin(x)} \class{blue}{- [-5x^4\cos(x)]} \class{green}{+ [-20x^3\sin(x)]} \class{purple}{- 60x^2\cos(x)} \class{teal}{+ 120x\sin(x)} \class{magenta}{- [-120\cos(x)]} + C\\
+          &= x^5\sin(x) + 5x^4\cos(x) - 20x^3\sin(x) - 60x^2\cos(x) + 120x\sin(x) + 120\cos(x) + C
+          \end{flalign}\]
+        </div>
+      </div>
+      <h3 class="section-header bonus-color" id="partialFraction2Header">
+        Integrating Rational Functions: More Partial Fraction Decomposition <button id="partialFraction2Button" onclick="showHide('partialFraction2')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="partialFraction2">
+        <p>
+          This section features partial fraction decomposition examples that are more advanced than the ones we’ve done before.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{3x^2-9x+14}{(x-4)(x^2+2x+2)}\dd{x}\).
+        </p>
+        <p class="nbm">
+          Notice how we have a quadratic term in the denominator that can’t be factored. When this is the case, our partial fraction decomposition will contain a term with a linear numerator and quadratic denominator (i.e. the numerator will be of the form \(Ax+B\), where \(A\) and \(B\) are constants we don’t know yet). Here’s what that looks like:
+        </p>
+        <div class="mj">
+          \[ \frac{3x^2-9x+14}{(x-4)(x^2+2x+2)} = \frac{A}{x-4} + \frac{Bx+C}{x^2+2x+2} \]
+        </div>
+        <p class="ntm sn">
+          Notice the \(\frac{Bx+C}{x^2+2x+2}\) term: this is here because we have a quadratic term in the denominator that we can’t factor.
+        </p>
+        <p class="nbm">
+          We can find the values of \(A\), \(B\), and \(C\) by simplifying the right-hand side to have a common denominator, then multiplying both sides by that denominator.
+        </p>
+        <div class="mj">
+          \[ \frac{3x^2-9x+14}{(x-4)(x^2+2x+2)} = \frac{A(x^2+2x+2) + (Bx+C)(x-4)}{(x-4)(x^2+2x+2)} \]
+          \[ 3x^2-9x+14 = A(x^2+2x+2) + (Bx+C)(x-4) \]
+        </div>
+        <p class="ntm">
+          There are two strategies we can use here to find the unknown constants.
+        </p>
+        <p class="nm bold large-text">
+          Strategy 1: Solving a system of equations
+        </p>
+        <p class="nbm">
+          First, we distribute the right-hand side, then set the coefficients equal to each other to create a system of equations.
+        </p>
+        <div class="mj">
+          \[ 3x^2-9x+14 = A(x^2+2x+2) + (Bx+C)(x-4) \]
+          \[ 3x^2-9x+14 = Ax^2+2Ax+2A+Bx^2-4Bx+Cx-4C \]
+          \[ 3x^2-9x+14 = (A+B)x^2 + (2A-4B+C)x + 2A-4C \]
+        </div>
+        <p class="nm">
+          Here is the system of equations we need to solve:
+        </p>
+        <div class="mj">
+          \[ A + B = 3 \]
+          \[ 2A-4B+C = -9 \]
+          \[ 2A-4C = 14\]
+        </div>
+        <p class="ntm">
+          The solution to this system of equations is \(A = 1\), \(B = 2\), and \(C = -3\).
+        </p>
+        <p class="nm bold large-text">
+          Strategy 2: Using a shortcut
+        </p>
+        <p class="nbm">
+          Let’s go back to this equation we had before:
+        </p>
+        <div class="mj">
+          \[ 3x^2-9x+14 = A(x^2+2x+2) + (Bx+C)(x-4) \]
+        </div>
+        <p class="nm">
+          Notice that if we choose \(x = 4\), then the \((Bx+C)(x-4)\) term will equal zero, allowing us to directly solve for \(A\).
+        </p>
+        <div class="mj">
+          \[ 3(4)^2-9(4)+14 = A(4^2+2(4)+2) + (B(4)+C)(4-4) \]
+          \[ 26 = 26A \]
+          \[ A = 1\]
+        </div>
+        <p class="nm">
+          Let’s plug this value of \(A\) back into our equation:
+        </p>
+        <div class="mj">
+          \[ 3x^2-9x+14 = A(x^2+2x+2) + (Bx+C)(x-4) \]
+          \[ 3x^2-9x+14 = x^2+2x+2 + (Bx+C)(x-4) \]
+          \[ 2x^2-11x+12 = (Bx+C)(x-4) \]
+        </div>
+        <p class="nm">
+          There are two ways we can proceed for here. The first way is to factor the left-hand side, allowing us to directly solve for \(B\) and \(C\):
+        </p>
+        <div class="mj">
+          \[ (2x-3)(x-4) = (Bx+C)(x-4) \]
+          \[ Bx+C = 2x-3 \]
+          \[ B = 2 \]
+          \[ C = -3 \]
+        </div>
+        <p class="nm">
+          The second way is to realize that if we plug in \(x = 0\), then the variable \(B\) will disappear from the equation, allowing us to solve for \(C\).
+        </p>
+        <div class="mj">
+          \[ 2x^2-11x+12 = (Bx+C)(x-4) \]
+          \[ 2(0)^2-11(0)+12 = (B(0)+C)(0-4) \]
+          \[ 12 = -4C \]
+          \[ C = -3 \]
+        </div>
+        <p class="nm">
+          Now we are left with:
+        </p>
+        <div class="mj">
+          \[ 2x^2-11x+12 = (Bx-3)(x-4) \]
+        </div>
+        <p class="nm">
+          Now we can plug in any value of \(x\) except \(x = 0\) to solve for \(B\). Let’s use \(x = 1\) to keep things simple:
+        </p>
+        <div class="mj">
+          \[ 2(1)^2-11(1)+12 = (B(1)-3)(1-4) \]
+          \[ 3 = -3(B-3) \]
+          \[ -1 = B-3 \]
+          \[ B = 2 \]
+        </div>
+        <p class="ntm">
+          Therefore, \(A = 1\), \(B = 2\), and \(C = -3\).
+        </p>
+        <p class="nbm">
+          This means that our partial fraction decomposition is:
+        </p>
+        <div class="mj">
+          \[ \frac{3x^2-9x+14}{(x-4)(x^2+2x+2)} = \frac{A}{x-4} + \frac{Bx+C}{x^2+2x+2} \]
+          \[ \frac{3x^2-9x+14}{(x-4)(x^2+2x+2)} = \frac{1}{x-4} + \frac{2x-3}{x^2+2x+2} \]
+        </div>
+        <p class="nm">
+          Now it’s time to start integrating this function!
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{3x^2-9x+14}{(x-4)(x^2+2x+2)}\dd{x} &= \int\left(\frac{1}{x-4} + \frac{2x-3}{x^2+2x+2}\right)\dd{x}\\
+          &= \int\frac{1}{x-4}\dd{x} + \int\frac{2x-3}{x^2+2x+2}\dd{x}\\
+          &= \ln|x-4| + \int\frac{2x-3}{x^2+2x+2}\dd{x}\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          For the remaining integral, we need to complete the square on the denominator.
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{2x-3}{x^2+2x+2}\dd{x} &= \int \frac{2x-3}{(x^2+2x+1)+1}\dd{x}\\
+          &= \int \frac{2x-3}{(x+1)^2+1}\dd{x}\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          Now, we can use the substitutions \(u = x+1\) and \(x = u-1\) to turn this into an arctangent integral.
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{2x-3}{x^2+2x+2}\dd{x} &= \int \frac{2x-3}{(x+1)^2+1}\dd{x}\\
+          &= \int \frac{2(u-1)-3}{u^2+1}\dd{u}\\
+          &= \int \frac{2u-5}{u^2+1}\dd{u}\\
+          &= \int \frac{2u}{u^2+1}\dd{u} - \int \frac{5}{u^2+1}\dd{u}\\
+          &= \ln|u^2+1| - 5\arctan(u) + C\\
+          &= \ln(u^2+1) - 5\arctan(u) + C\\
+          &= \ln((x+1)^2+1) - 5\arctan(x+1) + C\\
+          &= \ln(x^2+2x+2) - 5\arctan(x+1) + C
+          \end{flalign} \]
+        </div>
+        <p class="ntm sn">
+          \(u^2+1\) is always positive, so we can remove the absolute value bars.
+        </p>
+        <p class="nbm">
+          We are finally ready to write down the full answer to our original integral:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \frac{3x^2-9x+14}{(x-4)(x^2+2x+2)}\dd{x} &= \ln|x-4| + \int\frac{2x-3}{x^2+2x+2}\dd{x}\\
+          &= \ln|x-4| + \ln(x^2+2x+2) - 5\arctan(x+1) + C
+          \end{flalign} \]
+        </div>
+        <p class="ntm problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{9x^2+11x-18}{(x-3)(x+1)^2}\dd{x}\).
+        </p>
+        <p class="nbm">
+          This problem is different because we have a squared term, \((x+1)^2\), in the denominator. In this case, the partial fraction decomposition is:
+        </p>
+        <div class="mj">
+          \[ \frac{9x^2+11x-18}{(x-3)(x+1)^2} = \frac{A}{x-3} + \frac{B}{x+1} + \frac{C}{(x+1)^2} \]
+        </div>
+        <p class="ntm">
+          Notice how we have two partial fraction terms for the \((x+1)^2\) term. When we have a term of the form \((ax+b)^2\), we need to add two terms for the partial fraction decomposition: one with a denominator of \(ax+b\) and another with a denominator of \((ax+b)^2\).
+        </p>
+        <p class="nbm">
+          Now let’s solve for the values of \(A\), \(B\), and \(C\).
+        </p>
+        <div class="mj">
+          \[ \frac{9x^2+11x-18}{(x-3)(x+1)^2} = \frac{A(x+1)^2}{(x-3)(x+1)^2} + \frac{B(x-3)(x+1)}{(x-3)(x+1)^2} + \frac{C(x-3)}{(x-3)(x+1)^2}\]
+          \[ 9x^2+11x-18 = A(x+1)^2 + B(x-3)(x+1) + C(x-3) \]
+        </div>
+        <p class="ntm">
+          To find the values of \(A\), \(B\), and \(C\), we could set up a system of equations. For simplicity, I’m not going to go over this method this time, and instead just jump straight to the shortcut method.
+        </p>
+        <p class="nbm">
+          If we plug in \(x = -1\), then the coefficients of \(A\) and \(B\) will become 0, allowing us to solve for \(C\):
+        </p>
+        <div class="mj">
+          \[ 9(-1)^2+11(-1)-18 = A((-1)+1)^2 + B((-1)-3)((-1)+1) + C((-1)-3) \]
+          \[ -20 = A(0) + B(-4)(0) + C(-4) \]
+          \[ -20 = -4C \]
+          \[ C = 5 \]
+        </div>
+        <p class="nm">
+          If we plug in \(x = 3\), then we can solve for \(A\) directly:
+        </p>
+        <div class="mj">
+          \[ 9(3)^2+11(3)-18 = A(3+1)^2 + B(3-3)(3+1) + C(3-3) \]
+          \[ 96 = A(16) + B(0)(4) + C(0) \]
+          \[ 96 = 16A \]
+          \[ A = 6 \]
+        </div>
+        <p class="nm">
+          Finally, to solve for \(B\), we just plug in the values we found for \(A\) and \(C\):
+        </p>
+        <div class="mj">
+          \[ 9x^2+11x-18 = A(x+1)^2 + B(x-3)(x+1) + C(x-3) \]
+          \[ 9x^2 + 11x - 18 = 6(x+1)^2 + B(x-3)(x+1) + 5(x-3) \]
+          \[ 9x^2 + 11x - 18 = (6x^2+12x+6) + B(x^2-2x-3) + (5x-15) \]
+          \[ 9x^2 + 11x - 18 = (6x^2+17x-9) + B(x^2-2x-3) \]
+          \[ 3x^2 - 6x - 9 = B(x^2-2x-3) \]
+          \[ B = 3 \]
+        </div>
+        <p class="nm">
+          So our partial fraction decomposition is:
+        </p>
+        <div class="mj">
+          \[ \frac{9x^2+11x-18}{(x-3)(x+1)^2} = \frac{A}{x-3} + \frac{B}{x+1} + \frac{C}{(x+1)^2} \]
+          \[ \frac{9x^2+11x-18}{(x-3)(x+1)^2} = \frac{6}{x-3} + \frac{3}{x+1} + \frac{5}{(x+1)^2} \]
+        </div>
+        <p class="nm">
+          We can integrate this relatively easily now:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\frac{9x^2+11x-18}{(x-3)(x+1)^2}\dd{x} &= \int\left(\frac{6}{x-3} + \frac{3}{x+1} + \frac{5}{(x+1)^2}\right)\dd{x}\\
+          &= \int\frac{6}{x-3}\dd{x} + \int\frac{3}{x+1}\dd{x} + \int\frac{5}{(x+1)^2}\dd{x}\\
+          &= 6\ln|x-3| + 3\ln|x+1| + \int\frac{5}{(x+1)^2}\dd{x}\\
+          &= 6\ln|x-3| + 3\ln|x+1| + \int\frac{5}{u^2}\dd{u} \quad (u = x+1)\\
+          &= 6\ln|x-3| + 3\ln|x+1| - \frac{5}{u} + C\\
+          &= 6\ln|x-3| + 3\ln|x+1| - \frac{5}{x+1} + C\\
+          \end{flalign} \]
+        </div>
+      </div>
+      <h3 class="section-header" id="recursiveIntHeader">
+        <span class="bonus-color">Integrals: Recursive Formulas for Integrals</span> <button id="recursiveIntButton" onclick="showHide('recursiveInt')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="recursiveInt">
+        <p>
+          In the <a href="#otherTrigIntHeader" onclick="jumpTo('otherTrigInt')">Integrals of Other Trig Functions</a> section, I went over the integral of \(\tan^3(x)\), and it turned out that we needed to use the integral of \(\tan(x)\) in our work. What about the integral of \(\tan^5(x)\)?
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\tan^5(x) \dd{x}\).
+        </p>
+        <p class="nbm">
+          We can evaluate this integral in a very similar way to how we did \(\int\tan^3(x)\dd{x}\): by factoring out \(\tan^2(x)\), then converting it to \(\sec^2(x) - 1\).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \tan^5(x) \dd{x} &= \int \tan^2(x)\tan^3(x) \dd{x}\\
+          &= \int [\sec^2(x) - 1]\tan^3(x) \dd{x}\\
+          &= \int \sec^2(x)\tan^3(x) - \tan^3(x)\dd{x}\\
+          &= \int \sec^2(x)\tan^3(x) \dd{x} - \int\tan^3(x)\dd{x}\\
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          The first integral can be solved with a relatively simple \(u\)-substitution, with \(u = \tan(x)\):
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \sec^2(x)\tan^3(x) \dd{x} &= \int u^3 \dd{u}\\
+          &= \frac{1}{4}u^4 + C\\
+          &= \frac{1}{4}\tan^4(x) + C
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          Therefore:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \tan^5(x) \dd{x} = \frac{1}{4}\tan^4(x) - \int\tan^3(x)\dd{x}\\
+          \end{flalign}\]
+        </div>
+        <p>
+          That’s right: the integral of \(\tan^5(x)\) requires us to know the integral of \(\tan^3(x)\). We previously found \(\int\tan^3(x)\dd{x}\), so let’s substitute our answer for that:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \tan^5(x) \dd{x} &= \frac{1}{4}\tan^4(x) - \int\tan^3(x)\dd{x}\\
+          &= \frac{1}{4}\tan^4(x) - \left(\frac{1}{2}\tan^2(x) - \ln\lvert\sec(x)\rvert + C\right)\\
+          &= \frac{1}{4}\tan^4(x) - \frac{1}{2}\tan^2(x) + \ln\lvert\sec(x)\rvert + C
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          So we’ve found that the integral of \(\tan^5(x)\) is related to the integral of \(\tan^3(x)\), and the integral of \(\tan^3(x)\) is related to the integral of \(\tan(x)\). What about the integral of \(\tan^7(x)\)? 
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Can \(\displaystyle\int\tan^7(x)\dd{x}\) be written in terms of \(\displaystyle\int\tan^5(x)\dd{x}\)?
+        </p>
+        <p class="nbm">
+          I’m going to skip the first few steps, but we can find that:
+        </p>
+        <div class="mj">
+          \[ \int \tan^7(x) \dd{x} = \frac{1}{6}\tan^6(x) - \int\tan^5(x)\dd{x}\]
+        </div>
+        <p class="nm">
+          So it seems that many integrals of the form \(\tan^n(x)\) are related to the integrals of \(\tan^{n-2}(x)\).
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Can \(\displaystyle\int\tan^{n}(x)\dd{x}\) for any integer \(n \ge 2\) be written in terms of \(\displaystyle\int\tan^{n-2}(x)\dd{x}\)?
+        </p>
+        <p class="nbm">
+          We can integrate \(\tan^n(x)\) the same way we integrated \(\tan^3(x)\) and \(\tan^5(x)\), by factoring out \(\tan^2(x)\):
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\tan^n(x) \dd{x} &= \int \tan^2(x)\tan^{n-2}(x) \dd{x}\\
+          &= \int [\sec^2(x) - 1]\tan^{n-2}(x) \dd{x}\\
+          &= \int \sec^2(x)\tan^{n-2}(x) - \tan^{n-2}(x) \dd{x}\\
+          &= \int \sec^2(x)\tan^{n-2}(x)\dd{x} - \int\tan^{n-2}(x) \dd{x}\\
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          We can do the first integral with the substitution \(u = \tan(x)\):
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \sec^2(x)\tan^{n-2}(x)\dd{x} &= \int u^{n-2}\dd{u}\\
+          &= \frac{u^{n-1}}{n-1} + C\\
+          &= \frac{\tan^{n-1}(x)}{n-1} + C
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          Therefore:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\tan^n(x) \dd{x} &= \int \sec^2(x)\tan^{n-2}(x)\dd{x} - \int\tan^{n-2}(x) \dd{x}\\
+          &= \frac{\tan^{n-1}(x)}{n-1} - \int\tan^{n-2}(x)\dd{x}
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          This is known as a <strong>recursive formula</strong> or <strong>reduction formula</strong> for an integral. Note that this recursive formula only works for \(n \ge 2\), so to fully use this formula, we also need to know that \(\int\tan(x)\dd{x} = \ln\lvert\sec(x)\rvert + C\).
+        </p>
+        <p>
+          For example, using this formula, we can find that \(\int\tan^{10}(x)\dd{x} = \frac{\tan^{9}(x)}{9} - \int \tan^8(x) \dd{x}\). We can use the recursive formula again to simplify \(\int\tan^8(x)\dd{x}\) down to something involving \(\int\tan^6(x)\dd{x}\), then we can use the recursive formula again on \(\int\tan^6(x)\dd{x}\), and so on, until we reach \(\int\tan^0(x)\dd{x} = \int 1\dd{x}\), which is simply \(x + C\).
+        </p>
+        <p>
+          Here’s another example:
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Find a recursive formula for \(\displaystyle\int[\ln(x)]^n\dd{x}\).
+        </p>
+        <p class="nbm">
+          To find this recursive formula, we can use integration by parts with \(\dd{v} = 1 \dd{x}\), similarly to how we would integrate \(\ln(x)\).
+        </p>
+        <div class="mj">
+          \[ \class{red}{u = [\ln(x)]^n} \]
+          \[ \class{blue}{\dd{v} = 1 \dd{x}} \]
+          \[ \class{green}{\dd{u} = \frac{n[\ln(x)]^{n-1}}{x} \dd{x}} \]
+          \[ \class{purple}{v = x} \]
+          \[ \begin{flalign}
+          \displaystyle\int[\ln(x)]^n\dd{x} &= \class{red}{[\ln(x)]^n}\cdot\class{purple}{x} - \int \class{purple}{x}\cdot\class{green}{\frac{n[\ln(x)]^{n-1}}{x} \dd{x}}\\
+          &= x[\ln(x)]^n - \int n[\ln(x)]^{n-1}\dd{x}\\
+          &= x[\ln(x)]^n - n\int [\ln(x)]^{n-1}\dd{x}
+          \end{flalign}\]
+        </div>
+        <p class="ntm sn">
+          We can take out the \(n\) from the integral because it’s a constant when we’re integrating with respect to \(x\).
+        </p>
+        <p>
+          This formula works for \(n \ge 1\). For example, \(\int[\ln(x)]^{10}\dd{x} = x[\ln(x)]^{10} - 10 \int [\ln(x)]^9 \dd{x}\).
+        </p>
+      </div>
+      <h3 class="section-header bonus-color" id="hyperSubHeader">
+        Integrals: Hyperbolic Substitution <button id="hyperSubButton" onclick="showHide('hyperSub')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="hyperSub">
+        <p>
+          We’ve seen trigonometric substitution, where we use a substitution involving a trig function to simplify a term involving a square root. We can do something very similar using the hyperbolic functions, and it’s known as <strong>hyperbolic substitution</strong>.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\frac{1}{\sqrt{4+25x^2}}\dd{x}\).
+        </p>
+        <p class="nbm">
+          We need to find a substitution that will simplify \(\sqrt{4+25x^2}\) down to a simpler term. To do that, we need to use this identity involving hyperbolic functions:
+        </p>
+        <div class="mj">
+          \[ \cosh^2(t) - \sinh^2(t) = 1 \]
+          \[ \cosh^2(t) = 1 + \sinh^2(t) \]
+        </div>
+        <p class="ntm">
+          If we can turn the \(4+25x^2\) term into \(4+4\sinh^2(t)\), then we can turn that into \(4\cosh^2(t)\). What substitution could we use to turn \(4+25x^2\) into \(4+4\sinh^2(t)\)?          
+        </p>
+        <p class="nbm">
+          The substitution \(x = \frac{2}{5}\sinh(t)\) does exactly that. Let’s see what happens when we use this substitution:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\frac{1}{\sqrt{4+25x^2}}\dd{x} &= \int\frac{1}{\sqrt{4+25\left[\frac{2}{5}\sinh(t)\right]^2}}\dd{x}\\
+          &= \int\frac{1}{\sqrt{4+25\left[\frac{4}{25}\sinh^2(t)\right]}}\dd{x}\\
+          &= \int\frac{1}{\sqrt{4+4\sinh^2(t)}}\dd{x}\\
+          &= \int\frac{1}{\sqrt{4[1+\sinh^2(t)]}}\dd{x}\\
+          &= \int\frac{1}{\sqrt{4\cosh^2(t)}}\dd{x}\\
+          &= \int\frac{1}{|2\cosh(t)|}\dd{x}\\
+          &= \int\frac{1}{2\cosh(t)}\dd{x}\\
+          \end{flalign}\]
+        </div>
+        <p class="ntm sn">
+          \(\cosh(t)\) is positive for any \(t\), so we can get rid of the absolute value bars.
+        </p>
+        <p class="nbm">
+          Now we need to find an expression for \(\dd{x}\) in terms of \(\dd{t}\) so we can integrate with respect to \(t\). We can do that by differentiating our substitution \(x = \frac{2}{5}\sinh(t)\):
+        </p>
+        <div class="mj">
+          \[ x = \frac{2}{5}\sinh(t) \]
+          \[ \dv{x}{t} = \frac{2}{5}\cosh(t) \]
+          \[ \dd{x} = \frac{2}{5}\cosh(t) \dd{t} \]
+        </div>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\frac{1}{\sqrt{4+25x^2}}\dd{x} &= \int\frac{1}{2\cosh(t)}\dd{x}\\
+          &= \int\frac{1}{2\cosh(t)}\left(\frac{2}{5}\cosh(t)\right)\dd{t}\\
+          &= \int\frac{1}{\cosh(t)}\left(\frac{1}{5}\cosh(t)\right)\dd{t}\\
+          &= \frac{1}{5}\int\frac{\cosh(t)}{\cosh(t)}\dd{t}\\
+          &= \frac{1}{5}\int 1\dd{t}\\
+          &= \frac{1}{5}t + C
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          To get our answer in terms of \(x\), we need to find an expression for \(t\) in terms of \(x\). We can do that using our original definition of \(x\) in terms of \(t\):
+        </p>
+        <div class="mj">
+          \[ x = \frac{2}{5}\sinh(t) \]
+          \[ \frac{5}{2}x = \sinh(t) \]
+          \[ t = \operatorname{arsinh}\left(\frac{5}{2}x\right) \]
+        </div>
+        <p class="ntm sn">
+          \(\operatorname{arsinh}\) represents the inverse hyperbolic sine function, also denoted by \(\sinh^{-1}\).
+        </p>
+        <p class="nbm">
+          Using this, we can get our final answer for the integral:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\frac{1}{\sqrt{1+25x^2}}\dd{x} &= \frac{1}{5}t + C\\
+          &= \frac{1}{5}\operatorname{arsinh}\left(\frac{5}{2}x\right) + C
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          If we want, we can use the definition of inverse hyperbolic sine to write our integral in terms of the natural logarithm:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int\frac{1}{\sqrt{1+25x^2}}\dd{x} &= \frac{1}{5}\operatorname{arsinh}\left(\frac{5}{2}x\right) + C\\
+          &= \frac{1}{5}\ln\left(\frac{5}{2}x + \sqrt{\left(\frac{5}{2}x\right)^2+1}\right) + C\\
+          &= \frac{1}{5}\ln\left(\frac{5}{2}x + \sqrt{\frac{25}{4}x^2+1}\right) + C
+          \end{flalign} \]
+        </div>
+        <p class="ntm">
+          Here is a table of hyperbolic substitutions that we can use:
+        </p>
+        <div class="table-div">
+          <table>
+            <tr>
+              <th>Form</th>
+              <th>Substitution</th>
+              <th>Identity</th>
+            </tr>
+            <tr>
+              <td>\(\sqrt{\class{blue}{b}^2x^2 - \class{red}{a}^2}\)</td>
+              <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\cosh(t)\)</td>
+              <td>\(\cosh^2(t) - 1 = \sinh^2(t)\)</td>
+            </tr>
+            <tr>
+              <td>\(\sqrt{\class{blue}{b}^2x^2 + \class{red}{a}^2}\)</td>
+              <td>\(x = \displaystyle\frac{\class{red}{a}}{\class{blue}{b}}\sinh(t)\)</td>
+              <td>\(\sinh^2(t) + 1 = \cosh^2(t)\)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <h3 class="section-header bonus-color" id="inverseIntHeader">
+        Integrals: Integrating Inverse Functions <button id="inverseIntButton" onclick="showHide('inverseInt')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="inverseInt">
+        <p class="nbm">
+          Here’s an interesting formula for integrating inverse functions:
+        </p>
+        <div class="mj">
+          \[ \int f^{-1}(x) \dd{x} = xf^{-1}(x) - F(f^{-1}(x)) + C \]
+        </div>
+        <p class="ntm sn">
+          In this formula, \(f^{-1}(x)\) is the inverse of \(f(x)\), and \(F(x)\) is an antiderivative of \(f(x)\) (i.e. \(F'(x) = f(x)\)).
+        </p>
+        <p>
+          Try differentiating both sides to confirm that this formula is true!
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\ln(x)\dd{x}\) using this formula.
+        </p>
+        <p class="nbm">
+          Here, the function we are integrating is \(\ln(x)\), so we need to set \(f^{-1}(x) = \ln(x)\). This means that \(f(x) = e^x\), since \(f(x)\) and \(f^{-1}(x)\) are inverses and \(e^x\) is the inverse of \(\ln(x)\). \(F(x)\) is an antiderivative of \(f(x)\), which in this case can simply be \(e^x\).
+        </p>
+        <div class="mj">
+          \[ f^{-1}(x) = \ln(x) \]
+          \[ f(x) = e^x \]
+          \[ F(x) = e^x \]
+        </div>
+        <p class="nm">
+          Now we just plug these values into the formula:
+        </p>
+        <div class="mj">
+          \[ \int f^{-1}(x) \dd{x} = xf^{-1}(x) - F(f^{-1}(x)) + C \]
+          \[ \begin{flalign}
+          \int \ln(x) \dd{x} &= x\ln(x) - e^{\ln(x)} + C\\
+          &= x\ln(x) - x + C
+          \end{flalign} \]
+        </div>
+        <p class="ntm problem">
+          <strong>Problem</strong>: Evaluate \(\displaystyle\int\arcsin(x)\dd{x}\) using this formula.
+        </p>
+        <p class="nbm">
+          Once again, we set \(f^{-1}(x)\) to the function we are integrating (in this case \(\arcsin(x)\)). Then we set \(f(x)\) to the inverse of this function (in this case \(\sin(x)\)), then set \(F(x)\) to an antiderivative of \(f(x)\) (in this case, an antiderivative of \(\sin(x)\) is \(-\cos(x)\)).
+        </p>
+        <div class="mj">
+          \[ f^{-1}(x) = \arcsin(x) \]
+          \[ f(x) = \sin(x) \]
+          \[ F(x) = -\cos(x) \]
+          \[ \int f^{-1}(x) \dd{x} = xf^{-1}(x) - F(f^{-1}(x)) + C \]
+          \[ \begin{flalign}
+          \int \arcsin(x) \dd{x} &= x\arcsin(x) - [-\cos(\arcsin(x))] + C\\
+          &= x\arcsin(x) + \cos(\arcsin(x)) + C\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          We can simplify \(\cos(\arcsin(x))\) a little bit more. To do that, we use the Pythagorean identity \(\sin^2(\theta) + \cos^2(\theta) = 1\) with \(\theta = \arcsin(x)\), then solve for \(\cos(\arcsin(x))\):
+        </p>
+        <div class="mj">
+          \[ \sin^2(\theta) + \cos^2(\theta) = 1 \]
+          \[ \sin^2(\arcsin(x)) + \cos^2(\arcsin(x)) = 1 \]
+          \[ x^2 + \cos^2(\arcsin(x)) = 1 \]
+          \[ \cos^2(\arcsin(x)) = 1 - x^2 \]
+          \[ \cos(\arcsin(x)) = \sqrt{1 - x^2} \]
+        </div>
+        <p class="nm">
+          Therefore, our final integral is:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \arcsin(x) \dd{x} &= x\arcsin(x) + \cos(\arcsin(x)) + C\\
+          &= x\arcsin(x) + \sqrt{1-x^2} + C
+          \end{flalign} \]
+        </div>
+      </div>
+      <h3 class="section-header bonus-color" id="eulerIntHeader">
+        Integrals: Integration Using Euler’s Formula <button id="eulerIntButton" onclick="showHide('eulerInt')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="eulerInt">
+        <p>
+          In the <a href="#complexTrigHeader" onclick="jumpTo('complexTrig')">Complex Forms of \(\sin(x)\) and \(\cos(x)\)</a> section, I’ve shown how \(\sin(x)\) and \(\cos(x)\) can be written in terms of complex exponents. It turns out, we can use this as an alternative way to evaluate integrals involving trig functions!
+        </p>
+        <p class="nbm">
+          Before we start, here’s one important formula to know:
+        </p>
+        <div class="mj">
+          \[ \int e^{ax}\dd{x} = \frac{e^{ax}}{a} + C\]
+        </div>
+        <p class="ntm">
+          This can be derived using \(u\)-substitution, and it even works if \(a\) is a complex number!
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Integrate \(\displaystyle\int\sin^2(x)\dd{x}\) using complex numbers.
+        </p>
+        <p class="nbm">
+          To do this, we can use the complex formula for \(\sin(x)\): \(\sin(x) = \displaystyle\frac{e^{ix} - e^{-ix}}{2i}\).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \sin^2(x) \dd{x} &= \int \left(\frac{e^{ix} - e^{-ix}}{2i}\right)^2\\
+          &= \int \frac{(e^{ix})^2 - 2e^{ix}e^{-ix} + (e^{-ix})^2}{4i^2} \dd{x}\\
+          &= \int \frac{e^{2ix} - 2 + e^{-2ix}}{-4} \dd{x}\\
+          &= -\frac{1}{4}\int (e^{2ix} - 2 + e^{-2ix}) \dd{x}\\
+          &= -\frac{1}{4}\left(\frac{e^{2ix}}{2i} - 2x + \frac{e^{-2ix}}{-2i}\right) + C\\
+          &= -\frac{1}{4}\left(\frac{e^{2ix}}{2i} - \frac{e^{-2ix}}{2i} - 2x\right) + C\\
+          &= -\frac{1}{4}\left(\frac{e^{2ix} - e^{-2ix}}{2i} - 2x\right) + C\\
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          Notice that we have \(\displaystyle\frac{e^{2ix} - e^{-2ix}}{2i} = \frac{e^{i(\class{red}{2x})} - e^{-i(\class{red}{2x})}}{2i}\) here: this is equal to \(\sin(\class{red}{2x})\) using the complex formula for sine.
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \sin^2(x) \dd{x} &= -\frac{1}{4}\left(\frac{e^{2ix} - e^{-2ix}}{2i} - 2x\right) + C\\
+          &= -\frac{1}{4}\left(\sin(2x) - 2x\right) + C\\
+          &= -\frac{1}{4}\sin(2x) + \frac{1}{2}x + C\\
+          &= \frac{1}{2}x - \frac{1}{4}\sin(2x) + C
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          Here’s a tougher problem that will require more work:
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Integrate \(\displaystyle\int\cos^2(x)\sin(2x)\dd{x}\) using complex numbers.
+        </p>
+        <p class="nm">
+          Here, we need to use both the formulas \(\cos(x) = \displaystyle\frac{e^{ix} + e^{-ix}}{2}\) and \(\sin(x) = \displaystyle\frac{e^{ix} - e^{-ix}}{2i}\). 
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int \cos^2(x)\sin(2x) \dd{x} &= \int \left(\frac{e^{ix} + e^{-ix}}{2}\right)^2 \cdot \frac{e^{2ix} - e^{-2ix}}{2i}\dd{x}\\
+          &= \int \left(\frac{e^{2ix} + 2e^{ix}e^{-ix} + e^{-2ix}}{4}\right) \cdot \frac{e^{2ix} - e^{-2ix}}{2i} \dd{x}\\
+          &= \int \left(\frac{e^{2ix} + 2 + e^{-2ix}}{4}\right) \cdot \frac{e^{2ix} - e^{-2ix}}{2i} \dd{x}\\
+          &= \int \frac{e^{2ix}e^{2ix} - e^{-2ix}e^{2ix} + 2e^{2ix} - 2e^{-2ix} + e^{2ix}e^{-2ix} - e^{-2ix}e^{-2ix}}{8i} \dd{x}\\
+          &= \int \frac{e^{4ix} - 1 + 2e^{2ix} - 2e^{-2ix} + 1 - e^{-4ix}}{8i} \dd{x}\\
+          &= \int \frac{e^{4ix} + 2e^{2ix} - 2e^{-2ix} - e^{-4ix}}{8i} \dd{x}\\
+          &= \frac{1}{8i}\int (e^{4ix} + 2e^{2ix} - 2e^{-2ix} - e^{-4ix}) \dd{x}\\
+          &= \frac{1}{8i}\left(\frac{e^{4ix}}{4i} + \frac{2e^{2ix}}{2i} - \frac{2e^{-2ix}}{-2i} - \frac{e^{-4ix}}{-4i}\right) + C\\
+          &= \frac{1}{8i}\left(\frac{e^{4ix}}{4i} + \frac{e^{-4ix}}{4i} + \frac{e^{2ix}}{i} + \frac{e^{-2ix}}{i} \right) + C\\
+          &= \left(\frac{e^{4ix}}{32i^2} + \frac{e^{-4ix}}{32i^2} + \frac{e^{2ix}}{8i^2} + \frac{e^{-2ix}}{8i^2} \right) + C\\
+          &= \left(\frac{e^{4ix}}{-32} + \frac{e^{-4ix}}{-32} + \frac{e^{2ix}}{-8} + \frac{e^{-2ix}}{-8} \right) + C\\
+          &= -\left(\frac{e^{4ix}}{32} + \frac{e^{-4ix}}{32} + \frac{e^{2ix}}{8} + \frac{e^{-2ix}}{8} \right) + C\\
+          &= -\left(\frac{e^{4ix} + e^{-4ix}}{32} + \frac{e^{2ix} + e^{-2ix}}{8} \right) + C\\
+          &= -\left(\frac{1}{16}\cdot\frac{e^{4ix} + e^{-4ix}}{2} + \frac{1}{4}\cdot\frac{e^{2ix} + e^{-2ix}}{2} \right) + C\\
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          Notice that \(\displaystyle\frac{e^{4ix} + e^{-4ix}}{2} = \frac{e^{i(\class{red}{4x})} + e^{-i(\class{red}{4x})}}{2}\) is equal to \(\cos(\class{red}{4x})\), and \(\displaystyle\frac{e^{2ix} + e^{-2ix}}{2} = \frac{e^{i(\class{blue}{2x})} + e^{-i(\class{blue}{2x})}}{2}\) is equal to \(\cos(\class{blue}{2x})\). 
+        </p>
+        <div class="mj">
+          \[\begin{flalign}
+          \int \cos^2(x)\sin(2x) \dd{x} &= -\left(\frac{1}{16}\cdot\frac{e^{4ix} + e^{-4ix}}{2} + \frac{1}{4}\cdot\frac{e^{2ix} + e^{-2ix}}{2} \right)\\
+          &= -\left(\frac{1}{16}\cos(4x) + \frac{1}{4}\cos(2x) \right) + C\\
+          &= -\frac{1}{16}\cos(4x) - \frac{1}{4}\cos(2x) + C
+          \end{flalign}\]
+        </div>
+        <p class="ntm problem">
+          <strong>Problem</strong>: Integrate \(\displaystyle\int e^x\sin(x)\dd{x}\) using Euler’s formula.
+        </p>
+        <p class="nbm">
+          This time, we’re going to use a different strategy. Let’s look at Euler’s formula again:
+        </p>
+        <div class="mj">
+          \[ e^{ix} = \cos(x) + i\sin(x) \]
+        </div>
+        <p class="nm">
+          How can we extract just the \(\sin(x)\) term from this? We could use the formula for sine we’ve used in the previous examples, or we could simply just take the imaginary part of \(e^{ix}\).
+        </p>
+        <div class="mj">
+          \[ \Im(e^{ix}) = \Im(\cos(x) + i\sin(x)) \]
+          \[ \Im(e^{ix}) = \sin(x) \]
+        </div>
+        <p class="ntm sn">
+          Here, \(\Im\) denotes the imaginary part of a complex number (i.e. the real number being multiplied by \(i\)). For example, \(\Im(2+3i) = 3\).
+        </p>
+        <p class="sn">
+          (Similarly, we could say that \(\cos(x)\) is the real part of \(e^{ix}\). That’s what we would do if the problem was to integrate \(e^x\cos(x)\) instead.)
+        </p>
+        <p class="nbm">
+          What this means is that if we integrate \(e^{ix}\) and only take the imaginary part, that’s the same as integrating \(\sin(x)\). So if we want to integrate \(e^x \sin(x)\), then we need to take the imaginary part of \(\int e^x e^{ix}\dd{x}\). We know how to integrate that:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int e^x \sin(x) \dd{x}
+          &= \Im\left(\int e^x e^{ix} \dd{x}\right)\\
+          &= \Im\left(\int e^{x+ix} \dd{x}\right)\\
+          &= \Im\left(\int e^{(i+1){x}} \dd{x}\right)\\
+          &= \Im\left(\frac{e^{(i+1)x}}{i+1}\right) + C\\
+          &= \Im\left(\frac{e^x e^{ix}}{i+1}\right) + C\\
+          &= \Im\left(\frac{e^x[\cos(x) + i\sin(x)]}{i+1}\right) + C\\
+          &= \Im\left(\frac{e^x[\cos(x) + i\sin(x)](i-1)}{(i+1)(i-1)}\right) + C\\
+          &= \Im\left(\frac{e^x[i\cos(x) - \cos(x) + i^2\sin(x) - i\sin(x)]}{-2}\right) + C\\
+          &= \Im\left(\frac{e^x[i\cos(x) - \cos(x) - \sin(x) - i\sin(x)]}{-2}\right) + C\\
+          &= \Im\left(\frac{e^x[-\cos(x) - \sin(x)] + ie^x[\cos(x)-\sin(x)]}{-2}\right) + C\\
+          &= \Im\left(\frac{e^x[-\cos(x) - \sin(x)]}{-2} + i\frac{e^x[\cos(x)-\sin(x)]}{-2}\right) + C\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          To find the imaginary part of this expression, we just focus on what’s being multiplied by \(i\).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int e^x \sin(x) \dd{x}
+          &= \Im\left(\frac{e^x[-\cos(x) - \sin(x)]}{-2} + i\class{red}{\frac{e^x[\cos(x)-\sin(x)]}{-2}}\right) + C\\
+          &= \class{red}{\frac{e^x[\cos(x) - \sin(x)]}{-2}} + C\\
+          &= \frac{e^x[\sin(x) - \cos(x)]}{2} + C\\
+          \end{flalign} \]
+        </div>
+      </div>
     </div>
   </div>
   <hr class="heavy-hr">
@@ -23287,7 +24845,7 @@ limitations under the License.
       document.getElementsByTagName('body')[0].appendChild(script);
     }
     document.getElementById('loading').innerText = 'Loading scripts (1/3)... Some features will not work properly until loading finishes.';
-    setTimeout(loadScript('calculus.js?20241231'));
+    setTimeout(loadScript('calculus.js?20250213'));
   </script>
 </body>
 </html>
