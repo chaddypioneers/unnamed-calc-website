@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" href="calc/favicon.png">
   <link rel="apple-touch-icon" type="image/png" href="calc/favicon.png">
   <link rel="apple-touch-icon-precomposed" type="image/png" href="calc/favicon.png">
-  <link rel="stylesheet" href="calculus.css?20250213">
+  <link rel="stylesheet" href="calculus.css?20250218">
 </head>
 <body id="body">
   <div id="backgroundImage"></div>
@@ -254,8 +254,38 @@
     <p>
       <strong>Important: You might have to refresh the tab to view the latest updates to this website.</strong>
     </p>
-    <h3>2025-02-13: “Integration Techniques” Update <button id="update20250213Button" onclick="showHide('update20250213')">Hide</button></h3>
-    <div id="update20250213">
+    <h3>2025-02-18: “Secret Eli” Update <button id="update20250218Button" onclick="showHide('update20250218')">Hide</button></h3>
+    <div id="update20250218">
+      <p>
+        This update features new sections relating to surface area, parametric equations, and polar coordinates.
+      </p>
+      <p>
+        The name of this update comes from the name of my college friend group. A few people there are taking calculus classes, and I noticed that not all of the parametric and polar content they were learning was covered on my website. However, this update fixes that, so I named this website in honor of them!
+      </p>
+      <h4 class="nm">New Content</h4>
+      <ul>
+        <li>New Unit 8 section:
+          <ul class="link-ul">
+            <li><a href="#surfaceAreaHeader" onclick="jumpTo('surfaceArea')">Definite Integrals: Surface Area of Solids of Revolution</a></li>
+          </ul>
+        </li>
+        <li>New Unit 9 sections:
+          <ul class="link-ul">
+            <li><a href="#areaParaHeader" onclick="jumpTo('areaPara')">Parametric Equations: Area Under Parametric Curves</a></li>
+            <li><a href="#surfaceAreaParaHeader" onclick="jumpTo('surfaceAreaPara')">Parametric Equations: Surface Area of Solids of Revolution</a></li>
+            <li><a href="#polarArcLengthHeader" onclick="jumpTo('polarArcLength')">Polar Functions: Arc Lengths of Polar Curves</a></li>
+            <li><a href="#surfaceAreaPolarHeader" onclick="jumpTo('surfaceAreaPolar')">Polar Functions: Surface Area of Solids of Revolution</a></li>
+          </ul>
+        </li>
+      </ul>
+      </ul>
+      <h4 class="nm">Minor Changes</h4>
+      <ul>
+        <li><strong>Unit 8</strong>: “Definite Integrals: Arc Lengths” section renamed to “Definite Integrals: Arc Lengths of Curves”</li>
+      </ul>
+    </div>
+    <h3>2025-02-13: “Integration Techniques” Update <button id="update20250213Button" onclick="showHide('update20250213')">Show</button></h3>
+    <div id="update20250213" class="hidden-by-default">
       <p>
         The focus of this update is integration, with many new integration techniques being added!
       </p>
@@ -263,7 +293,7 @@
         My plan for the next update is to add more content to Unit 9. I’m especially motivated because one of my college friends is taking a Calc 2 class, and they’re currently working on parametric and polar content, and not all of it is on my website yet!
       </p>
       <h4 class="nm">New Content</h4>
-      <ul >
+      <ul>
         <li>New Unit 6 sections:
           <ul class="link-ul">
             <li><a href="#constIntHeader" onclick="jumpTo('constInt')">Indefinite Integrals: Constant of Integration</a></li>
@@ -10929,7 +10959,7 @@ console.log(total);
           We now know how to find the indefinite integrals of basic functions, but we still need to learn a few more integration techniques in order to integrate more complicated functions. Let’s think about this integral:
         </p>
         <p class="problem">
-          <strong>Problem</strong>: \(\displaystyle \int 2x \cos(x^2)\dd{x} \)
+          <strong>Problem</strong>: Evaluate \(\displaystyle \int 2x \cos(x^2)\dd{x} \).
         </p>
         <p>
           Remember that finding an indefinite integral of a function is just asking “what functions, when differentiated, give back this function?” Can you find a function that has a derivative of \(2x \cos(x^2)\)? <span class="sn">(Hint: It has something to do with the chain rule.)</span>
@@ -10986,7 +11016,7 @@ console.log(total);
           And we got the same indefinite integral we figured out before! Let’s go over some more complicated examples now.
         </p>
         <p class="problem">
-          <strong>Problem</strong>: \(\displaystyle \int \sin(2x)\dd{x} \)
+          <strong>Problem</strong>: Evaluate \(\displaystyle \int \sin(2x)\dd{x} \).
         </p>
         <p>
           For this integral, \(2x\) seems to be a good candidate for \(u\), but the problem is that its derivative \(\dv{u}{x} = 2\) isn’t in the integral expression.
@@ -11020,7 +11050,7 @@ console.log(total);
           Now for our next example:
         </p>
         <p class="problem">
-          <strong>Problem</strong>: \(\displaystyle \int \tan(x) \dd{x} \)
+          <strong>Problem</strong>: Evaluate \(\displaystyle \int \tan(x) \dd{x} \).
         </p>
         <p class="nbm">
           At first glance, there isn’t an easy way to integrate this, but all we have to do is turn it into a quotient using the identity \(\tan(x) = \frac{\sin(x)}{\cos(x)}\).
@@ -11060,7 +11090,7 @@ console.log(total);
           Notice how when using \(u\)-substitution, we can essentially treat \(\dd{x}\) and \(\dd{u}\) like variables and we can algebraically manipulate them the same way we would with normal variables. This might seem strange, but it is allowed during \(u\)-substitution.
         </p>
         <p class="problem">
-          <strong>Problem</strong>: \(\displaystyle \int \frac{\ln(x)}{x} \dd{x} \)
+          <strong>Problem</strong>: Evaluate \(\displaystyle \int \frac{\ln(x)}{x} \dd{x} \).
         </p>
         <p class="nbm">
           Here, the obvious choice for \(u\) is \(\ln(x)\), but its derivative \(\frac{1}{x}\) isn’t anywhere to be seen! Except if we do a little bit of rearranging...
@@ -11087,7 +11117,7 @@ console.log(total);
           And finally, for our last example:
         </p>
         <p class="problem">
-          <strong>Problem</strong>: \(\displaystyle \int x\sqrt{x+5} \dd{x} \)
+          <strong>Problem</strong>: Evaluate \(\displaystyle \int x\sqrt{x+5} \dd{x} \).
         </p>
         <p class="nbm">
           This example requires us to do something different. The obvious substitution here is \(u = x+5\), so let’s try doing that:
@@ -11111,20 +11141,20 @@ console.log(total);
           &= \frac{2}{3}(x+5)^{5/2} - \frac{10}{3}(x+5)^{3/2} + C\\
           \end{flalign}\]
         </div>
-        <p>
+        <p class="nm">
           There is also another way to do this integral: instead of having \(u = x+5\), we can have \(u = \sqrt{x+5}\). However, we’re not going to immediately find \(\dd{u}\) in terms of \(\dd{x}\).
         </p>
         <div class="mj">
           \[ \class{red}{u = \sqrt{x+5}} \]
           \[ \int x \class{red}{\sqrt{x+5}} \dd{x} = \int x \class{red}{u} \dd{x} \]
         </div>
-        <p>
+        <p class="ntm">
           We want to integrate with respect to \(u\), so we need to find \(x\) in terms of \(u\). But not only that, we need to write \(\dd{x}\) in terms of \(\dd{u}\).
         </p>
         <p>
           Using the fact that \(u = \sqrt{x+5}\), we can find that \(u^2 = x+5\) and therefore \(x = u^2 - 5\).
         </p>
-        <p>
+        <p class="nbm">
           To find \(\dd{x}\) in terms of \(\dd{u}\), we’re going to do something we haven’t done before: differentiate the equation \(x = u^2 - 5\) with respect to \(u\) instead of \(x\). This gives us:
         </p>
         <div class="mj">
@@ -11132,7 +11162,7 @@ console.log(total);
           \[ \dv{x}{u} = 2u \]
           \[ \class{blue}{\dd{x} = 2u \dd{u}} \]
         </div>
-        <p>
+        <p class="nm">
           So we can replace \(x\) with \(u^2-5\) in our integral and also replace \(\dd{x}\) with \(2u\dd{u}\).
         </p>
         <div class="mj">
@@ -16150,7 +16180,7 @@ console.log(total);
         </div>
       </div>
       <h3 class="section-header bc-only-color" id="arcLengthHeader">
-        Definite Integrals: Arc Lengths <button id="arcLengthButton" onclick="showHide('arcLength')">Show</button>
+        Definite Integrals: Arc Lengths of Curves <button id="arcLengthButton" onclick="showHide('arcLength')">Show</button>
       </h3>
       <div class="hidden-by-default" id="arcLength">
         <p class="bold bc-only-color">
@@ -16368,6 +16398,136 @@ console.log(total);
           \end{flalign}\]
         </div>
       </div>
+      <h3 class="section-header bonus-color" id="surfaceAreaHeader">
+        Definite Integrals: Surface Area of Solids of Revolution <button id="surfaceAreaButton" onclick="showHide('surfaceArea')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="surfaceArea">
+        <p class="bonus-color bold">
+          This section isn’t strictly part of the AP Calculus curriculum, but is still an important calculus concept.
+        </p>
+        <p>
+          Now we’re going to look at how we can use integrals to find the surface area of solids of revolution.
+        </p>
+        <img class="graph" src="calc/surface_area_solid.png">
+        <p class="ntm sn">
+          How can we find the surface area of this solid of revolution? This is the solid formed by rotating \(y = x^2\) from \(x = 0\) to \(x = 1\) around the \(x\)-axis.
+        </p>
+        <p>
+          We can do this by first approximating the curve (in this case \(y = x^2\)) with line segments, just like what we did to find arc lengths of curves.
+        </p>
+        <img class="graph" src="calc/surface_area_line_segments.png">
+        <p class="ntm sn">
+          This is the curve \(y = x^2\) approximated using line segments.
+        </p>
+        <p>
+          Now if we rotate this approximation around the \(x\)-axis, we get this:
+        </p>
+        <img class="graph" src="calc/surface_area_frustums.png">
+        <p class="nbm">
+          Each of these shapes is known as a frustum, and there is a formula for the surface area of a frustum! It looks like this:
+        </p>
+        <div class="mj">
+          \[ A = \frac{C_1 + C_2}{2}h \]
+        </div>
+        <p class="ntm">
+          This formula is similar to the formula for the lateral surface area of a cylinder (which is \(A = Ch\)), except we’re using the slant height as \(h\) and we are averaging the circumferences of the two bases.
+        </p>
+        <p class="nbm">
+          Here, \(C_1\) is the circumference of one base of the frustum, \(C_2\) is the circumference of the other base, and \(h\) is the slant height. We can write \(C_1\) and \(C_2\) as \(2\pi r_1\) and \(2\pi r_2\) respectively, where \(r_1\) and \(r_2\) are the radii of the bases. Therefore:
+        </p>
+        <div class="mj">
+          \[ A = \frac{2\pi(r_1 + r_2)}{2}L \]
+        </div>
+        <p class="ntm">
+          Let’s look closer at one of our frustums.
+        </p>
+        <img class="graph" src="calc/surface_area_frustum.png">
+        <p class="ntm sn">
+          The <span class="red">red line segments</span> represent the radii of the bases of the frustums.
+        </p>
+        <p>
+          The slant height of each frustum is just the length of each of our line segments in our approximation of the curve. From the <a href="#arcLengthHeader" onclick="jumpTo('arcLength')">Arc Lengths</a> section, we saw that this can be written as \(\sqrt{(\Delta x)^2 + (\Delta y_j)^2}\) \(= \sqrt{1+\left(\frac{\Delta y_j}{\Delta x}\right)^2}\Delta x\).
+        </p>
+        <p>
+          Looking at the \(j\)th frustum, \(r_1\), the radius of one base, is equal to \(f(x_{j-1})\) and \(r_2\), the radius of the other base, is equal to \(f(x_j)\).
+        </p>
+        <p class="nbm">
+          The surface area of one of our frustums can thus be written as:
+        </p>
+        <div class="mj">
+          \[ A = \frac{2\pi(\class{red}{r_1} + \class{blue}{r_2})}{2}\class{purple}{h} \]
+          \[ A = \frac{2\pi[\class{red}{f(x_{j-1})} + \class{blue}{f(x_j)}]}{2}\class{purple}{\sqrt{1+\left(\frac{\Delta y_j}{\Delta x}\right)^2}\Delta x}\]
+        </div>
+        <p class="nm">
+          So the sum of the surface areas of all frustums is:
+        </p>
+        <div class="mj">
+          \[ \sum_{j=1}^n \frac{2\pi[f(x_{j-1}) + f(x_j)]}{2}\sqrt{1+\left(\frac{\Delta y_j}{\Delta x}\right)^2}\Delta x\]
+        </div>
+        <p class="nm">
+          To find the exact surface area, we take the limit as the number of frustums approaches infinity:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \lim_{n\to\infty} \sum_{j=1}^n \frac{2\pi[f(x_{j-1}) + f(x_j)]}{2}\sqrt{1+\left(\frac{\Delta y_j}{\Delta x}\right)^2}\Delta x\\
+          &= \int_a^b \frac{2\pi[f(x)+f(x)]}{2} \sqrt{1+\left(\dv{y}{x}\right)^2} \dd{x}\\
+          &= \int_a^b 2\pi f(x) \sqrt{1+\left(\dv{y}{x}\right)^2} \dd{x}\\
+          &= \int_a^b 2\pi f(x) \sqrt{1+[f'(x)]^2} \dd{x}
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          This is the formula for finding the surface area of a solid of revolution defined by rotating \(y = f(x)\) from \(x = a\) to \(x = b\) around the \(x\)-axis.
+        </p>
+        <p class="nbm">
+          If we are instead rotating \(x = f(y)\) from \(y = a\) to \(y = b\) around the \(y\)-axis, the formula is:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi f(y) \sqrt{1+\left(\dv{x}{y}\right)^2} \dd{y}\\
+          &= \int_a^b 2\pi f(y) \sqrt{1+[f'(y)]^2} \dd{y}
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          There is an alternative way to write these formulas. If we are rotating around the \(x\)-axis:
+        </p>
+        <div class="mj">
+          \[ A = \int_a^b 2\pi f(x) \dd{s} \]
+          \[ \dd{s} = \sqrt{1 + [f'(x)]^2} \dd{x} \]
+        </div>
+        <p class="nm">
+          If we are rotating around the \(y\)-axis:
+        </p>
+        <div class="mj">
+          \[ A = \int_a^b 2\pi f(y) \dd{s} \]
+          \[ \dd{s} = \sqrt{1 + [f'(y)]^2} \dd{y} \]
+        </div>
+        <p class="ntm">
+          In these formulas, \(\dd{s}\) represents the length of each infinitesimally small line segment.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: What is the surface area of the solid formed by rotating \(y = \sqrt{x}\) from \(x = 1\) to \(x = 2\) around the \(x\)-axis?
+        </p>
+        <img class="graph" src="calc/surface_area_problem.png">
+        <p class="ntm sn">
+          What is the surface area of this <span class="blue">solid of revolution</span> (not including the <span class="green">bases</span>)?
+        </p>
+        <p class="nbm">
+          We know that \(f(x) = \sqrt{x}\), so \(f'(x) = \frac{1}{2\sqrt{x}}\). Let’s use the formula now:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi f(x) \sqrt{1+[f'(x)]^2} \dd{x}\\
+          &= \int_1^2 2\pi \sqrt{x} \sqrt{1+\left(\frac{1}{2\sqrt{x}}\right)^2} \dd{x}\\
+          &= \int_1^2 2\pi \sqrt{x} \sqrt{1+\left(\frac{1}{4x}\right)}\dd{x}\\
+          &= \int_1^2 2\pi \sqrt{x + \frac{1}{4}}\dd{x}\\
+          &= 2\pi\int_1^2 \sqrt{x + \frac{1}{4}}\dd{x}\\
+          &= 2\pi\left(\frac{2}{3}\right)\left(x+\frac{1}{4}\right)^{3/2}\bigg|_1^2\\
+          &= \frac{4}{3}\pi\left[\left(\frac{9}{4}\right)^{3/2} - \left(\frac{5}{4}\right)^{3/2}\right]\\
+          &= \frac{27-5\sqrt{5}}{6}\pi\\
+          &\approx 8.283
+          \end{flalign} \]
+        </div>
+      </div>
       <h3 class="section-header" id="unit8SummaryHeader">
         Unit 8 Summary <button id="unit8SummaryButton" onclick="showHide('unit8Summary')">Show</button>
       </h3>
@@ -16415,6 +16575,12 @@ console.log(total);
           </li>
           <div class="mj bc-only-color">
             \[ L = \int_a^b \sqrt{1 + [f'(x)]^2} \dd{x} \]
+          </div>
+          <li class="bonus-color">
+            <em>(Not covered in Calc BC)</em> The surface area of a solid of revolution formed by rotating \(f(x)\) from \(x = a\) to \(x = b\) around the \(x\)-axis is:
+          </li>
+          <div class="mj bonus-color">
+            \[ A = \int_a^b 2\pi f(x) \sqrt{1+[f'(x)]^2} \dd{x} \]
           </div>
         </ul>
       </div>
@@ -16802,6 +16968,176 @@ console.log(total);
         <img class="graph" src="calc/parametric_arc_length_answer.png">
         <p class="ntm sn">
           This parametric curve, defined by the equations \(x(t) = t - \sin(t)\) and \(y(t) = 1 - \cos(t)\) from \(t = 0\) to \(t = 2\pi\), has a total arc length of <strong>8</strong>.
+        </p>
+      </div>
+      <h3 class="section-header bonus-color" id="areaParaHeader">
+        Parametric Equations: Area Under Parametric Curves <button id="aParaButton" onclick="showHide('areaPara')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="areaPara">
+        <p class="bonus-color bold">
+          This section isn’t strictly part of the AP Calculus curriculum, but is still an important calculus concept.
+        </p>
+        <p>
+          Now we’re going to look at how to find the area under a curve defined by parametric equations.
+        </p>
+        <p class="nbm">
+          If we have a typical function \(f(x) = y\), then we can find the area under the curve with this integral:
+        </p>
+        <div class="mj">
+          \[ \int_a^b f(x) \dd{x} = \int_a^b y \dd{x} \]
+        </div>
+        <p class="nm">
+          What if the curve is instead defined with the parametric functions \(x = x(t)\) and \(y = y(t)\)?
+        </p>
+        <p class="nbm">
+          We can substitute \(y\) with \(y(t)\), giving this integral:
+        </p>
+        <div class="mj">
+          \[ \int_a^b y(t) \dd{x} \]
+        </div>
+        <p class="nm">
+          However, we are integrating with respect to \(x\) instead of \(t\). To fix this, we can differentiate \(x(t)\) with respect to \(t\) to find an expression for \(\dd{x}\) in terms of \(\dd{t}\).
+        </p>
+        <div class="mj">
+          \[ x = x(t) \]
+          \[ \dv{x}{t} = x'(t) \]
+          \[ \dd{x} = x'(t) \dd{t} \]
+        </div>
+        <p class="nm">
+          So our integral becomes:
+        </p>
+        <div class="mj">
+          \[ \int_a^b y(t) x'(t) \dd{t} \]
+        </div>
+        <p class="ntm">
+          This is the formula for the area under a curve defined by \(x = x(t)\) and \(y = y(t)\) from \(t = a\) to \(t = b\).
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: What is the area under the curve defined by the parametric equations \(x(t) = t^2\) and \(y(t) = \sin(t)\) from \(t = 0\) to \(t = \pi\)?
+        </p>
+        <img class="graph" src="calc/parametric_area.png">
+        <p class="nbm">
+          First, we need to find \(x'(t)\). This is simply the derivative of \(x^2\), so \(x'(t) = 2x\). Now we’re ready to use the formula:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b y(t) x'(t) \dd{t}\\
+          &= \int_0^{\pi} \sin(t) 2t \dd{t}\\
+          &= 2\int_0^{\pi} t\sin(t) \dd{t}\\
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          To find this integral, we can use integration by parts:
+        </p>
+        <div class="mj">
+          \[ u = t \]
+          \[ \dd{v} = \sin(t) \dd{t} \]
+          \[ \dd{u} = \dd{t} \]
+          \[ v = -\cos(t) \]
+          \[ \begin{flalign}
+          \int t\sin(t) \dd{t} &= -t\cos(t) - \int -\cos(t) \dd{t}\\
+          &= -t\cos(t) + \sin(t) + C
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          Now we can finish the problem!
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= 2\int_0^{\pi} t\sin(t) \dd{t}\\
+          &= 2\left(-t\cos(t) + \sin(t)\right)\bigg|_0^{\pi} \\
+          &= 2\pi\\
+          &\approx 6.283
+          \end{flalign}\]
+        </div>
+      </div>
+      <h3 class="section-header bonus-color" id="surfaceAreaParaHeader">
+        Parametric Equations: Surface Area of Solids of Revolution <button id="surfaceAreaParaButton" onclick="showHide('surfaceAreaPara')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="surfaceAreaPara">
+        <p class="bonus-color bold">
+          This section isn’t strictly part of the AP Calculus curriculum, but is still an important calculus concept.
+        </p>
+        <p>
+          In this section, we’re going to find the surface areas of solids of revolution that are defined using parametric equations.
+        </p>
+        <p>
+          Previously when we were finding <a href="#surfaceAreaHeader" onclick="jumpTo('surfaceArea')">surface areas</a>, we found these formulas:
+        </p>
+        <p class="nm">
+          If we are rotating around the \(x\)-axis:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi f(x) \dd{s}\\
+          &= \int_a^b 2\pi y \dd{s}\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          If we are rotating around the \(y\)-axis:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi f(y) \dd{s}\\
+          &= \int_a^b 2\pi x \dd{s}\\
+          \end{flalign} \]
+        </div>
+        <p class="nm">
+          Remember that \(\dd{s}\) represents the length of an infinitesimally small line segment. In the previous section, we found that for parametric equations, this length is equal to \(\sqrt{\left(\dv{x}{t}\right)^2 + \left(\dv{y}{t}\right)^2} \dd{x}\). So for parametric equations, our surface area formulas become:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi y \sqrt{\left(\dv{x}{t}\right)^2 + \left(\dv{y}{t}\right)^2}\\
+          &= \int_a^b 2\pi y(t) \sqrt{[x'(t)]^2 + [y'(t)]^2} \dd{x}\\
+          \end{flalign} \]
+        </div>
+        <p class="nm sn">
+          This formula is for if we’re rotating around the \(x\)-axis.
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi x \sqrt{\left(\dv{x}{t}\right)^2 + \left(\dv{y}{t}\right)^2}\\
+          &= \int_a^b 2\pi x(t) \sqrt{[x'(t)]^2 + [y'(t)]^2} \dd{y}\\
+          \end{flalign} \]
+        </div>
+        <p class="ntm sn">
+          This formula is for if we’re rotating around the \(y\)-axis.
+        </p>
+        <p>
+          In these formulas, our parameter \(t\) ranges from \(t = a\) to \(t = b\).
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: Find the surface area of the solid formed by rotating the parametric curve \(x = \cos(t)\) and \(y = \sin(t)\) from \(t = 0\) to \(t = \frac{\pi}{2}\) around the \(x\)-axis.
+        </p>
+        <img class="graph" src="calc/parametric_surface_area.png">
+        <p class="ntm sn">
+          What is the surface area of this <span class="blue">solid</span> (not including the <span class="green">base</span>)?
+        </p>
+        <p class="nbm">
+          First, we need to find \(x'(t)\) and \(y'(t)\).
+        </p>
+        <div class="mj">
+          \[ x'(t) = -\sin(t) \]
+          \[ y'(t) = \cos(t) \]
+        </div>
+        <p class="nm">
+          Now, we can use the formula:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi y(t) \sqrt{[x'(t)]^2 + [y'(t)]^2} \dd{x} \\
+          &= \int_0^{\pi/2} 2\pi \sin(t) \sqrt{[-\sin(t)]^2 + [\cos(t)]^2} \dd{t}\\
+          &= \int_0^{\pi/2} 2\pi \sin(t) \sqrt{\sin^2(t) + \cos^2(t)} \dd{t}\\
+          &= \int_0^{\pi/2} 2\pi \sin(t)\dd{t}\\
+          &= 2\pi \int_0^{\pi/2}\sin(t)\dd{t}\\
+          &= 2\pi [-\cos(t)]\bigg|_0^{\pi/2}\\
+          &= 2\pi [0+1]\\
+          &= 2\pi\\
+          &\approx 6.283
+          \end{flalign}\]
+        </div>
+        <p class="ntm">
+          Note that our solid of revolution is simply half a sphere with radius 1. If we use the formula for the surface area of a sphere, \(A = 4\pi r^2\), with \(r = 1\), then divide the result by 2, we get the same answer!
         </p>
       </div>
       <h3 class="section-header bc-only-color" id="vectorValuedHeader">
@@ -17669,6 +18005,193 @@ console.log(total);
           \]
         </div>
       </div>
+      <h3 class="section-header bonus-color" id="polarArcLengthHeader">
+        Polar Functions: Arc Lengths of Polar Curves <button id="polarArcLengthButton" onclick="showHide('polarArcLength')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="polarArcLength">
+        <p class="bonus-color bold">
+          This section isn’t strictly part of the AP Calculus curriculum, but is still an important calculus concept.
+        </p>
+        <p>
+          How can we find the arc lengths of polar curves?
+        </p>
+        <p>
+          Any polar curve can be turned into a set of parametric equations, using the formulas \(x = r\cos(\theta)\) and \(y = r\sin(\theta)\). For example, the polar curve \(r = \theta\) can be represented with the parametric equations \(x = \theta \cos(\theta)\) and \(y = \theta\sin(\theta)\).
+        </p>
+        <p class="nbm">
+          Remember that the formula for arc length of a parametric equation is:
+        </p>
+        <div class="mj">
+          \[ \text{arc length} = \int_a^b \sqrt{\left(\dv{x}{t}\right)^2 + \left(\dv{y}{t}\right)^2} \dd{t} \]
+        </div>
+        <p class="nm">
+          We can replace \(t\) with \(\theta\), and the formula still works.
+        </p>
+        <div class="mj">
+          \[ \text{arc length} = \int_a^b \sqrt{\left(\dv{x}{\theta}\right)^2 + \left(\dv{y}{\theta}\right)^2} \dd{\theta} \]
+        </div>
+        <p class="nm">
+          Now we just need to find \(\dv{x}{\theta}\) and \(\dv{y}{\theta}\).
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \dv{x}{\theta} &= \dv{\theta}[r\cos(\theta)]\\
+          &= \dv{r}{\theta}\cos(\theta) - r\sin(\theta)\\
+          \end{flalign}\]
+          \[ \begin{flalign}
+          \dv{y}{\theta} &= \dv{\theta}[r\sin(\theta)]\\
+          &= \dv{r}{\theta}\sin(\theta) + r\cos(\theta)\\
+          \end{flalign}\]
+        </div>
+        <p class="ntm sn">
+          \(r\) in this case is a function of \(\theta\), so we can’t treat it as a constant. Instead, we need to use the product rule.
+        </p>
+        <p class="nbm">
+          Now, we can simplify the arc length formula. Let’s solve for \(\sqrt{\left(\dv{x}{\theta}\right)^2 + \left(\dv{y}{\theta}\right)^2}\):
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \sqrt{\left(\frac{\dd{x}}{\dd{\theta}}\right)^2 + \left(\frac{\dd{y}}{\dd{\theta}}\right)^2}
+          &= \sqrt{\left(\dv{r}{\theta}\cos(\theta) - r\sin(\theta)\right)^2 + \left(\dv{r}{\theta}\sin(\theta) + r\cos(\theta)\right)^2}\\
+          &= \sqrt{\left(\dv{r}{\theta}\right)^2\cos^2(\theta) - 2r\left(\dv{r}{\theta}\right)\sin(\theta)\cos(\theta) + r^2\sin^2(\theta) + \left(\dv{r}{\theta}\right)^2\sin^2(\theta) + 2r\left(\dv{r}{\theta}\right)\sin(\theta)\cos(\theta) + r^2\cos^2(\theta)}\\
+          &= \sqrt{\left(\dv{r}{\theta}\right)^2\cos^2(\theta) + r^2\sin^2(\theta) + \left(\dv{r}{\theta}\right)^2\sin^2(\theta) + r^2\cos^2(\theta)}\\
+          &= \sqrt{\left(\dv{r}{\theta}\right)^2[\cos^2(\theta) + \sin^2(\theta)] + r^2[\cos^2(\theta) + \sin^2(\theta)]}\\
+          &= \sqrt{\left(\dv{r}{\theta}\right)^2 + r^2}
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          So our simplified arc length formula is:
+        </p>
+        <div class="mj">
+          \[ \text{arc length} = \int_a^b \sqrt{\left(\dv{r}{\theta}\right)^2 + r^2} \dd{\theta} \]
+        </div>
+        <p class="ntm">
+          \(a\) and \(b\) are the bounds of \(\theta\) that we are finding the arc length over.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: What is the arc length of the polar curve \(r = 2\theta\) from \(\theta = 0\) to \(\theta = \sqrt{3}\)?
+        </p>
+        <img class="graph" src="calc/polar_arc_length.png">
+        <p class="nbm">
+          First, we need to find \(\dv{r}{\theta}\):
+        </p>
+        <div class="mj">
+          \[ \dv{r}{\theta} = 2 \]
+        </div>
+        <p class="nm">
+          Now, we can use the formula:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int_0^\sqrt{3} \sqrt{\left(\dv{r}{\theta}\right)^2 + r^2} \dd{\theta}
+          &= \int_0^\sqrt{3}\sqrt{2^2 + (2\theta)^2} \dd{\theta}\\
+          &= \int_0^\sqrt{3}\sqrt{4 + 4\theta^2} \dd{\theta}\\
+          &= \int_0^\sqrt{3}\sqrt{4(1 + \theta^2)} \dd{\theta}\\
+          &= 2\int_0^\sqrt{3}\sqrt{1 + \theta^2} \dd{\theta}
+          \end{flalign}\]
+        </div>
+        <p class="nm">
+          To evaluate this integral, we need to use a trig substitution, in this case \(\theta = \tan(x)\) and \(\dd{\theta} = \sec^2(x) \dd{x}\). <span class="sn">(Normally we would use a trig substitution in the form \(x = f(\theta)\), but because our original integral is in terms of \(\theta\) instead of \(x\), we need to instead use a substitution of the form \(\theta = f(x)\).)</span>
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int_0^\sqrt{3}\sqrt{1+\class{red}{\theta}^2}\class{blue}{\dd{\theta}} &= \int_0^{\pi/3}\sqrt{1+[\class{red}{\tan(x)}]^2}\class{blue}{\sec^2(x)\dd{x}}\\
+          &= \int_0^{\pi/3}\sqrt{\sec^2(x)}\sec^2(x)\dd{x}\\
+          &= \int_0^{\pi/3}\lvert\sec(x)\rvert\sec^2(x)\dd{x}\\
+          &= \int_0^{\pi/3}\sec^3(x)\dd{x} \quad \left(\text{since }\sec(x) \text{ is positive on }\left[0, \frac{\pi}{3}\right]\right)\\
+          &= \left(\frac{\sec(x)\tan(x) + \ln\lvert\sec(x)+\tan(x)\rvert}{2}\right)\bigg|_0^{\pi/3}\\
+          &= \frac{2\sqrt{3} + \ln(2+\sqrt{3})}{2}\\
+          \end{flalign}\]
+        </div>
+        <p class="ntm sn">
+          (I go over the integral of \(\sec^3(x)\) in the <a href="#otherTrigIntHeader" onclick="jumpTo('otherTrigInt')">Integrals Involving Other Trig Functions</a> section.)
+        </p>
+        <p class="nbm">
+          Therefore, our arc length is:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          \int_0^\sqrt{3} \sqrt{\left(\dv{r}{\theta}\right)^2 + r^2} \dd{\theta} &= 2\int_0^\sqrt{3}\sqrt{1 + \theta^2} \dd{\theta}\\
+          &= 2\sqrt{3} + \ln(2+\sqrt{3})\\
+          &\approx 4.781
+          \end{flalign}\]
+        </div>
+      </div>
+      <h3 class="section-header bonus-color" id="surfaceAreaPolarHeader">
+        Polar Functions: Surface Area of Solids of Revolution <button id="surfaceAreaPolarButton" onclick="showHide('surfaceAreaPolar')">Show</button>
+      </h3>
+      <div class="hidden-by-default" id="surfaceAreaPolar">
+        <p class="bonus-color bold">
+          This section isn’t strictly part of the AP Calculus curriculum, but is still an important calculus concept.
+        </p>
+        <p>
+          We are once again finding surface areas, but this time with polar functions!
+        </p>
+        <p class="nbm">
+          As a reminder, here are the general formulas for finding the surface area of solids of revolution:
+        </p>
+        <div class="mj">
+          \[ A = \int_a^b 2\pi y \dd{s} \]
+          \[ A = \int_a^b 2\pi x \dd{s} \]
+        </div>
+        <p class="ntm sn">
+          The first formula is used if we’re revolving around the \(x\)-axis, and the second formula is for when we’re revolving around the \(y\)-axis.
+        </p>
+        <p>
+          Using what we’ve learned in the previous section, \(\dd{s}\), the length of an infinitesimally small line segment, is \(\sqrt{r^2 + \left(\dv{r}{\theta}\right)^2} \dd{\theta}\) for polar functions.
+        </p>
+        <p class="nbm">
+          So if we are rotating a polar curve from \(\theta = a\) to \(\theta = b\), the formulas for surface area in polar coordinates are:
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi y \sqrt{r^2 + \left(\dv{r}{\theta}\right)^2} \dd{\theta}\\
+          &= \int_a^b 2\pi r\sin(\theta) \sqrt{r^2 + \left(\dv{r}{\theta}\right)^2} \dd{\theta}
+          \end{flalign} \]
+        </div>
+        <p class="nm sn">
+          This formula is for if we’re rotating around the \(x\)-axis.
+        </p>
+        <div class="mj">
+          \[ \begin{flalign}
+          A &= \int_a^b 2\pi x \sqrt{r^2 + \left(\dv{r}{\theta}\right)^2} \dd{\theta}\\
+          &= \int_a^b 2\pi r\cos(\theta) \sqrt{r^2 + \left(\dv{r}{\theta}\right)^2} \dd{\theta}
+          \end{flalign} \]
+        </div>
+        <p class="ntm sn">
+          This formula is for if we’re rotating around the \(y\)-axis.
+        </p>
+        <p class="problem">
+          <strong>Problem</strong>: What is the surface area of the solid of revolution formed by rotating the polar curve \(r = \sin(\theta)\) from \(\theta = 0\) to \(\theta = \frac{\pi}{4}\) around the \(x\)-axis?
+        </p>
+        <img class="graph" src="calc/polar_surface_area.png">
+        <p class="nbm">
+          We need to find \(\dv{r}{\theta}\) first:
+        </p>
+        <div class="mj">
+          \[ r = \sin(\theta) \]
+          \[ \dv{r}{\theta} = \cos(\theta) \]
+        </div>
+        <p class="nm">
+          Now we can substitute into the formula for when we’re rotating around the \(x\)-axis.
+        </p>
+        <div class="mj">
+          \[
+          \begin{flalign}
+          A &= \int_a^b 2\pi \class{red}{r} \sin(\theta) \sqrt{\class{red}{r}^2 + \left(\class{blue}{\dv{r}{\theta}}\right)^2} \dd{\theta}\\
+          &= \int_0^{\pi/4} 2\pi \class{red}{\sin(\theta)} \sin(\theta) \sqrt{[\class{red}{\sin(\theta)}]^2 + [\class{blue}{\cos(\theta)}]^2} \dd{\theta}\\
+          &= \int_0^{\pi/4} 2\pi \sin^2(\theta)\sqrt{\sin^2(\theta) + \cos^2(\theta)} \dd{\theta}\\
+          &= 2\pi\int_0^{\pi/4} \sin^2(\theta)\dd{\theta}\\
+          &= 2\pi\int_0^{\pi/4} \frac{1-\cos(2\theta)}{2}\dd{\theta}\\
+          &= \pi\int_0^{\pi/4} 1-\cos(2\theta)\dd{\theta}\\
+          &= \pi\left(\theta - \frac{1}{2}\sin(2\theta)\right)\bigg|_0^{\pi/4}\\
+          &= \pi\left(\frac{\pi}{4} - \frac{1}{2}\right)\\
+          &= \frac{\pi^2}{4} - \frac{\pi}{2}\\
+          &\approx 0.897
+          \end{flalign}
+          \]
+        </div>
+      </div>
       <h3 class="section-header bc-only-color" id="unit9SummaryHeader">
         Unit 9 Summary <button id="unit9SummaryButton" onclick="showHide('unit9Summary')">Show</button>
       </h3>
@@ -17695,6 +18218,25 @@ console.log(total);
           <div class="mj">
             \[ L = \int_a^b \sqrt{[x'(t)]^2 + [y'(t)]^2} \dd{t} \]
           </div>
+          <li class="bonus-color">
+            <em>(Not covered in Calc BC)</em> The area under a parametric curve defined by the functions \(x(t)\) and \(y(t)\) from \(t = a\) to \(t = b\) is:
+          </li>
+          <div class="mj bonus-color">
+            \[ A = \int_a^b y(t) x'(t) \dd{t} \]
+          </div>
+          <li class="bonus-color">
+            <em>(Not covered in Calc BC)</em> Parametric surface area:
+            <ul>
+              <li>The surface area of a solid of revolution defined by rotating the functions \(x(t)\) and \(y(t)\) from \(t = a\) to \(t = b\) around the \(x\)-axis is:</li>
+              <div class="mj">
+                \[ A = \int_a^b 2\pi y(t) \sqrt{[x'(t)]^2 + [y'(t)]^2} \dd{t} \]
+              </div>
+              <li>The surface area of a solid of revolution defined by rotating the functions \(x(t)\) and \(y(t)\) from \(t = a\) to \(t = b\) around the \(y\)-axis is:</li>
+              <div class="mj bonus-color">
+                \[ A = \int_a^b 2\pi x(t) \sqrt{[x'(t)]^2 + [y'(t)]^2} \dd{t} \]
+              </div>
+            </ul>
+          </li>
           <li>
             <strong>Vector-valued functions</strong> are functions that output vectors (quantities with magnitude and direction) instead of scalars (single numbers that represent just a magnitude).
           </li>
@@ -17733,6 +18275,32 @@ console.log(total);
           <div class="mj">
             \[ A = \int_\alpha^\beta \frac{1}{2}[r(\theta)]^2\dd{\theta} \]
           </div>
+          <li class="bonus-color">
+            <em>(Not covered in Calc BC)</em> The arc length of a polar curve \(r(\theta)\) from \(\theta = a\) to \(\theta = b\) is:
+          </li>
+          <div class="mj bonus-color">
+            \[ A = \int_a^b \sqrt{[r'(\theta)]^2 + r^2} \dd{\theta} \]
+          </div>
+          <li class="bonus-color">
+            <em>(Not covered in Calc BC)</em> Polar surface area:
+            <ul>
+              <li>The surface area of a solid of revolution defined by rotating \(r(\theta)\) from \(\theta = a\) to \(\theta = b\) around the \(x\)-axis is:</li>
+              <div class="mj">
+                \[ \begin{flalign}
+                A &= \int_a^b 2\pi y \sqrt{[r'(\theta)]^2 + r^2} \dd{\theta}\\
+                &= \int_a^b 2\pi r\sin(\theta) \sqrt{[r'(\theta)]^2 + r^2} \dd{\theta}
+                \end{flalign} \]
+              </div>
+              <li>The surface area of a solid of revolution defined by rotating \(r(\theta)\) from \(\theta = a\) to \(\theta = b\) around the \(y\)-axis is:</li>
+              <div class="mj">
+                \[ \begin{flalign}
+                A &= \int_a^b 2\pi x \sqrt{[r'(\theta)]^2 + r^2} \dd{\theta}\\
+                &= \int_a^b 2\pi r\cos(\theta) \sqrt{[r'(\theta)]^2 + r^2} \dd{\theta}
+                \end{flalign} \]
+              </div>
+            </ul>
+          </li>
+          
         </ul>
       </div>
     </div>
@@ -24845,7 +25413,7 @@ limitations under the License.
       document.getElementsByTagName('body')[0].appendChild(script);
     }
     document.getElementById('loading').innerText = 'Loading scripts (1/3)... Some features will not work properly until loading finishes.';
-    setTimeout(loadScript('calculus.js?20250213'));
+    setTimeout(loadScript('calculus.js?20250218'));
   </script>
 </body>
 </html>
