@@ -1,11 +1,12 @@
 @font-face {
   font-family: "Monospace Typewriter";
-  src: url('MonospaceTypewriter.ttf');
+  src: url('MonospaceTypewriter.otf');
   font-display: swap;
 }
 
 body, button, input, select {
   font-family: "Monospace Typewriter", sans-serif;
+  line-height: 1.35;
 }
 
 body {

@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" href="calc/favicon.png">
   <link rel="apple-touch-icon" type="image/png" href="calc/favicon.png">
   <link rel="apple-touch-icon-precomposed" type="image/png" href="calc/favicon.png">
-  <link rel="stylesheet" href="calculus.css?20250218">
+  <link rel="stylesheet" href="calculus.css?20250303">
 </head>
 <body id="body">
   <div id="backgroundImage"></div>
@@ -254,8 +254,28 @@
     <p>
       <strong>Important: You might have to refresh the tab to view the latest updates to this website.</strong>
     </p>
-    <h3>2025-02-18: “Secret Eli” Update <button id="update20250218Button" onclick="showHide('update20250218')">Hide</button></h3>
-    <div id="update20250218">
+    <h3>2025-03-03: “calculusgaming.com” Update <button id="update20250303Button" onclick="showHide('update20250303')">Hide</button></h3>
+    <div id="update20250303">
+      <p>
+        This update doesn’t feature much actual content, but I wanted to add a link to calculusgaming.com, my website featuring all the educational websites I’ve made so far, and also my new multivariable calculus website that I just released and that I’m currently working on!
+      </p>
+      <p>
+        I have also added a Trig Identities section so you don’t need to pull up another tab to find that identity you need for that pesky trig integral.
+      </p>
+      <h4 class="nm">New Content</h4>
+      <ul>
+        <li><strong>Trig Identities</strong> section: Review all the trig identities you’ll encounter in calculus with this new section!</li>
+      </ul>
+      </ul>
+      <h4 class="nm">Minor Changes</h4>
+      <ul>
+        <li>Added link to <a class="external-link" target="_blank" rel="noopener noreferrer" href="https://calculusgaming.com">calculusgaming.com</a>, my website with more educational websites that I’ve created, and <a class="external-link" target="_blank" rel="noopener noreferrer" href="https://chaddypratt.org/multivar">a link to my new multivariable calculus website</a> that’s currently in development</li>
+        <li><strong>Unit 1: Finding Limits: Algebraic Manipulation</strong>: trig identities link now links to the Trig Identities section on this page instead of an external website</li>
+        <li>Fixed issue where the font wasn’t actually monospace on some browsers and would look slightly off</li>
+      </ul>
+    </div>
+    <h3>2025-02-18: “Secret Eli” Update <button id="update20250218Button" onclick="showHide('update20250218')">Show</button></h3>
+    <div id="update20250218" class="hidden-by-default">
       <p>
         This update features new sections relating to surface area, parametric equations, and polar coordinates.
       </p>
@@ -2444,7 +2464,7 @@
           \[ = \frac{1}{2} \]
         </div>
         <p class="nm">
-          We can also use trigonometric identities to create equivalent expressions. In the example below, we use the identity \(\sin(2x) = 2 \sin(x) \cos(x)\). <a href="https://www.mvcc.edu/learning-commons/pdf/trigonometric-identities-sept-2017.pdf" class="external-link" target="_blank" rel="noopener noreferrer">List of trigonometric identities</a>
+          We can also use trigonometric identities to create equivalent expressions. In the example below, we use the identity \(\sin(2x) = 2 \sin(x) \cos(x)\). <a href="#trigIdentitiesHeader" onclick="jumpTo('trigIdentities')">List of trigonometric identities</a>
         </p>
         <div class="mj">
           \[ \lim_{x \to \class{red}{\pi}}\frac{\sin(2x)}{\sin(x)} \]
@@ -25279,6 +25299,120 @@ console.log(total);
     </div>
   </div>
   <hr class="heavy-hr">
+  <!-- Trig Identities -->
+  <h2 id="trigIdentitiesHeader">
+    <span onclick="showHideUnit('trigIdentities')">Trigonometric Identities </span> <button id="trigIdentitiesButton" onclick="showHideUnit('trigIdentities')">Show</button>
+  </h2>
+  <div class="hidden-by-default" id="trigIdentities">
+    <p class="bold large-text nbm">
+      Tangent and Cotangent
+    </p>
+    <div class="mj">
+      \[ \tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)} \]
+      \[ \cot(\theta) = \frac{\cos(\theta)}{\sin(\theta)} \]
+    </div>
+    <p class="bold large-text nm">
+      Reciprocal Trig Functions
+    </p>
+    <div class="mj">
+      \[ \csc(\theta) = \frac{1}{\sin(\theta)} \]
+      \[ \sec(\theta) = \frac{1}{\cos(\theta)} \]
+      \[ \cot(\theta) = \frac{1}{\tan(\theta)} \]
+    </div>
+    <p class="bold large-text nm">
+      Odd/Even Identities
+    </p>
+    <div class="mj">
+      \[ \sin(-\theta) = -\sin(\theta) \]
+      \[ \cos(-\theta) = \cos(\theta) \]
+      \[ \tan(-\theta) = -\tan(\theta) \]
+      \[ \csc(-\theta) = -\csc(\theta) \]
+      \[ \sec(-\theta) = \sec(\theta) \]
+      \[ \cot(-\theta) = -\cot(\theta) \]
+    </div>
+    <p class="ntm sn">
+      Sine, tangent, cosecant, and cotangent are odd functions (meaning \(f(-x) = -f(x)\)), while cosine and secant are even functions (meaning \(f(-x) = f(x)\)).
+    </p>
+    <p class="bold large-text nm">
+      Pythagorean Identities
+    </p>
+    <div class="mj">
+      \[ \sin^2(\theta) + \cos^2(\theta) = 1 \]
+      \[ \tan^2(\theta) + 1 = \sec^2(\theta) \]
+      \[ 1 + \cot^2(\theta) = \csc^2(\theta) \]
+    </div>
+    <p class="ntm sn">
+      The second and third identities can be derived from the first one by dividing the equation by \(\cos^2(\theta)\) and \(\sin^2(\theta)\) respectively.
+    </p>
+    <p class="bold large-text nm">
+      Angle Addition and Subtraction Identities
+    </p>
+    <div class="mj">
+      \[ \sin(a + b) = \sin(a)\cos(b) + \cos(a)\sin(b) \]
+      \[ \sin(a - b) = \sin(a)\cos(b) - \cos(a)\sin(b) \]
+      \[ \cos(a + b) = \cos(a)\cos(b) - \sin(a)\sin(b) \]
+      \[ \cos(a - b) = \cos(a)\cos(b) + \sin(a)\sin(b) \]
+    </div>
+    <p class="bold large-text nm">
+      Double Angle Identities
+    </p>
+    <div class="mj">
+      \[ \sin(2\theta) = 2\sin(\theta)\cos(\theta) \]
+      \[ \begin{flalign}
+      \cos(2\theta) &= \cos^2(\theta) - \sin^2(\theta)\\
+      &= 2\cos^2(\theta) - 1\\
+      &= 1 - 2\sin^2(\theta)
+      \end{flalign} \]
+    </div>
+    <p class="ntm sn">
+      These can be derived from the angle addition formulas by plugging in \(\theta\) for both \(a\) and \(b\). The second and third forms of the \(\cos(2\theta)\) identity can be derived from the first form using the Pythagorean identity.
+    </p>
+    <p class="bold large-text nm">
+      Product Identities (Two Variables)
+    </p>
+    <div class="mj">
+      \[ \sin(a)\cos(b) = \frac{\sin(a-b) + \sin(a+b)}{2} \]
+      \[ \sin(a)\sin(b) = \frac{\cos(a-b) - \cos(a+b)}{2} \]
+      \[ \cos(a)\cos(b) = \frac{\cos(a-b) + \cos(a+b)}{2} \]
+    </div>
+    <p class="ntm sn">
+      These can be derived from the angle addition and subtraction identities.
+    </p>
+    <p class="bold large-text nm">
+      Product Identities (One Variable)
+    </p>
+    <div class="mj">
+      \[ \sin(\theta)\cos(\theta) = \frac{\sin(2\theta)}{2} \]
+      \[ \sin^2(\theta) = \frac{1 - \cos(2\theta)}{2} \]
+      \[ \cos^2(\theta) = \frac{1 + \cos(2\theta)}{2} \]
+    </div>
+    <p class="ntm sn">
+      These can be derived either from the product identities for two variables or with the double angle formulas.
+    </p>
+    <p class="bold large-text nm">
+      Half-Angle Identities
+    </p>
+    <div class="mj">
+      \[ \sin\left(\frac{\theta}{2}\right) = \pm\sqrt{\frac{1-\cos(\theta)}{2}} \]
+      \[ \cos\left(\frac{\theta}{2}\right) = \pm\sqrt{\frac{1+\cos(\theta)}{2}} \]
+    </div>
+    <p class="ntm sn">
+      The sign to use for these identities depends on whether \(\sin(\frac{\theta}{2})\) or \(\cos(\frac{\theta}{2})\) is positive or negative. These identities can be derived from the \(\sin^2(\theta)\) and \(\cos^2(\theta)\) identities.
+    </p>
+  </div>
+  <hr class="heavy-hr">
+  <!-- My Other Websites -->
+  <h2 id="otherWebsitesHeader">
+    <span onclick="showHide('otherWebsites')">My Other Websites! (<a class="external-link" target="_blank" rel="noopener noreferrer" href="https://calculusgaming.com">calculusgaming.com</a>)</span>
+    <button id="otherWebsitesButton" onclick="showHide('otherWebsites')">Show</button>
+  </h2>
+  <div id="otherWebsites" class="hidden-by-default">
+    <p>I have other educational websites available at <a class="external-link" target="_blank" rel="noopener noreferrer" href="https://calculusgaming.com">https://calculusgaming.com</a>!</p>
+    <p>
+      The next step after learning calculus is multivariable calculus. I am currently working on a multivariable calculus website, and you can find it at <a class="external-link" target="_blank" rel="noopener noreferrer" href="https://chaddypratt.org/multivar">https://chaddypratt.org/multivar</a>!
+    </p>
+  </div>
+  <hr class="heavy-hr">
   <!-- Credits / Special Thanks -->
   <h2 id="creditsHeader">
     <span onclick="showHide('credits')">Credits / Special Thanks</span>
@@ -25287,7 +25421,6 @@ console.log(total);
   <div id="credits">
     <p>
       All code, diagrams, and explanations were created by Eldrick Chen (also known as “calculus gaming”). This page is open-source - <a class="external-link" target="_blank" rel="noopener noreferrer" href="https://github.com/chaddypioneers/unnamed-calc-website">view the GitHub repository here.</a>
-    </p>
     </p>
     <p>
       👋 Hello! I’m Eldrick, the person who created this entire webpage as a passion project to help people at my school.
@@ -25413,7 +25546,7 @@ limitations under the License.
       document.getElementsByTagName('body')[0].appendChild(script);
     }
     document.getElementById('loading').innerText = 'Loading scripts (1/3)... Some features will not work properly until loading finishes.';
-    setTimeout(loadScript('calculus.js?20250218'));
+    setTimeout(loadScript('calculus.js?20250303'));
   </script>
 </body>
 </html>

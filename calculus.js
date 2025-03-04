@@ -1,5 +1,5 @@
 // Mathjax loading
-const initialElementsToTypeset = ['updateHistory', 'what', 'links', 'whyCalc', 'credits', 'progress2', 'progress8', 'progress10'];
+const initialElementsToTypeset = ['updateHistory', 'what', 'links', 'whyCalc', 'credits', 'progress2', 'progress8', 'progress10', 'trigIdentities'];
 var typesetElements = initialElementsToTypeset.slice();
 
 function mathjaxPageReady() {
@@ -3388,7 +3388,8 @@ const searchKeywords = {
   'nthTermTest': ['nth-Term Test'],
   'taylorProblems': ['Maclaurin Polynomials'],
   'taylorSeries': ['Maclaurin Series'],
-  'testSummary': ['Convergence Test Summary']
+  'testSummary': ['Convergence Test Summary'],
+  'comparisonTest': ['Direct Comparison Test', 'Limit Comparison Test']
 };
 
 // Determine title of every section
