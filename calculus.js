@@ -45,6 +45,7 @@ MathJax = {
   }
 };
 
+// Math functions
 function slowPartialSum(func) {
   // Returns a function that manually calculates the partial sum. It's slow so only use when you can't find an expression for the partial sum.
   return n => {
@@ -54,6 +55,23 @@ function slowPartialSum(func) {
     }
     return sum;
   }
+}
+
+function sec(x) {
+  return 1 / Math.cos(x);
+}
+
+function csc(x) {
+  return 1 / Math.sin(x);
+}
+
+function cot(x) {
+  return 1 / Math.tan(x);
+}
+
+function mod(x, y) {
+  // Fixes x % y not returning correct values for negative numbers
+  return ((x % y) + y) % y;
 }
 
 function factorial(n) {
@@ -137,7 +155,7 @@ var lastPSeriesSum = {
 }
 
 function pSeriesSum(n) {
-  var p = round(parseFloat(get('pSeriesPValueSlider').value) * 3 - 0.5, 2);
+  var p = round(getSliderValue('pSeriesPValue'), 2);
   if (p === lastPSeriesSum['p'] && n === lastPSeriesSum['n']) {
     // Don't bother calculating it again if it's already been calculated
     return lastPSeriesSum['sum'];
@@ -184,8 +202,140 @@ function altHarmonicSum(n) {
   return sum;
 }
 
+function gammaIntegral(x, b) {
+  if (x === 0) {
+    return NaN;
+  }
+  if (b === 0 && x >= 1) {
+    return 0;
+  }
+  var sum = 0;
+  if (b > 1) {
+    sum += riemannSum(t => t ** (x - 1) * Math.exp(-t), [1, b], 100000, 'trapezoid');
+  }
+  if (x < 1) {
+    var highPrecisionIterations = 300;
+  }
+  else {
+    var highPrecisionIterations = 10;
+  }
+  // Calculate trapezoidal sum over [0.1, 1], [0.01, 0.1], [0.001, 0.01], etc. for higher accuracy
+  for (var i = 1; i <= highPrecisionIterations; i++) {
+    if (b > 0.1 ** i) {
+      sum += riemannSum(t => t ** (x - 1) * Math.exp(-t), [0.1 ** i, Math.min(b, 0.1 ** (i - 1))], 1000, 'trapezoid');
+    }
+  }
+  if (x <= 0.5) {
+    return round(sum, 4);
+  }
+  return sum;
+}
+
+const eStr = '2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642742746639193200305992181741359662904357290033429526059563073813232862794349076323382988075319525101901157383418793070215408914993488416750924476146066808226480016847741185374234544243710753907774499206955170276183860626133138458300075204493382656029760673711320070932870912744374704723069697720931014169283681902551510865746377211125238978442505695369677078544996996794686445490598793163688923009879312';
+
+var digitsOfETimestamp = null;
+function digitsOfEInput() {
+  clearTimeout(calcDigitsOfETimeout);
+  var degree = parseInt(get('digitsOfEInput').value);
+  if (isFinite(degree)) {
+    if (degree < 1) {
+      get('digitsOfEOutput').innerHTML = '<span class="red">To get any correct digits of e, the degree must be at least 1.</span>';
+    }
+    else {
+      get('digitsOfECalculation').classList.remove('hidden');
+      digitsOfETimestamp = Date.now();
+      var polynomialStr = '1/0!';
+      if (degree <= 5) {
+        for (var i = 1; i <= degree; i++) {
+          polynomialStr += ` + 1/${i}!`;
+        }
+      }
+      else {
+        var polynomialStr = `1/0! + 1/1! + 1/2! + 1/3! + ... + 1/${formatNum(degree)}!`;
+      }
+      get('digitsOfEPolynomial').innerText = polynomialStr;
+      calcDigitsOfE(degree);
+    }
+  }
+}
+
+var calcDigitsOfETimeout = null;
+
+function calcDigitsOfE(degree) {
+  if (degree < 10000) {
+    var chunkSize = 500;
+  }
+  else if (degree < 25000) {
+    var chunkSize = 200;
+  }
+  else {
+    var chunkSize = 100;
+  }
+  // By the Lagrange error bound, the maximum error of exp(1) using the Taylor series of degree n is e / (n+1)!
+  var reciprocalOfErrorBound = math.divide(math.factorial(math.bignumber(degree + 1)), math.bignumber(math.e));
+  var digitsNeeded = math.floor(math.number(math.log10(reciprocalOfErrorBound)));
+  const bigmath = math.create({
+    number: 'BigNumber',
+    precision: Math.max(digitsNeeded + 2, 10) // a few more digits than we can be confident in
+  });
+  var result = bigmath.bignumber(0);
+  var term = bigmath.bignumber(1);
+  if (degree < 2000) {
+    for (var i = 0; i <= degree; i++) {
+      result = bigmath.add(result, term);
+      term = bigmath.divide(term, i + 1);
+    }
+    calcDigitsOfEFinished(result);
+  }
+  else {
+    var i = 0;
+    calcDigitsOfEChunk(bigmath, result, term, i, degree, chunkSize);
+  }
+}
+
+function calcDigitsOfEChunk(bigmath, result, term, index, degree, chunkSize) {
+  for (var i = index; i <= Math.min(index + chunkSize - 1, degree); i++) {
+    result = bigmath.add(result, term);
+    term = bigmath.divide(term, i + 1);
+  }
+  if (index + chunkSize - 1 >= degree) {
+    calcDigitsOfEFinished(result);
+  }
+  else {
+    get('digitsOfEOutput').innerText = `Calculating... (${formatNum(i)}/${formatNum(degree)})`;
+    calcDigitsOfETimeout = setTimeout(() => calcDigitsOfEChunk(bigmath, result, term, i, degree, chunkSize));
+  }
+}
+
+function calcDigitsOfEFinished(result) {
+  var resultStr = result.toString();
+  var outputStr = '';
+  // If there are less than 500 digits, then compare the calculated digits to the actual digits of e and only return the digits that are correct
+  // Otherwise return the calculated value with the last few digits chopped off
+  for (var i = 0; i < eStr.length; i++) {
+    if (resultStr[i] === eStr[i]) {
+      outputStr += eStr[i];
+    }
+    else {
+      break;
+    }
+  }
+  if (resultStr.length > 502) {
+    var digits = resultStr.slice(0, -2); // last few digits might be incorrect so don't return them
+  }
+  else {
+    var digits = outputStr.replace(/\.$/, '');
+  }
+  get('digitsOfETime').innerText = `It took ${round((Date.now() - digitsOfETimestamp) / 1000, 3)} seconds to calculate ${formatNum(Math.max(0, digits.length - 2))} digits of e. Here they are:`;
+  get('digitsOfEOutput').innerText = digits;
+}
+
 // Custom text for show/hide buttons. Defaults to "Show" / "Hide" if not specified
 const customTextButtons = {
+  'demoCanvasDiv': {
+    'showText': 'Show Rectangle',
+    'hideText': 'Hide Rectangle'
+  },
   'progress': {
     'showText': 'Show Current Progress',
     'hideText': 'Hide Current Progress'
@@ -245,6 +395,14 @@ const customTextButtons = {
   'diffDemoGraph': {
     'showText': 'Show graph of f(x) with tangent line',
     'hideText': 'Hide Graph'
+  },
+  'diffDemo2FormulaDiv': {
+    'showText': "Show expression for f'(x)",
+    'hideText': "Hide expression for f'(x)"
+  },
+  'diffDemo3FormulaDiv': {
+    'showText': "Show expression for f'(x)",
+    'hideText': "Hide expression for f'(x)"
   },
   'diffExampleOtherPtsP': {
     'showText': 'Show Slider',
@@ -361,12 +519,24 @@ const customTextButtons = {
   'leibnizPiHint2': {
     'showText': 'Give me another hint!',
     'hideText': 'Hide Hint 2'
+  },
+  'pSeriesProof': {
+    'showText': 'Why is this true?',
+    'hideText': 'Hide Proof'
+  },
+  'license': {
+    'showText': 'Show License',
+    'hideText': 'Hide License'
+  },
+  'altSeriesTestExplanation': {
+    'showText': 'Why are these conditions necessary?',
+    'hideText': 'Hide Explanation'
   }
 };
 
 const sliderSettings = {
   'demo': {
-    'func': x => x * parseFloat(get('demoBSlider').value) * 10,
+    'func': x => x * getSliderValue('demoB'),
     'sliderRange': [0, 10]
   },
   'demoB': {
@@ -531,6 +701,14 @@ const sliderSettings = {
     'func': x => 2 * x,
     'sliderRange': [-5, 5]
   },
+  'diffDemo2': {
+    'func': x => x, // placeholder
+    'sliderRange': [-5, 5]
+  },
+  'diffDemo3': {
+    'func': x => x, // placeholder
+    'sliderRange': [-5, 5]
+  },
   'diffSin': {
     'func': x => Math.cos(x),
     'sliderRange': [-2 * Math.PI, 2 * Math.PI]
@@ -569,6 +747,25 @@ const sliderSettings = {
   'diffChain2Ln': {
     'func': x => x,
     'sliderRange': [0.01, 10]
+  },
+  'xToReciprocal': {
+    'func': x => x ** (1/x),
+    'sliderRange': [1, 1e7],
+    'geometric': true,
+    'inputPlaces': 0,
+    'outputPlaces': 6
+  },
+  'localLinearity': {
+    'func': x => 4 * (x - 2) + 4,
+    'sliderRange': [1, 3],
+    'inputPlaces': 3,
+    'outputPlaces': 4
+  },
+  'localLinearity2': {
+    'func': x => 0.1 * (x - 25) + 5,
+    'sliderRange': [15, 35],
+    'inputPlaces': 2,
+    'outputPlaces': 4
   },
   'critPoints': {
     'func': x => 1 / (3 * Math.cbrt(x ** 2)) - 1,
@@ -660,6 +857,12 @@ const sliderSettings = {
     'inputPlaces': 3,
     'outputPlaces': 4
   },
+  'intInteractive': {
+    'func': x => x ** 3,
+    'sliderRange': [-5, 5],
+    'inputPlaces': 3,
+    'outputPlaces': 3
+  },
   'analyzeAccumulation': {
     'func': x => x ** 2 - 4,
     'sliderRange': [-4, 4],
@@ -713,6 +916,57 @@ const sliderSettings = {
     'inputPlaces': 3,
     'outputPlaces': 6
   },
+  'gammaFunc': {
+    'func': x => x, // placeholder
+    'sliderRange': [0.1, 100],
+    'geometric': true,
+    'inputPlaces': 2,
+    'forceUpdate': 'gammaFuncXValue'
+  },
+  'gammaFuncXValue': {
+    'func': x => x, // placeholder, the actual code to use the gammaIntegral function is implemented in updateSliderValues
+    'sliderRange': [-2, 10],
+    'inputPlaces': 2,
+    'outputPlaces': 5,
+    'maxSigFigs': 10
+  },
+  'gammaFunc2': {
+    'func': x => math.gamma(x),
+    'sliderRange': [-10, 10],
+    'inputPlaces': 2,
+    'outputPlaces': 6,
+    'maxSigFigs': 10
+  },
+  'gammaFuncComplex': {
+    'func': x => x, // placeholder
+    'sliderRange': [-10, 10],
+    'inputPlaces': 2,
+    'outputPlaces': 6,
+    'maxSigFigs': 10
+  },
+  'gammaFuncComplexImag': {
+    'func': x => x, // placeholder
+    'sliderRange': [-10, 10],
+    'inputPlaces': 2,
+    'outputPlaces': 6,
+    'maxSigFigs': 10,
+    'forceUpdate': 'gammaFuncComplex'
+  },
+  'riemannZeta': {
+    'func': x => x, // placeholder
+    'sliderRange': [-10, 10],
+    'inputPlaces': 2,
+    'outputPlaces': 6,
+    'maxSigFigs': 10
+  },
+  'riemannZetaImag': {
+    'func': x => x, // placeholder
+    'sliderRange': [-10, 10],
+    'inputPlaces': 2,
+    'outputPlaces': 6,
+    'maxSigFigs': 10,
+    'forceUpdate': 'riemannZeta'
+  },
   'arcLength': {
     'func': n => arcLength(x => x ** (3/2), [0, 2], n),
     'sliderRange': [1, 10000],
@@ -725,6 +979,13 @@ const sliderSettings = {
     'sliderRange': [1, 1e7],
     'geometric': true,
     'inputPlaces': 0,
+    'outputPlaces': 6
+  },
+  'geoSeriesInteractiveRatio': {
+    'func': x => x, // placeholder
+    'sliderRange': [-1.5, 1.5],
+    'forceUpdate': 'geoSeriesInteractive',
+    'inputPlaces': 2,
     'outputPlaces': 6
   },
   'nthTermHarmonic2': {
@@ -804,6 +1065,19 @@ const sliderSettings = {
     'inputPlaces': 2,
     'outputPlaces': 10,
     'forceUpdate': 'taylorExp'
+  },
+  'taylorLn': {
+    'func': x => taylorApprox(round(getSliderValue('taylorLnXValue'), 2), 'ln', x),
+    'sliderRange': [1, 20],
+    'inputPlaces': 0,
+    'outputPlaces': 10
+  },
+  'taylorLnXValue': {
+    'func': x => x,
+    'sliderRange': [-1, 3],
+    'inputPlaces': 2,
+    'outputPlaces': 10,
+    'forceUpdate': 'taylorLn'
   },
   'taylorSinh': {
     'func': x => taylorApprox(round(parseFloat(get('taylorSinhXValueSlider').value) * 10 - 5, 2), 'sinh', x),
@@ -970,30 +1244,49 @@ const sequenceSettings = {
     'sliderRange': [1, 45],
     'places': 3
   },
+  'geoSeriesInteractive': {
+    'rule': n => round(getSliderValue('geoSeriesInteractiveRatio'), 2) ** (n - 1),
+    'partialSum': n => round(getSliderValue('geoSeriesInteractiveRatio'), 2) === 1 ? n : (1 - round(getSliderValue('geoSeriesInteractiveRatio'), 2) ** n) / (1 - round(getSliderValue('geoSeriesInteractiveRatio'), 2)),
+    'sliderRange': [1, 100],
+    'geometric': true,
+    'places': 6,
+    'maxSigFigs': 10
+  },
   'nthTermTest': {
     'rule': n => 1 + (1/2) ** (n - 1),
     'partialSum': n => n + (1 - (1/2) ** n) / 0.5,
     'sliderRange': [1, 1e5],
     'geometric': true,
-    'places': 6
+    'places': 6,
+    'seriesVisual': true
   },
   'nthTermTest2': {
     'rule': n => (2 * n ** 2 + 3) / (n ** 2 + 4 * n),
     'sliderRange': [1, 1e5],
     'geometric': true,
-    'places': 6
+    'places': 6,
+    'seriesVisual': true
   },
   'nthTermTest3': {
     'rule': n => Math.log(n),
     'sliderRange': [1, 1e5],
     'geometric': true,
-    'places': 6
+    'places': 6,
+    'seriesVisual': true
   },
   'nthTermTest4': {
     'rule': n => Math.cos(n),
     'sliderRange': [1, 50],
     'geometric': false,
-    'places': 6
+    'places': 6,
+    'seriesVisual': true
+  },
+  'nthTermTest5': {
+    'rule': n => 3 + 1/n,
+    'sliderRange': [1, 1e5],
+    'geometric': true,
+    'places': 6,
+    'seriesVisual': true
   },
   'nthTermHarmonic': {
     'rule': n => 1 / n,
@@ -1013,7 +1306,7 @@ const sequenceSettings = {
   },
   'integralTest2': {
     'rule': n => 1 / (n + 1) ** 2,
-    'sliderRange': [1, 1e6],
+    'sliderRange': [1, 1e6 - 1],
     'geometric': true,
     'places': 6,
     'displayAsFraction': true
@@ -1027,7 +1320,7 @@ const sequenceSettings = {
     'displayAsFraction': true
   },
   'pSeries': {
-    'rule': n => 1 / (n ** (round(parseFloat(get('pSeriesPValueSlider').value) * 3 - 0.5, 2))),
+    'rule': n => 1 / (n ** (round(getSliderValue('pSeriesPValue'), 2))),
     'partialSum': pSeriesSum,
     'sliderRange': [1, 1e6],
     'geometric': true,
@@ -1118,6 +1411,27 @@ const sequenceSettings = {
     'places': 6,
     'displayAsFraction': false
   },
+  'altSeriesDivergent1': {
+    'rule': n => (n % 2 === 1 ? 2 : -1) / Math.ceil(n / 2),
+    'sliderRange': [1, 5e6],
+    'geometric': true,
+    'places': 6,
+    'displayAsFraction': false
+  },
+  'altSeriesDivergent2': {
+    'rule': n => (-1) ** (n - 1),
+    'sliderRange': [1, 20],
+    'geometric': false,
+    'places': 6,
+    'displayAsFraction': false
+  },
+  'altSeriesDivergent3': {
+    'rule': n => (-1) ** (n - 1) * (0.5 + 0.5 ** (n - 1)),
+    'sliderRange': [1, 20],
+    'geometric': false,
+    'places': 6,
+    'displayAsFraction': false
+  },
   'ratioTest1': {
     'rule': n => (2 / 3) ** n / n,
     'partialSum': slowPartialSum(n => (2 / 3) ** n / n),
@@ -1133,7 +1447,24 @@ const sequenceSettings = {
     'sliderRange': [1, 40],
     'geometric': false,
     'places': 6,
-    'maxSigFigs': 12,
+    'maxSigFigs': 10,
+    'displayAsFraction': false,
+    'endingTerms': 2
+  },
+  'rootTest1': {
+    'rule': n => (2 ** n) / (n ** n),
+    'sliderRange': [1, 200],
+    'geometric': true,
+    'places': 6,
+    'displayAsFraction': false,
+    'endingTerms': 2
+  },
+  'rootTest2': {
+    'rule': n => (-2) ** n / n,
+    'sliderRange': [1, 1000],
+    'geometric': true,
+    'places': 6,
+    'maxSigFigs': 10,
     'displayAsFraction': false,
     'endingTerms': 2
   },
@@ -1179,6 +1510,13 @@ const sequenceSettings = {
     'rule': n => (-1) ** (n+1) / (n ** 3),
     'partialSum': slowPartialSum(n => (-1) ** (n+1) / (n ** 3)),
     'sliderRange': [1, 200],
+    'geometric': true,
+    'places': 6,
+    'displayAsFraction': true
+  },
+  'integralError1': {
+    'rule': n => 1 / n ** 2,
+    'sliderRange': [1, 1000],
     'geometric': true,
     'places': 6,
     'displayAsFraction': true
@@ -1332,6 +1670,18 @@ const graphSettings = {
     'xBounds': [-9, 9],
     'yBounds': [-2, 16]
   },
+  'diffDemo2': {
+    'func': x => x ** 2, // placeholder
+    'derivative': x => 2 * x, // placeholder
+    'xBounds': [-5, 5],
+    'yBounds': [-5, 5]
+  },
+  'diffDemo3': {
+    'func': x => x ** 2, // placeholder
+    'derivative': x => 2 * x, // placeholder
+    'xBounds': [-5, 5],
+    'yBounds': [-5, 5]
+  },
   'diffSin': {
     'func': x => Math.sin(x),
     'derivative': x => Math.cos(x),
@@ -1385,6 +1735,16 @@ const graphSettings = {
     'pointX': 0,
     'xBounds': [-5, 5],
     'yBounds': [-5, 5]
+  },
+  'localLinearity': {
+    'func': x => x ** 2,
+    'xBounds': [1, 3],
+    'yBounds': [0, 9]
+  },
+  'localLinearity2': {
+    'func': x => Math.sqrt(x),
+    'xBounds': [15, 35],
+    'yBounds': [Math.sqrt(15), 6]
   },
   'critPoints': {
     'func': x => Math.cbrt(x) - x,
@@ -1465,6 +1825,11 @@ const graphSettings = {
     'xBounds': [-0.5, 1.5],
     'yBounds': [-1, 4]
   },
+  'intInteractive': {
+    'func': x => x, // placeholder
+    'xBounds': [-5, 5],
+    'yBounds': [-5, 5]
+  },
   'eulersFormula5': {
     'xBounds': [-1.5, 1.5],
     'yBounds': [-1.5, 1.5]
@@ -1497,6 +1862,10 @@ const graphSettings = {
     'xBounds': [-1e6, 1e6],
     'yBounds': [-1, 1]
   },
+  'geoSeriesInteractive': {
+    'xBounds': [-1, 1], // placeholder
+    'yBounds': [-1, 1]
+  },
   'nthTermHarmonic': {
     'xBounds': [0, 15],
     'yBounds': [-1, 1]
@@ -1511,6 +1880,38 @@ const graphSettings = {
   },
   'integralTest2': {
     'xBounds': [0, 1],
+    'yBounds': [-1, 1]
+  },
+  'altSeries1': {
+    'xBounds': [0, 1],
+    'yBounds': [-1, 1]
+  },
+  'altSeries2': {
+    'xBounds': [-1000, 1000],
+    'yBounds': [-1, 1]
+  },
+  'altSeries3': {
+    'xBounds': [0, 2],
+    'yBounds': [-1, 1]
+  },
+  'altSeries4': {
+    'xBounds': [0, 1],
+    'yBounds': [-1, 1]
+  },
+  'altSeries5': {
+    'xBounds': [-6, 0],
+    'yBounds': [-1, 1]
+  },
+  'altSeriesDivergent1': {
+    'xBounds': [0, 15],
+    'yBounds': [-1, 1]
+  },
+  'altSeriesDivergent2': {
+    'xBounds': [-1, 1],
+    'yBounds': [-1, 1]
+  },
+  'altSeriesDivergent3': {
+    'xBounds': [0, 2],
     'yBounds': [-1, 1]
   },
   'maclaurinPlayground': {
@@ -1546,6 +1947,36 @@ const graphSettings = {
     'func': x => 1 / x ** 2,
     'xBounds': [0.5, 25],
     'yBounds': [-0.1, 1.1]
+  },
+  'gammaFuncXValue': {
+    'func': x => x, // placeholder
+    'xBounds': [-1, 15],
+    'yBounds': [-0.5, 10]
+  },
+  'gammaFunc2': {
+    'func': x => math.gamma(x), // placeholder
+    'xBounds': [-4.01, 5],
+    'yBounds': [-15, 15]
+  },
+  'nthTermTest': {
+    'xBounds': [0, 10000],
+    'yBounds': [-1, 1]
+  },
+  'nthTermTest2': {
+    'xBounds': [0, 10000],
+    'yBounds': [-1, 1]
+  },
+  'nthTermTest3': {
+    'xBounds': [0, 10000],
+    'yBounds': [-1, 1]
+  },
+  'nthTermTest4': {
+    'xBounds': [-2, 2],
+    'yBounds': [-1, 1]
+  },
+  'nthTermTest5': {
+    'xBounds': [0, 10000],
+    'yBounds': [-1, 1]
   }
 };
 
@@ -1856,8 +2287,8 @@ function round(number, places=0) {
 }
 
 var largeNumFormat = 'default';
-const sciNotDecimals = 5;
-const sciNotThresholdHigh = 1e14;
+const sciNotDecimals = 4;
+const sciNotThresholdHigh = 1e13;
 const sciNotThresholdLow = 1e-10
 
 // Returns whether to use scientific notation for a given number
@@ -1926,20 +2357,33 @@ function formatRealNum(number, places=0, maxSigFigs=null) {
 function formatNum(number, places=0, maxSigFigs=null, nonBreakingLength=null, nonBreakingSide='right') {
   number = round(number, places);
   if (isComplex(number)) {
+    if (!isFinite(number.re) && !isFinite(number.im)) {
+      return 'undefined';
+    }
     if (number.re === 0) {
       if (number.im === -1) {
         return '-i';
+      }
+      else if (number.im === 0) {
+        return '0';
       }
       else if (number.im === 1) {
         return 'i';
       }
       else {
-        return formatNum(number.im, places) + 'i';
+        var imagStr = formatNum(number.im, places);
+        if (useScientificNotation(number.im)) {
+          imagStr = `(${imagStr})`;
+        }
+        return imagStr + 'i';
       }
     }
     var realStr = formatRealNum(number.re, places, maxSigFigs);
     // imagStr is the absolute value of the imaginary part formatted to a string
     var imagStr = formatRealNum(Math.abs(number.im), places, maxSigFigs);
+    if (useScientificNotation(number.im)) {
+      imagStr = `(${imagStr})`;
+    }
     if (Math.abs(number.im) === 1) {
       imagStr = '';
     }
@@ -2191,7 +2635,7 @@ function updateCanvasSize(canvas) {
   }
 }
 
-function drawAxes(config, width, height, noYAxis=false, labelXAxis=false) {
+function drawAxes(config, width, height, noYAxis=false, labelXAxis=false, labelYAxis=false, xAxisLabels=null, yAxisLabels=null) {
   var ctx = config['ctx'];
   var xBounds = config['xBounds'];
   var yBounds = config['yBounds'];
@@ -2208,17 +2652,41 @@ function drawAxes(config, width, height, noYAxis=false, labelXAxis=false) {
   
   if (yBounds[0] < 0 && yBounds[1] > 0) {
     var xAxisCoord = xyToCoords(0, 0, xBounds, yBounds, width, height)[1];
+    var yAxisCoord = xyToCoords(0, 0, xBounds, yBounds, width, height)[0];
     ctx.beginPath();
     ctx.moveTo(0, xAxisCoord);
     ctx.lineTo(width, xAxisCoord);
     ctx.stroke();
     if (labelXAxis) {
+      if (xAxisLabels === null) {
+        var xAxisLabelLeft = formatNum(xBounds[0], 1);
+        var xAxisLabelRight = formatNum(xBounds[1], 1);
+      }
+      else {
+        var xAxisLabelLeft = xAxisLabels[0];
+        var xAxisLabelRight = xAxisLabels[1];
+      }
       ctx.font = "25px Arial";
       ctx.fillStyle = darkModeEnabled ? '#f3f3f3' : 'black';
       ctx.textAlign = 'left';
-      ctx.fillText(formatNum(xBounds[0], 1), 0, xAxisCoord - 10);
+      ctx.fillText(xAxisLabelLeft, 0, xAxisCoord - 10);
       ctx.textAlign = 'right';
-      ctx.fillText(formatNum(xBounds[1], 1), width, xAxisCoord - 10);
+      ctx.fillText(xAxisLabelRight, width, xAxisCoord - 10);
+    }
+    if (labelYAxis) {
+      if (yAxisLabels === null) {
+        var yAxisLabelBottom = formatNum(yBounds[0], 1);
+        var yAxisLabelTop = formatNum(yBounds[1], 1);
+      }
+      else {
+        var yAxisLabelBottom = yAxisLabels[0];
+        var yAxisLabelTop = yAxisLabels[1];
+      }
+      ctx.font = "25px Arial";
+      ctx.fillStyle = darkModeEnabled ? '#f3f3f3' : 'black';
+      ctx.textAlign = 'left';
+      ctx.fillText(yAxisLabelBottom, yAxisCoord + 10, height - 5);
+      ctx.fillText(yAxisLabelTop, yAxisCoord + 10, 20);
     }
   }
 }
@@ -2233,7 +2701,7 @@ function initializeGraph(config, noYAxis=false, labelXAxis=false) {
   drawAxes(config, width, height, noYAxis, labelXAxis);
 }
 
-function canvasGraph(config, func, color='red', clear=true, asymptote=null) {
+function canvasGraph(config, func, color='red', clear=true, asymptotes=null, asymptotePeriod=null, widthMultiplier=1) {
   var canvas = config['canvas'];
   var ctx = config['ctx'];
   var xBounds = config['xBounds'];
@@ -2243,6 +2711,7 @@ function canvasGraph(config, func, color='red', clear=true, asymptote=null) {
 
   var width = canvas.width;
   var height = canvas.height;
+
 
   if (clear) {
     ctx.clearRect(0, 0, width, height);
@@ -2268,10 +2737,10 @@ function canvasGraph(config, func, color='red', clear=true, asymptote=null) {
   ctx.moveTo(startXPos, startYPos);
 
   var lastXPos = startXPos;
-  var pixelWidth = (xBounds[1] - xBounds[0]) / width;
+  var pixelWidth = (xBounds[1] - xBounds[0]) / (width * widthMultiplier);
   
-  for (var pixel = 1; pixel <= width; pixel++) {
-    var x = (pixel / width) * (xBounds[1] - xBounds[0]) + xBounds[0];
+  for (var pixel = 1; pixel <= width * widthMultiplier; pixel++) {
+    var x = (pixel / (width * widthMultiplier)) * (xBounds[1] - xBounds[0]) + xBounds[0];
     var y = func(x);
     var coords = xyToCoords(x, y, xBounds, yBounds, width, height);
     var nextXPos = coords[0];
@@ -2283,7 +2752,21 @@ function canvasGraph(config, func, color='red', clear=true, asymptote=null) {
       nextYPos = -height;
     }
     if (isFinite(y)) {
-      var isAsymptote = asymptote !== null && x >= asymptote && x <= asymptote + pixelWidth;
+      var isAsymptote = false;
+      if (asymptotes !== null) {
+        for (var asymptote of asymptotes) {
+          if (asymptotePeriod != null) {
+            if (mod(x, asymptotePeriod) >= mod(asymptote, asymptotePeriod) && mod(x, asymptotePeriod) <= mod((asymptote + pixelWidth), asymptotePeriod)) {
+              isAsymptote = true;
+            }  
+          }
+          else {
+            if (x >= asymptote && x <= (asymptote + pixelWidth)) {
+              isAsymptote = true;
+            }  
+          }
+        }
+      }
       if (lastXPos !== null && !isAsymptote) {
         ctx.lineTo(nextXPos, nextYPos);
       }
@@ -2299,7 +2782,7 @@ function canvasGraph(config, func, color='red', clear=true, asymptote=null) {
   ctx.stroke();
 }
 
-function shadeGraph(config, func, leftX, rightX, color='pink') {
+function shadeGraph(config, func, leftX, rightX, color='pink', asymptotes=null) {
   var canvas = config['canvas'];
   var ctx = config['ctx'];
   var xBounds = config['xBounds'];
@@ -2311,12 +2794,30 @@ function shadeGraph(config, func, leftX, rightX, color='pink') {
   ctx.lineWidth = 2;
   ctx.fillStyle = color;
 
+  if (leftX > rightX) {
+    var temp = rightX;
+    rightX = leftX;
+    leftX = temp;
+  }
+
   if (leftX < xBounds[0]) {
     leftX = xBounds[0];
   }
   if (rightX > xBounds[1]) {
     rightX = xBounds[1];
   }
+
+  if (!isFinite(func(leftX)) || !isFinite(func(rightX))) {
+    return;
+  }
+  if (asymptotes !== null) {
+    for (var asymptote of asymptotes) {
+      if (leftX <= asymptote && rightX >= asymptote) {
+        return;
+      }
+    }
+  }
+
   // point (leftX, 0)
   var leftCoords = xyToCoords(leftX, 0, xBounds, yBounds, width, height);
   // point (rightX, 0)
@@ -2652,6 +3153,187 @@ function setSliderValue(id, value) {
   updateSliderValues(id);
 }
 
+function getSliderValue(id) {
+  var min = sliderSettings[id]['sliderRange'][0];
+  var max = sliderSettings[id]['sliderRange'][1];
+  var value = parseFloat(get(id + 'Slider').value);
+  if ('geometric' in sliderSettings[id] && sliderSettings[id]['geometric']) {
+    return Math.exp((Math.log(max) - Math.log(min)) * value) * min;
+  }
+  return value * (max - min) + min;
+}
+
+// Sliders with infinite series visuals
+const seriesVisuals = ['infSeriesIntro3', 'infSeriesIntro4', 'infSeriesOscillate', 'geoSeries', 'geoSeries2', 'geoSeriesInteractive', 'nthTermHarmonic', 'comparisonTest', 'integralTest1', 'integralTest2', 'altSeries1', 'altSeries2', 'altSeries3', 'altSeries4', 'altSeries5', 'altSeriesDivergent1', 'altSeriesDivergent2', 'altSeriesDivergent3'];
+
+// Functions for interactive sections
+const interactiveFuncs = {
+  'x': {
+    'func': x => x,
+    'derivative': x => 1,
+    'derivativeHTML': "1",
+    'antiderivative': x => x ** 2 / 2,
+  },
+  'negative': {
+    'func': x => -x,
+    'derivative': x => -1,
+    'derivativeHTML': "-1",
+    'antiderivative': x => -(x ** 2 / 2),
+  },
+  'square': {
+    'func': x => x ** 2,
+    'derivative': x => 2 * x,
+    'derivativeHTML': "2x",
+    'antiderivative': x => x ** 3 / 3,
+  },
+  'cube': {
+    'func': x => x ** 3,
+    'derivative': x => 3 * x ** 2,
+    'derivativeHTML': "3x<sup>2</sup>",
+    'antiderivative': x => x ** 4 / 4,
+  },
+  'sqrt': {
+    'func': x => Math.sqrt(x),
+    'derivative': x => 1 / (2 * Math.sqrt(x)),
+    'derivativeHTML': "1/(2√x)",
+    'antiderivative': x => (2/3) * x ** (3/2),
+  },
+  'cbrt': {
+    'func': x => Math.cbrt(x),
+    'derivative': x => (1/3) / (Math.cbrt(x) ** 2),
+    'derivativeHTML': "(1/3)x<sup>-2/3</sup>",
+    'antiderivative': x => (3/4) * (Math.cbrt(x)) ** 4,
+  },
+  'sin': {
+    'func': x => Math.sin(x),
+    'derivative': x => Math.cos(x),
+    'derivativeHTML': "cos(x)",
+    'antiderivative': x => 1 - Math.cos(x),
+  },
+  'cos': {
+    'func': x => Math.cos(x),
+    'derivative': x => -Math.sin(x),
+    'derivativeHTML': "-sin(x)",
+    'antiderivative': x => Math.sin(x),
+  },
+  'tan': {
+    'func': x => Math.tan(x),
+    'derivative': x => 1 / Math.cos(x) ** 2,
+    'derivativeHTML': "sec<sup>2</sup>(x)",
+    'antiderivative': x => Math.log(Math.abs(sec(x))),
+    'asymptotes': [Math.PI / 2],
+    'asymptotePeriod': Math.PI,
+  },
+  'exp': {
+    'func': x => Math.exp(x),
+    'derivative': x => Math.exp(x),
+    'derivativeHTML': "e<sup>x</sup>",
+    'antiderivative': x => Math.exp(x) - 1,
+  },
+  'ln': {
+    'func': x => Math.log(x),
+    'derivative': x => x > 0 ? 1 / x : NaN,
+    'derivativeHTML': "1/x",
+    'antiderivative': x => x * Math.log(x) - x,
+  },
+  'lnPlus1': {
+    'func': x => Math.log(x + 1),
+    'derivative': x => x > 1 ? 1 / x : NaN,
+    'derivativeHTML': "1/x",
+    'antiderivative': x => (x + 1) * Math.log(x + 1) - (x + 1) + 1,
+  },
+  'reciprocal': {
+    'func': x => 1 / x,
+    'derivative': x => -1 / x ** 2,
+    'derivativeHTML': "-1/x<sup>2</sup>",
+    'asymptotes': [0],
+  },
+  'reciprocalPlus1': {
+    'func': x => 1 / (x + 1),
+    'antiderivative': x => Math.log(x + 1),
+    'asymptotes': [-1],
+  },
+  'cot': {
+    'func': x => 1 / Math.tan(x),
+    'derivative': x => -1 / Math.sin(x) ** 2,
+    'derivativeHTML': "-csc<sup>2</sup>(x)",
+    'antiderivative': x => Math.log(Math.abs(Math.sin(x))),
+    'asymptotes': [0],
+    'asymptotePeriod': Math.PI
+  },
+  'csc': {
+    'func': x => 1 / Math.sin(x),
+    'derivative': x => -cot(x) * csc(x),
+    'derivativeHTML': "-cot(x)csc(x)",
+    'antiderivative': x => -Math.log(Math.abs(csc(x) + cot(x))),
+    'asymptotes': [0],
+    'asymptotePeriod': Math.PI
+  },
+  'sec': {
+    'func': x => 1 / Math.cos(x),
+    'derivative': x => Math.tan(x) * sec(x),
+    'derivativeHTML': "tan(x)sec(x)",
+    'antiderivative': x => -Math.log(Math.abs(sec(x) + Math.tan(x))),
+    'asymptotes': [Math.PI / 2],
+    'asymptotePeriod': Math.PI
+  },
+  'expBase2': {
+    'func': x => 2 ** x,
+    'derivative': x => 2 ** x * Math.log(2),
+    'derivativeHTML': "2<sup>x</sup> ln(2)"
+  },
+  'expBase10': {
+    'func': x => 10 ** x,
+    'derivative': x => 10 ** x * Math.log(10),
+    'derivativeHTML': "10<sup>x</sup> ln(10)"
+  },
+  'logBase2': {
+    'func': x => Math.log2(x),
+    'derivative': x => x > 0 ? 1 / (x * Math.log(2)) : NaN,
+    'derivativeHTML': "1/(x ln(2))"
+  },
+  'logBase10': {
+    'func': x => Math.log10(x),
+    'derivative': x => x > 0 ? 1 / (x * Math.log(10)) : NaN,
+    'derivativeHTML': "1/(x ln(10))"
+  },
+  'arcsin': {
+    'func': x => Math.asin(x),
+    'derivative': x => 1 / Math.sqrt(1 - x ** 2),
+    'derivativeHTML': "1/√(1-x<sup>2</sup>)"
+  },
+  'arccos': {
+    'func': x => Math.acos(x),
+    'derivative': x => -1 / Math.sqrt(1 - x ** 2),
+    'derivativeHTML': "-1/√(1-x<sup>2</sup>)"
+  },
+  'arctan': {
+    'func': x => Math.atan(x),
+    'derivative': x => 1 / (1 + x ** 2),
+    'derivativeHTML': "1/(1+x<sup>2</sup>)"
+  },
+  'arccsc': {
+    'func': x => Math.asin(1 / x),
+    'derivative': x => -1 / (Math.abs(x) * Math.sqrt(x ** 2 - 1)),
+    'derivativeHTML': "-1/(|x|√(x<sup>2</sup>-1))"
+  },
+  'arcsec': {
+    'func': x => Math.acos(1 / x),
+    'derivative': x => 1 / (Math.abs(x) * Math.sqrt(x ** 2 - 1)),
+    'derivativeHTML': "1/(|x|√(x<sup>2</sup>-1))"
+  },
+  'arccot': {
+    'func': x => x === 0 ? Math.PI / 2 : x > 0 ? Math.atan(1 / x) : Math.PI + Math.atan(1 / x),
+    'derivative': x => -1 / (1 + x ** 2),
+    'derivativeHTML': "-1/(1+x<sup>2</sup>)",
+  },
+  'expBaseX': {
+    'func': x => x ** x,
+    'derivative': x => x ** x * (Math.log(x) + 1),
+    'derivativeHTML': "x<sup>x</sup>(ln(x) + 1)"
+  }
+};
+
 function updateSliderValues(id, inputX=false, forceUpdate=false) {
   var sliderID = id + 'Slider';
   var outputID = id + 'Val';
@@ -2731,6 +3413,9 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     if ('forceUpdate' in settings) {
       forceUpdate = settings['forceUpdate'];
     }
+    if ('maxSigFigs' in settings) {
+      maxSigFigs = settings['maxSigFigs'];
+    }
   }
 
   var sliderRange = settings['sliderRange'];
@@ -2786,8 +3471,13 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     var derivative = config['derivative'];
   }
 
-  if (['limitsIntro1', 'limitsIntro2', 'limitsIntro3', 'limitsIntro4'].includes(id)) {
-    canvasGraph(config, graphFunc);
+  if (['limitsIntro1', 'limitsIntro2', 'limitsIntro3', 'limitsIntro4', 'gammaFunc2'].includes(id)) {
+    if (id === 'gammaFunc2') {
+      canvasGraph(config, graphFunc, 'red', true, [-4, -3, -2, -1, 0], null, 2);
+    }
+    else {
+      canvasGraph(config, graphFunc);
+    }
     if (['limitsIntro3', 'limitsIntro4'].includes(id)) {
       plotPoint(config, 0, 0, 'red', true);
     }
@@ -2840,7 +3530,30 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     canvasGraph(config, graphFunc, 'red', false);
   }
   // Infinite series visuals
-  else if (['infSeriesIntro3', 'infSeriesIntro4', 'infSeriesOscillate', 'geoSeries', 'geoSeries2', 'nthTermHarmonic', 'comparisonTest', 'integralTest1', 'integralTest2'].includes(id)) {
+  else if (seriesVisuals.includes(id) || ('seriesVisual' in settings && settings['seriesVisual'])) {
+    if (id === 'geoSeriesInteractive') {
+      var ratio = round(getSliderValue(id + 'Ratio'), 2);
+      var seriesSum = 1 / (1 - ratio);
+      if (ratio === -1) {
+        graphSettings[id]['xBounds'] = [0, 1];
+      }
+      else if (ratio === 1) {
+        graphSettings[id]['xBounds'] = [0, 50];
+      }
+      else {
+        var sliderMax = Math.abs(Math.abs(ratio) >= 1 ? 10000 : Math.min(100, Math.max(1, Math.ceil(seriesSum))));
+        graphSettings[id]['xBounds'] = [ratio < -1 ? -sliderMax : 0, sliderMax];
+      }
+      get(id + 'Convergent').innerText = Math.abs(ratio) >= 1 ? 'divergent' : 'convergent';
+      if (Math.abs(ratio) < 1) {
+        get(id + 'SumText').innerHTML = `The sum of the infinite series is about <span class="output-value">${formatNum(1 / (1 - ratio), outputPlaces)}</span>.`;
+        ;
+      }
+      else {
+        get(id + 'SumText').innerText = '';
+      }
+      get(id + 'FormulaVal').innerText = formatNum(1 / (1 - ratio), outputPlaces);
+    }
     initializeGraph(config, true, true);
     if (id === 'comparisonTest') {
       plotPoint(config, settings['partialSumB'](x), 0, 'red');
@@ -2859,11 +3572,13 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     var canvas = get('demoCanvas');
     var ctx = canvas.getContext('2d');
     updateCanvasSize(canvas);
-    var base = parseFloat(get('demoSlider').value) * 10;
-    var height = parseFloat(get('demoBSlider').value) * 10;
+    var base = getSliderValue('demo');
+    var height = getSliderValue('demoB');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.rect(25, 25, base * 35, height * 35);
+    // Scale down rectangle if canvas is less than 400px wide
+    var scalingFactor = canvas.width / 400;
+    ctx.rect(scalingFactor * 10, scalingFactor * 20, scalingFactor * base * 37, scalingFactor * height * 37);
     ctx.stroke();
     get('demoVal2').innerText = formatNum(base * height, outputPlaces);
   }
@@ -2908,7 +3623,7 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
   // Secant line graphs
   else if (['diffExample', 'diffExampleOtherPts', 'limitDefGraph', 'limitDefGraph2', 'diffAbility1', 'diffAbility2', 'diffAbility3', 'diffAbility4', 'diffAbility5'].includes(id)) {
     if (id === 'diffExampleOtherPts') {
-      var pointX = parseFloat(get(id + '1stSlider').value) * 6 - 3;
+      var pointX = getSliderValue(id + '1st');
       setText(id + '1stPt', `(${formatNum(pointX, inputPlaces)}, ${formatNum(func(pointX), outputPlaces)})`);
     }
     else {
@@ -2959,13 +3674,11 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
   }
   else if (['diffIntervals', 'diffIntervals2', 'diffDemo', 'concavity'].includes(id)) {
     if (id === 'diffDemo') {
-      var originalFunc = x => x ** 2;
       var increaseText = 'increases';
       var decreaseText = 'decreases';
       var eitherText = 'either increases, decreases, or stays the same (depending on the function’s equation)';
     }
     else {
-      var originalFunc = x => -(x ** 3) + x;
       var increaseText = 'increasing';
       var decreaseText = 'decreasing';
       var eitherText = 'neither increasing nor decreasing';
@@ -2981,6 +3694,34 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
       get(id + 'Sign').innerHTML = f_x > 0 ? coloredText('green', 'positive') : coloredText('red', 'negative');
       get(id + 'Direction').innerHTML = f_x > 0 ? coloredText('green', increaseText) : coloredText('red', decreaseText);
     }
+  }
+  else if (['diffDemo2', 'diffDemo3'].includes(id)) {
+    var funcData = interactiveFuncs[get(id + 'Select').value];
+    var originalFunc = funcData['func'];
+    var derivativeFunc = funcData['derivative'];
+    get(id + 'FuncVal').innerText = formatNum(originalFunc(x), inputPlaces);
+    get(id + 'Val2').innerText = formatNum(derivativeFunc(x), inputPlaces);
+    var asymptotes = null;
+    var asymptotePeriod = null;
+    if ('asymptotes' in funcData) {
+      asymptotes = funcData['asymptotes'];
+    }
+    if ('asymptotePeriod' in funcData) {
+      asymptotePeriod = funcData['asymptotePeriod'];
+    }
+
+    var xBounds = [parseFloat(get(id + 'XLowerBound').value), parseFloat(get(id + 'XUpperBound').value)];
+    var yBounds = [parseFloat(get(id + 'YLowerBound').value), parseFloat(get(id + 'YUpperBound').value)];
+    var boundsAreFinite = isFinite(xBounds[0]) && isFinite(xBounds[1]) && isFinite(yBounds[0]) && isFinite(yBounds[1]);
+    var invalidBounds = xBounds[1] < xBounds[0] || yBounds[1] < yBounds[0];
+    if (boundsAreFinite && !invalidBounds) {
+      config['xBounds'] = xBounds;
+      config['yBounds'] = yBounds;
+    }
+    canvasGraph(config, originalFunc, 'red', true, asymptotes, asymptotePeriod);
+    plotTangentLine(config, originalFunc, derivativeFunc, x);
+    plotPoint(config, x, originalFunc(x));
+    get(id + 'Formula').innerHTML = funcData['derivativeHTML'];
   }
   else if (id === 'optimization') {
     get(id + 'HP').innerText = formatNum(72 / (x - 2) + 2, outputPlaces);
@@ -3015,13 +3756,62 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
       get(id + type).innerText = formatNum(riemannSum(x => x ** 2, [0, 2], x, type.toLowerCase()), outputPlaces);
     }
   }
-  else if (id === 'ftc') {
-    get(id + 'Derivative').innerText = formatNum(3 * x ** 2, outputPlaces);
-    get(id + 'Func').innerText = formatNum(3 * x ** 2, outputPlaces);
+  else if (['ftc', 'intInteractive'].includes(id)) {
+    var funcData = {};
+    var funcName = '';
+    if (id === 'intInteractive') {
+      funcName = get(id + 'Select').value;
+      funcData = interactiveFuncs[funcName];
+      graphFunc = funcData['func'];
+      get(id + 'Val2').innerText = formatNum(funcData['antiderivative'](x), outputPlaces);
+    }
+    var asymptotes = null;
+    var asymptotePeriod = null;
+    if ('asymptotes' in funcData) {
+      asymptotes = funcData['asymptotes'];
+    }
+    if ('asymptotePeriod' in funcData) {
+      asymptotePeriod = funcData['asymptotePeriod'];
+    }
     initializeGraph(config);
-    shadeGraph(config, graphFunc, 0, x);
+    const darkGreen = '#00a12a';
+    const red = '#ff4040';
+    shadeGraph(config, graphFunc, 0, x, x > 0 ? 'lightgreen' : red, asymptotes);
+    if (funcName === 'sin') {
+      if (x > Math.PI) {
+        shadeGraph(config, graphFunc, Math.PI, x, 'pink', asymptotes);
+      }
+      if (x < 0) {
+        shadeGraph(config, graphFunc, Math.max(-Math.PI, x), 0, darkGreen, asymptotes);
+      }
+    }
+    if (funcName === 'cos') {
+      if (x > Math.PI / 2) {
+        shadeGraph(config, graphFunc, Math.PI / 2, Math.min(3 * Math.PI / 2, x), 'pink', asymptotes);
+      }
+      if (x < -Math.PI / 2) {
+        shadeGraph(config, graphFunc, Math.max(-3 * Math.PI / 2, x), -Math.PI / 2, darkGreen, asymptotes);
+      }
+    }
+    if (['x', 'lnPlus1', 'cbrt', 'cube'].includes(funcName)) {
+      if (x < 0) {
+        shadeGraph(config, graphFunc, x, 0, darkGreen, asymptotes);
+      }
+    }
+    if (funcName === 'negative') {
+      if (x > 0) {
+        shadeGraph(config, graphFunc, 0, x, 'pink', asymptotes);
+      }
+    }
+    if (['negative', 'square'].includes(funcName)) {
+      if (x < 0) { 
+        shadeGraph(config, graphFunc, x, 0, red, asymptotes);
+      }
+    }
     canvasGraph(config, graphFunc, 'red', false);
     plotPoint(config, x, graphFunc(x));
+    get(id + 'Derivative').innerText = formatNum(graphFunc(x), outputPlaces);
+    get(id + 'Func').innerText = formatNum(graphFunc(x), outputPlaces);
   }
   else if (id === 'ftcGraph') {
     initializeGraph(config);
@@ -3074,6 +3864,88 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     get(id + 'Val1').innerText = formatNum(x + 1, inputPlaces);
     get(id + 'XVal').innerText = formatNum(x + 1, inputPlaces);
     get(id + 'Integral').innerText = formatNum(-1/(x+1) + 1, outputPlaces);
+  }
+  else if (id === 'gammaFuncXValue') {
+    var xInput = round(parseFloat(get(id + 'Input').value), inputPlaces);
+    if (isFinite(xInput)) {
+      x = xInput;
+    }
+    var graphFunc = t => t ** (x - 1) * Math.exp(-t);
+    if (x <= 1) {
+      var xBoundRight = 5;
+      var yBoundUpper = Math.max(1, graphFunc(0.25));
+    }
+    else {
+      var max = 0;
+      for (var i = 0; i < 100; i += 0.1) {
+        if (graphFunc(i) > max) {
+          max = graphFunc(i);
+        }
+      }
+      var yBoundUpper = Math.max(1, 1.05 * max);
+      for (var xBoundRight = 5; xBoundRight < 99.99; xBoundRight += 0.1) {
+        if (graphFunc(xBoundRight) < 0.01 * yBoundUpper && graphFunc(xBoundRight + 0.1) < graphFunc(xBoundRight)) {
+          break;
+        }
+      }
+    }
+    config['xBounds'] = [-0.05 * xBoundRight, xBoundRight];
+    config['yBounds'] = [-0.05 * yBoundUpper, yBoundUpper];
+    get(id + 'Val1').innerText = formatNum(x, inputPlaces);
+    var b = round(getSliderValue('gammaFunc'), 2);
+    get(id + 'Val2').innerText = formatNum(gammaIntegral(x, b), outputPlaces, maxSigFigs);
+    get(id + 'Gamma').innerText = formatNum(math.gamma(x), outputPlaces, maxSigFigs);
+    canvasGraph(config, graphFunc, 'red');
+    shadeGraph(config, graphFunc, 0.001, b);
+    plotPoint(config, b, graphFunc(b));
+    drawAxes(config, config['canvas'].width, config['canvas'].height, false, true, true, ['', 'x = ' + formatNum(config['xBounds'][1], 1)], ['', 'y = ' + formatNum(config['yBounds'][1], 1)]);
+  }
+  else if (['gammaFuncComplex', 'riemannZeta'].includes(id)) {
+    var realInput = round(parseFloat(get(id + 'Input').value), inputPlaces);
+    var imagInput = round(parseFloat(get(id + 'InputImag').value), inputPlaces);
+    if (isFinite(realInput) || isFinite(imagInput)) {
+      if (!isFinite(realInput)) {
+        realInput = 0;
+      }
+      if (!isFinite(imagInput)) {
+        imagInput = 0;
+      }
+      var z = math.complex(realInput, imagInput);
+    }
+    else {
+      var z = math.complex(round(getSliderValue(id), inputPlaces), round(getSliderValue(id + 'Imag'), inputPlaces));
+    }
+    get(id + 'Val1').innerText = formatNum(z, inputPlaces);
+    if (id === 'gammaFuncComplex') {
+      get(id + 'Val2').innerText = formatNum(math.gamma(z), outputPlaces, maxSigFigs);
+    }
+    else {
+      // Fix bug with math.js where zeta(s) always returns NaN if z.re = 1, even if the imaginary part is nonzero
+      if (z.re === 1) {
+        z.re -= 1e-16;
+      }
+      var zetaVal = math.zeta(z);
+      if (z.im === 0) {
+        // Fix zeta function giving wrong values for some negative integers
+        // https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function
+        var negativeOddZetaVals = {
+          '-1': -1/12,
+          '-3': 1/120,
+          '-5': -1/252,
+          '-7': 1/240,
+          '-9': -1/132,
+          '-11': 691/32760,
+          '-13': -1/12
+        };
+        if (z.re % 2 === 0 && z.re < 0) {
+          zetaVal = 0;
+        }
+        if (z.re.toString() in negativeOddZetaVals) {
+          zetaVal = negativeOddZetaVals[z.re.toString()];
+        }
+      }
+      get(id + 'Val2').innerText = formatNum(zetaVal, outputPlaces, maxSigFigs);
+    }
   }
   else if (id === 'eulersConstant') {
     get(id + 'XVal').innerText = formatNum(x, inputPlaces);
@@ -3136,21 +4008,61 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
       get(id + 'Ratio').innerText = 'N/A';
     }
   }
-  else if (id === 'altError1' || id === 'altError2') {
-    var trueSum = {'altError1': Math.log(2), 'altError2': 0.901543}[id];
-    var lowerR = Math.min(ruleFunc(x + 1), 0);
-    var upperR = Math.max(0, ruleFunc(x + 1));
-    get(id + 'LowerR').innerText = formatNum(lowerR, outputPlaces, null, 9, 'left');
-    get(id + 'UpperR').innerText = formatNum(upperR, outputPlaces, null, 9, 'left');
-    get(id + 'ErrorR').innerText = formatNum(Math.max(Math.abs(lowerR), Math.abs(upperR)), outputPlaces, null, 9, 'left');
-    get(id + 'ActualR').innerText = formatNum(trueSum - f_x, outputPlaces, null, 9, 'left');
+  else if (id === 'rootTest1') {
+    get(id + 'Root').innerText = formatNum(2 / x, outputPlaces);
+  }
+  else if (id === 'rootTest2') {
+    get(id + 'Root').innerText = formatNum(2 / (x ** (1/x)), outputPlaces);
+  }
+  else if (['altError1', 'altError2', 'integralError1'].includes(id)) {
+    var trueSum = {'altError1': Math.log(2), 'altError2': 0.901543, 'integralError1': Math.PI ** 2 / 6}[id];
+    if (id.startsWith('altError')) {
+      var lowerR = Math.min(ruleFunc(x + 1), 0);
+      var upperR = Math.max(0, ruleFunc(x + 1));
+    }
+    else if (id.startsWith('integralError')) {
+      var lowerR = 1 / (x + 1);
+      var upperR = 1 / x;
+    }
+
+    if (lowerR !== 0) {
+      if (lowerR < 0) {
+        get(id + 'LowerRFrac').innerText = `= -1/${formatNum(-1/lowerR, 0)}`;
+      }
+      else {
+        get(id + 'LowerRFrac').innerText = `= 1/${formatNum(1/lowerR, 0)}`;
+      }
+    }
+    else {
+      get(id + 'LowerRFrac').innerText = '';
+    }
+
+    if (upperR !== 0) {
+      if (upperR < 0) {
+        get(id + 'UpperRFrac').innerText = `= -1/${-formatNum(1/upperR, 0)}`;
+      }
+      else {
+        get(id + 'UpperRFrac').innerText = `= 1/${formatNum(1/upperR, 0)}`;
+      }
+    }
+    else {
+      get(id + 'UpperRFrac').innerText = '';
+    }
+
+    var errorR = Math.max(Math.abs(lowerR), Math.abs(upperR));
+    get(id + 'LowerR').innerText = formatNum(lowerR, outputPlaces);
+    get(id + 'UpperR').innerText = formatNum(upperR, outputPlaces);
+    get(id + 'ErrorR').innerText = formatNum(errorR, outputPlaces)
+    get(id + 'ErrorRFrac').innerText = `= 1/${formatNum(1/errorR, 0)}`;
+    get(id + 'ActualR').innerText = formatNum(trueSum - f_x, outputPlaces);
     get(id + 'LowerSum').innerText = formatNum(f_x + lowerR, outputPlaces);
     get(id + 'UpperSum').innerText = formatNum(f_x + upperR, outputPlaces);
     get(id + 'AvgSum').innerText = formatNum(f_x + (lowerR + upperR) / 2, outputPlaces);
     get(id + 'AvgError').innerText = formatNum(Math.abs(f_x + (lowerR + upperR) / 2 - trueSum), outputPlaces);
   }
-  // Maclaurin/Taylor series
-  else if (['maclaurinIntro', 'lagrangeError1', 'lagrangeError2', 'taylorSin', 'taylorCos', 'taylorExp', 'taylorSinh', 'taylorCosh', 'leibnizPi'].includes(id)) {
+  // Local linear approximations, Maclaurin/Taylor series
+  else if (['localLinearity', 'localLinearity2', 'maclaurinIntro', 'lagrangeError1', 'lagrangeError2', 'taylorSin', 'taylorCos', 'taylorExp', 'taylorLn', 'taylorSinh', 'taylorCosh', 'leibnizPi'].includes(id)) {
+    const taylorMaxSigFigs = 12;
     if (id === 'maclaurinIntro' || id === 'lagrangeError1') {
       var actual = Math.sin(1);
       displayPartialSum(id, n => (-1) ** (n - 1) * 1 / factorial(2 * (n - 1) + 1), slowPartialSum(n => (-1) ** (n - 1) * 1 / factorial(2 * (n - 1) + 1)), Math.ceil(x / 2), outputPlaces, true, 1, n => (n - 1) % 2 === 0 ? `+1/${2 * (n - 1) + 1}!`: `-1/${2 * (n - 1) + 1}!`);
@@ -3159,7 +4071,7 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
       var actual = Math.log(1.5);
       displayPartialSum(id, n => (-1) ** (n - 1) * 0.5 ** n / n, slowPartialSum(n => (-1) ** (n - 1) * 0.5 ** n / n), x, outputPlaces, true, 1, n => n % 2 === 0 ? `-(0.5)^${n}/${n}` : `+(0.5)^${n}/${n}`);
     }
-    else if (['taylorSin', 'taylorCos', 'taylorExp', 'taylorSinh', 'taylorCosh'].includes(id)) {
+    else if (['taylorSin', 'taylorCos', 'taylorExp', 'taylorSinh', 'taylorCosh', 'taylorLn'].includes(id)) {
       var sliderValue = parseFloat(get(id + 'XValueSlider').value);
       if (id === 'taylorSin') {
         var sliderX = round(sliderValue * 2 * Math.PI - Math.PI, 2);
@@ -3186,6 +4098,20 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
         var actual = Math.cosh(sliderX);
         displayPartialSum(id, n => sliderX ** (2 * (n - 1)) / factorial(2 * (n - 1)), n => taylorApprox(sliderX, 'cosh', 2 * (n - 1)), Math.floor(x / 2) + 1, outputPlaces, true, 1, n => `+(${sliderX})^${2 * (n - 1)}/${2 * (n - 1)}!`);
       }
+      else if (id === 'taylorLn') {
+        var sliderX = round(getSliderValue('taylorLnXValue'), 2);
+        var actual = Math.log(sliderX);
+        displayPartialSum(id, n => (-1) ** (n - 1) * (sliderX - 1) ** n / n, n => taylorApprox(sliderX, 'ln', n), x, outputPlaces, true, 1, n => n % 2 === 0 ? `-(${round(sliderX - 1, 2)})^${n}/${n}` : `+(${round(sliderX - 1, 2)})^${n}/${n}`, taylorMaxSigFigs);
+        if (sliderX > 0 && sliderX <= 2) {
+          get(id + 'Convergent').innerText = 'convergent';
+          get(id + 'SumText').innerHTML = `The sum of the infinite series is about <span class="output-value">${round(Math.log(sliderX), 6)}</span>.`;
+        }
+        else {
+          get(id + 'Convergent').innerText = 'divergent';
+          get(id + 'SumText').innerHTML = '';
+
+        }
+      }
       for (var i = 1; i <= 3; i++) {
         get(id + 'X' + i.toString()).innerText = sliderX;
       }
@@ -3194,9 +4120,29 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
       var actual = Math.PI;
       get(id + 'PartialSum').innerText = formatNum(f_x, outputPlaces);
     }
+    else if (['localLinearity', 'localLinearity2'].includes(id)) {
+      if (id === 'localLinearity') {
+        var actual = x ** 2;
+        var derivative = x => 2 * x;
+        var a = 2;
+      }
+      else {
+        var actual = Math.sqrt(x);
+        var derivative = x => 1 / (2 * Math.sqrt(x));
+        var a = 25;
+      }
+      get(id + 'X1').innerText = formatNum(x, inputPlaces);
+      get(id + 'X2').innerText = formatNum(x, inputPlaces);
+      canvasGraph(config, graphFunc);
+      plotTangentLine(config, graphFunc, derivative, a, 'blue');
+      plotPoint(config, x, actual, 'red');
+      plotPoint(config, x, f_x, 'blue');
+    }
 
-    get(id + 'Actual').innerText = formatNum(actual, outputPlaces);
+    get(id + 'Actual').innerText = formatNum(actual, outputPlaces, taylorMaxSigFigs);
+    get(id + 'Val2').innerText = formatNum(f_x, outputPlaces, taylorMaxSigFigs);
 
+    // Display approximation error
     var error = Math.abs(actual - func(x));
     if (error < 1e-7) {
       var errorOutputPlaces = outputPlaces + 5;
@@ -3204,7 +4150,7 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     }
     else {
       var errorOutputPlaces = outputPlaces;
-      var errorSigfigs = null;
+      var errorSigfigs = Infinity;
     }
 
     if (id === 'leibnizPi' && error < 1e-6) {
@@ -3215,9 +4161,19 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
       get(id + 'Error').innerText = 'under 10^(-15)';
     }
     else {
-      get(id + 'Error').innerText = formatNum(error, errorOutputPlaces, errorSigfigs);
+      get(id + 'Error').innerText = formatNum(error, errorOutputPlaces, Math.min(errorSigfigs, taylorMaxSigFigs));
     }
 
+    if (['localLinearity', 'localLinearity2'].includes(id) && error < 0.0001) {
+      if (error === 0) {
+        get(id + 'Error').innerText = '0';
+      }
+      else {
+        get(id + 'Error').innerText = 'under 0.0001';
+      }
+    }
+
+    // Lagrange error bound
     if (id === 'lagrangeError1' || id === 'lagrangeError2') {
       if (id === 'lagrangeError1') {
         var lagrangeError = 1 / factorial(x + 1);
@@ -3248,10 +4204,10 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     }
     
     if (funcType === 'reciprocal') {
-      var asymptote = 0;
+      var asymptote = [0];
     }
     else if (funcType === 'geometric') {
-      var asymptote = 1;
+      var asymptote = [1];
     }
     else {
       var asymptote = null;
@@ -3326,13 +4282,15 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
 }
 
 function updateSliders(forceUpdate=false) {
-  // Regular sliders
-  for (var sliderName in sliderSettings) {
-    updateSliderValues(sliderName, false, forceUpdate);
-  }
-  // Partial sum sliders
-  for (var sliderName of partialSumSliders) {
-    updateSliderValues(sliderName, false, forceUpdate);
+
+  for (var sliderName of Object.keys(sliderSettings).concat(partialSumSliders)) {
+    try {
+      updateSliderValues(sliderName, false, forceUpdate);
+    }
+    catch (e) {
+      console.log(`Error occurred when updating slider ID ${sliderName}: ${e}`);
+      throw e;
+    }
   }
 }
 
@@ -3371,7 +4329,7 @@ const searchKeywords = {
   'ivt': ['IVT'],
   'diffInvTrig': ['Inverse Trigonometric Functions'],
   'diffSecond': ['2nd Derivatives', 'Third Derivatives', '3rd Derivatives'],
-  'mvt': ['MVT'],
+  'mvt': ['MVT', "Rolle's Theorem"],
   'evt': ['Extremum', 'EVT'],
   'diffStrat': ['Derivative Strategies', 'Derivative Strategy', 'Differentiation Strategy'],
   'relExtrema': ['Relative Extremums', 'Relative Minima', 'Relative Minimums', 'Relative Maxima', 'Relative Maximums', 'Local Extrema', 'Local Extremums', 'Local Minima', 'Local Minimums', 'Local Maxima', 'Local Maximums'],
@@ -3379,6 +4337,7 @@ const searchKeywords = {
   'concavity': ['Concave Up', 'Concave Down'],
   'connectingDiff': ['Derivative Graphs'],
   'diffHopital': ["L'Hopital's Rule", "L'Hospital's Rule"],
+  'diffHopital2': ["L'Hopital's Rule", "L'Hospital's Rule"],
   'indefSubst': ['Integration by Substitution'],
   'defSubst': ['Integration by Substitution'],
   'sinCosInt': ['Trig Integrals'],
@@ -4263,10 +5222,10 @@ function toggleDarkMode() {
   if (darkModeEnabled) {
     get('body').classList.remove('body-dark-mode');
     get('sidebar').classList.remove('sidebar-dark-mode');
-    get('keyboardIcon').src = 'calc/keyboard.svg';
-    get('searchIcon').src = 'calc/search.svg';
-    get('logo').src = 'calc/logo_transparent.png';
-    get('sidebarLogo').src = 'calc/logo_transparent.png';
+    get('keyboardIcon').src = 'images/keyboard.svg';
+    get('searchIcon').src = 'images/search.svg';
+    get('logo').src = 'images/logo_transparent.png';
+    get('sidebarLogo').src = 'images/logo_transparent.png';
     for (var element of getClassElements(['sn', 'sidenote'])) {
       element.classList.remove('sidenote-dark-mode');
     }
@@ -4291,10 +5250,10 @@ function toggleDarkMode() {
   else {
     get('body').classList.add('body-dark-mode');
     get('sidebar').classList.add('sidebar-dark-mode');
-    get('keyboardIcon').src = 'calc/keyboard_dark_mode.svg';
-    get('searchIcon').src = 'calc/search_dark_mode.svg';
-    get('logo').src = 'calc/logo_dark_transparent.png';
-    get('sidebarLogo').src = 'calc/logo_dark_transparent.png';
+    get('keyboardIcon').src = 'images/keyboard_dark_mode.svg';
+    get('searchIcon').src = 'images/search_dark_mode.svg';
+    get('logo').src = 'images/logo_dark_transparent.png';
+    get('sidebarLogo').src = 'images/logo_dark_transparent.png';
     for (var element of getClassElements(['sn', 'sidenote'])) {
       element.classList.add('sidenote-dark-mode');
     }

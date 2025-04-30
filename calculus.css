@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Monospace Typewriter";
-  src: url('MonospaceTypewriter.otf');
+  src: url('../MonospaceTypewriter.otf');
   font-display: swap;
 }
 
@@ -469,6 +469,10 @@ input[type=number] {
   width: 150px;
 }
 
+input[type=number].small-input {
+  width: 100px;
+}
+
 #searchInput {
   font-size: 1.1rem;
   width: min(250px, 80%);
@@ -863,4 +867,12 @@ select {
 #content {
   position: relative;
   z-index: 1;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.digits {
+  overflow-wrap: break-word;
 }
