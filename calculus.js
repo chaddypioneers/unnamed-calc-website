@@ -857,6 +857,19 @@ const sliderSettings = {
     'inputPlaces': 3,
     'outputPlaces': 4
   },
+  'ftcProof': {
+    'func': x => x ** 3,
+    'sliderRange': [0, 1],
+    'inputPlaces': 3,
+    'outputPlaces': 4
+  },
+  'ftcProofH': {
+    'func': x => x ** 3,
+    'sliderRange': [0, 0.2],
+    'inputPlaces': 3,
+    'outputPlaces': 4,
+    'forceUpdate': 'ftcProof'
+  },
   'intInteractive': {
     'func': x => x ** 3,
     'sliderRange': [-5, 5],
@@ -1821,6 +1834,11 @@ const graphSettings = {
     'yBounds': [-1, 4]
   },
   'ftcGraph': {
+    'func': x => 3 * x ** 2,
+    'xBounds': [-0.5, 1.5],
+    'yBounds': [-1, 4]
+  },
+  'ftcProof': {
     'func': x => 3 * x ** 2,
     'xBounds': [-0.5, 1.5],
     'yBounds': [-1, 4]
@@ -3166,6 +3184,45 @@ function getSliderValue(id) {
 // Sliders with infinite series visuals
 const seriesVisuals = ['infSeriesIntro3', 'infSeriesIntro4', 'infSeriesOscillate', 'geoSeries', 'geoSeries2', 'geoSeriesInteractive', 'nthTermHarmonic', 'comparisonTest', 'integralTest1', 'integralTest2', 'altSeries1', 'altSeries2', 'altSeries3', 'altSeries4', 'altSeries5', 'altSeriesDivergent1', 'altSeriesDivergent2', 'altSeriesDivergent3'];
 
+function threeXSquaredExtrema(a, b) {
+  if (a >= 0) {
+    return [3 * a ** 2, 3 * b ** 2];
+  }
+  return [NaN, NaN];
+}
+
+function sinPlus1Extrema(a, b) {
+  // only works for a in [0, 1] and b in [a, a + 0.25]
+  var func = x => Math.sin(2 * Math.PI * x) + 1;
+  a = mod(a, 1);
+  b = mod(b, 1);
+  var endpointMin = Math.min(func(a), func(b));
+  var endpointMax = Math.max(func(a), func(b))
+  if (a < 1/4) {
+    if (b < 1/4) {
+      return [endpointMin, endpointMax];
+    }
+    return [endpointMin, 2];
+  }
+  else if (a < 1/2) {
+    return [endpointMin, endpointMax]
+  }
+  else if (a < 3/4) {
+    if (b < 3/4) {
+      return [endpointMin, endpointMax];
+    }
+    return [0, endpointMax];
+  }
+  return [endpointMin, endpointMax];
+}
+
+function reciprocalPlus1Extrema(a, b) {
+  if (a >= -1) {
+    return [1 / (b + 1), 1 / (a + 1)];
+  }
+  return [NaN, NaN];
+}
+
 // Functions for interactive sections
 const interactiveFuncs = {
   'x': {
@@ -3173,6 +3230,7 @@ const interactiveFuncs = {
     'derivative': x => 1,
     'derivativeHTML': "1",
     'antiderivative': x => x ** 2 / 2,
+    'extremaFunc': (a, b) => [a, b],
   },
   'negative': {
     'func': x => -x,
@@ -3185,6 +3243,11 @@ const interactiveFuncs = {
     'derivative': x => 2 * x,
     'derivativeHTML': "2x",
     'antiderivative': x => x ** 3 / 3,
+  },
+  'threeXSquared': {
+    'func': x => 3 * x ** 2,
+    'antiderivative': x => x ** 3,
+    'extremaFunc': threeXSquaredExtrema,
   },
   'cube': {
     'func': x => x ** 3,
@@ -3209,6 +3272,11 @@ const interactiveFuncs = {
     'derivative': x => Math.cos(x),
     'derivativeHTML': "cos(x)",
     'antiderivative': x => 1 - Math.cos(x),
+  },
+  'sinPlus1': {
+    'func': x => Math.sin(2 * Math.PI * x) + 1,
+    'antiderivative': x => -Math.cos(2 * Math.PI * x) / (2 * Math.PI) + x,
+    'extremaFunc': sinPlus1Extrema,
   },
   'cos': {
     'func': x => Math.cos(x),
@@ -3247,11 +3315,13 @@ const interactiveFuncs = {
     'derivative': x => -1 / x ** 2,
     'derivativeHTML': "-1/x<sup>2</sup>",
     'asymptotes': [0],
+    'antiderivative': x => Math.log(x),
   },
   'reciprocalPlus1': {
     'func': x => 1 / (x + 1),
     'antiderivative': x => Math.log(x + 1),
     'asymptotes': [-1],
+    'extremaFunc': reciprocalPlus1Extrema,
   },
   'cot': {
     'func': x => 1 / Math.tan(x),
@@ -3310,7 +3380,9 @@ const interactiveFuncs = {
   'arctan': {
     'func': x => Math.atan(x),
     'derivative': x => 1 / (1 + x ** 2),
-    'derivativeHTML': "1/(1+x<sup>2</sup>)"
+    'derivativeHTML': "1/(1+x<sup>2</sup>)",
+    'antiderivative': x => x * Math.atan(x) - 0.5 * Math.log(1 + x ** 2),
+    'extremaFunc': (a, b) => [Math.atan(a), Math.atan(b)],
   },
   'arccsc': {
     'func': x => Math.asin(1 / x),
@@ -3812,6 +3884,26 @@ function updateSliderValues(id, inputX=false, forceUpdate=false) {
     plotPoint(config, x, graphFunc(x));
     get(id + 'Derivative').innerText = formatNum(graphFunc(x), outputPlaces);
     get(id + 'Func').innerText = formatNum(graphFunc(x), outputPlaces);
+  }
+  else if (id === 'ftcProof') {
+    var funcName = get(id + 'Select').value;
+    var funcData = interactiveFuncs[funcName];
+    var graphFunc = funcData['func'];
+    var antiderivative = funcData['antiderivative'];
+    var extremaFunc = funcData['extremaFunc'];
+    var h = getSliderValue(id + 'H');
+    get(id + 'HVal').innerText = formatNum(h, inputPlaces);
+    get(id + 'LowerVal').innerText = formatNum(extremaFunc(x, x+h)[0], outputPlaces);
+    get(id + 'UpperVal').innerText = formatNum(extremaFunc(x, x+h)[1], outputPlaces);
+    get(id + 'Derivative').innerText = formatNum(graphFunc(x), outputPlaces);
+    get(id + 'Val2').innerText = formatNum((antiderivative(x) - antiderivative(0)), outputPlaces);
+    get(id + 'Integral').innerText = formatNum((antiderivative(x+h) - antiderivative(x)) / h, outputPlaces);
+    initializeGraph(config);
+    shadeGraph(config, graphFunc, 0, x, 'lightblue');
+    shadeGraph(config, graphFunc, x, x + h, 'lightgreen');
+    canvasGraph(config, graphFunc, 'red', false);
+    plotPoint(config, x, graphFunc(x));
+    plotPoint(config, x+h, graphFunc(x+h));
   }
   else if (id === 'ftcGraph') {
     initializeGraph(config);
@@ -4338,6 +4430,8 @@ const searchKeywords = {
   'connectingDiff': ['Derivative Graphs'],
   'diffHopital': ["L'Hopital's Rule", "L'Hospital's Rule"],
   'diffHopital2': ["L'Hopital's Rule", "L'Hospital's Rule"],
+  'ftc': ['FTC'],
+  'ftcProof': ['FTC Proof'],
   'indefSubst': ['Integration by Substitution'],
   'defSubst': ['Integration by Substitution'],
   'sinCosInt': ['Trig Integrals'],
@@ -4346,6 +4440,7 @@ const searchKeywords = {
   'intAvg': ['MVT'],
   'nthTermTest': ['nth-Term Test'],
   'taylorProblems': ['Maclaurin Polynomials'],
+  'powerSeries': ['Radius of Convergence'],
   'taylorSeries': ['Maclaurin Series'],
   'testSummary': ['Convergence Test Summary'],
   'comparisonTest': ['Direct Comparison Test', 'Limit Comparison Test']
@@ -5191,6 +5286,7 @@ function resetStorage() {
   localStorage.removeItem('lastUpdateDate');
   localStorage.removeItem('darkMode');
   localStorage.removeItem('graphsInverted');
+  localStorage.removeItem('settings');
 }
 
 var darkModeEnabled = false;
@@ -5246,6 +5342,9 @@ function toggleDarkMode() {
         element.classList.remove('internal-link-dark-mode')
       }
     }
+    get('backgroundColorInput').value = '#f3f3f3';
+    get('textColorInput').value = '#000000';
+    changeColors();
   }
   else {
     get('body').classList.add('body-dark-mode');
@@ -5274,6 +5373,9 @@ function toggleDarkMode() {
         element.classList.add('internal-link-dark-mode')
       }
     }
+    get('backgroundColorInput').value = '#222222';
+    get('textColorInput').value = '#d0d0d0';
+    changeColors();
   }
   toggleDarkModeTextColors();
   darkModeEnabled = !darkModeEnabled;
@@ -5321,16 +5423,197 @@ function setLargeNumFormat() {
   localStorage.setItem('largeNumFormat', largeNumFormat);
 }
 
+// Handles setting to change website font
+var settings = {
+  'font': '',
+  'backgroundColor': '',
+  'textColor': '',
+  'fontSize': 1,
+  'backgroundOpacity': 0.3,
+  'backgroundSize': 0,
+  'backgroundXOffset': 0,
+  'backgroundYOffset': 0
+};
+
 function setBackgroundImage(url) {
   get('backgroundImage').style.backgroundImage = `url(${url})`;
+  try {
+    localStorage.setItem('backgroundImage', url);
+  }
+  catch (e) {
+    get('customImageError').innerText = 'Warning: This background image will not be preserved after you reload the page. This is most likely because the file size is too large.';
+    localStorage.setItem('backgroundImage', '');
+  }
 }
 
-function setOpacity(opacity) {
+function setBackgroundOpacity(opacity) {
   get('backgroundImage').style.filter = `opacity(${opacity})`;
+  settings['backgroundOpacity'] = opacity;
+  get('backgroundOpacityVal').innerText = `${formatNum(opacity * 100)}%`;
+  saveSettings();
 }
 
 function setBackgroundSize(size) {
   get('backgroundImage').style.backgroundSize = `${size}px`;
+  settings['backgroundSize'] = size;
+  saveSettings();
+}
+
+function saveSettings() {
+  localStorage.setItem('settings', JSON.stringify(settings));
+}
+
+function changeFontInput() {
+  var font = get('fontInput').value;
+  changeFont(font);
+}
+
+function changeFont(font) {
+  for (var tagName of ['body', 'button', 'input', 'select']) {
+    for (var element of document.getElementsByTagName(tagName)) {
+      if (element.id !== 'defaultFontButton') {
+        if (font.includes(' ')) {
+          element.style.fontFamily = `"${font}"`;
+        }
+        else {
+          element.style.fontFamily = font;
+        }
+      }
+    }
+  }
+  settings['font'] = font;
+  saveSettings();
+}
+
+function resetFont() {
+  changeFont('');
+}
+
+function changeFontSize() {
+  var size = parseFloat(get('fontSizeInput').value);
+  if (isFinite(size) && size <= 2 && size >= 0.5) {
+    document.documentElement.style.fontSize = `${size * 100}%`;
+    get('fontSizeError').innerText = '';
+    settings['fontSize'] = size;
+    saveSettings();
+  }
+  else {
+    get('fontSizeError').innerText = 'Please enter a number between 0.5 and 2.';
+  }
+}
+
+function resetFontSize() {
+  get('fontSizeInput').value = 1;
+  changeFontSize();
+}
+
+function changeColors() {
+  get('body').style.backgroundColor = get('backgroundColorInput').value;
+  get('body').style.color = get('textColorInput').value;
+  settings['backgroundColor'] = get('backgroundColorInput').value;
+  settings['textColor'] = get('textColorInput').value;
+  saveSettings();
+}
+
+function resetColors() {
+  if (darkModeEnabled) {
+    get('backgroundColorInput').value = '#222222';
+    get('textColorInput').value = '#d0d0d0';
+  }
+  else {
+    get('backgroundColorInput').value = '#f3f3f3';
+    get('textColorInput').value = '#000000';  
+  }
+  changeColors();
+}
+
+function changeBackgroundImage(event) {
+  var input = event.target;
+  var reader = new FileReader();
+  reader.onload = () => {
+    var dataURL = reader.result;
+    get('customImageError').innerText = '';
+    setBackgroundImage(dataURL);
+    saveSettings();
+    changeBackgroundOpacity();
+  };
+  if (input.files[0].type.includes('image')) {
+    reader.readAsDataURL(input.files[0]);
+  }
+  else {
+    get('customImageError').innerText = `File uploaded must be an image.`;
+  }
+}
+
+function removeBackgroundImage() {
+  setBackgroundImage('');
+}
+
+function changeBackgroundSize() {
+  var size = parseFloat(get('customBackgroundSize').value);
+  if (isFinite(size)) {
+    setBackgroundSize(size);
+  }
+  var xOffset = parseFloat(get('customBackgroundXOffset').value);
+  if (isFinite(xOffset)) {
+    get('backgroundImage').style.backgroundPositionX = `${xOffset}px`;
+    settings['backgroundXOffset'] = xOffset;
+  }
+  var yOffset = parseFloat(get('customBackgroundYOffset').value);
+  if (isFinite(yOffset)) {
+    get('backgroundImage').style.backgroundPositionY = `${yOffset}px`;
+    settings['backgroundYOffset'] = yOffset;
+  }
+  saveSettings();
+}
+
+function changeBackgroundOpacity() {
+  var opacity = parseFloat(get('customBackgroundOpacity').value);
+  setBackgroundOpacity(opacity);
+}
+
+// Load settings from localStorage
+if (localStorage.getItem('settings') !== null) {
+  try {
+    var settings = JSON.parse(localStorage.getItem('settings'));
+  }
+  catch (e) {
+    var settings = {};
+  }
+  if ('font' in settings && settings['font'] !== '') {
+    get('fontInput').value = settings['font'];
+  }
+  if ('backgroundColor' in settings && settings['backgroundColor'] !== '') {
+    get('backgroundColorInput').value = settings['backgroundColor'];
+  }
+  if ('textColor' in settings && settings['textColor'] !== '') {
+    get('textColorInput').value = settings['textColor'];
+  }
+  if (localStorage.getItem('backgroundImage') !== null) {
+    setBackgroundImage(localStorage.getItem('backgroundImage'));
+  }
+  if ('backgroundOpacity' in settings) {
+    setBackgroundOpacity(settings['backgroundOpacity']);
+    get('customBackgroundOpacity').value = settings['backgroundOpacity'];
+  }
+  if ('backgroundSize' in settings && settings['backgroundSize'] !== 0) {
+    setBackgroundSize(settings['backgroundSize']);
+    get('customBackgroundSize').value = settings['backgroundSize'];
+  }
+  if ('backgroundXOffset' in settings) {
+    get('customBackgroundXOffset').value = settings['backgroundXOffset'];
+    changeBackgroundSize();
+  }
+  if ('backgroundYOffset' in settings) {
+    get('customBackgroundYOffset').value = settings['backgroundYOffset'];
+    changeBackgroundSize();
+  }
+  if ('fontSize' in settings) {
+    get('fontSizeInput').value = settings['fontSize'];
+    changeFontSize();
+  }
+  changeFont(settings['font']);
+  changeColors();
 }
 
 // Display and automatically calculate the progress table
